@@ -1,14 +1,14 @@
 ﻿# Copilot Chat Review Export
 
 Generated: 2026-06-15 18:35:48 +02:00
-Source: E:\repos\WordEventAlerts\docs\copilot-chat\chat.json
+Source: Attached file (chat.json via email)
 
 ### 🕵️‍♂️ How to Review My AI Chat Logs Natively
 If you want to view the full prompt engineering session exactly as it appeared in my workspace:
 1. Open VS Code.
 2. Open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`).
 3. Select **`Chat: Import Chat...`**
-4. Select the file located at `docs/copilot-chat/chat.json` in this repository.
+4. Select the attached `chat.json` file from the email.
 
 ## Conversation
 
