@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.16.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WordEventAlerts.Core\WordEventAlerts.Core.csproj" />
+    <ProjectReference Include="..\WordEventAlerts.Infrastructure.InMemory\WordEventAlerts.Infrastructure.InMemory.csproj" />
+    <ProjectReference Include="..\WordEventAlerts.Infrastructure.Notifications.Email\WordEventAlerts.Infrastructure.Notifications.Email.csproj" />
+    <ProjectReference Include="..\WordEventAlerts.Infrastructure.Notifications.Slack\WordEventAlerts.Infrastructure.Notifications.Slack.csproj" />
+    <ProjectReference Include="..\WordEventAlerts.Infrastructure.Observability\WordEventAlerts.Infrastructure.Observability.csproj" />
+  </ItemGroup>
+
+</Project>

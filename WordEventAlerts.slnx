@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WordEventAlerts.Api/WordEventAlerts.Api.csproj" />
+    <Project Path="src/WordEventAlerts.Core/WordEventAlerts.Core.csproj" />
+    <Project Path="src/WordEventAlerts.Infrastructure.InMemory/WordEventAlerts.Infrastructure.InMemory.csproj" />
+    <Project Path="src/WordEventAlerts.Infrastructure.Notifications.Email/WordEventAlerts.Infrastructure.Notifications.Email.csproj" />
+    <Project Path="src/WordEventAlerts.Infrastructure.Notifications.Slack/WordEventAlerts.Infrastructure.Notifications.Slack.csproj" />
+    <Project Path="src/WordEventAlerts.Infrastructure.Observability/WordEventAlerts.Infrastructure.Observability.csproj" />
+    <Project Path="src/WordEventAlerts.Web/WordEventAlerts.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WordEventAlerts.Tests.Api/WordEventAlerts.Tests.Api.csproj" />
+    <Project Path="tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj" />
+    <Project Path="tests/WordEventAlerts.Tests.Unit/WordEventAlerts.Tests.Unit.csproj" />
+  </Folder>
+</Solution>
