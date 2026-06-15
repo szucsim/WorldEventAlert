@@ -23,6 +23,8 @@
     <ProjectReference Include="..\..\src\WordEventAlerts.Api\WordEventAlerts.Api.csproj" />
     <ProjectReference Include="..\..\src\WordEventAlerts.Core\WordEventAlerts.Core.csproj" />
     <ProjectReference Include="..\..\src\WordEventAlerts.Infrastructure.InMemory\WordEventAlerts.Infrastructure.InMemory.csproj" />
+    <ProjectReference Include="..\..\src\WordEventAlerts.Infrastructure.Notifications.Email\WordEventAlerts.Infrastructure.Notifications.Email.csproj" />
+    <ProjectReference Include="..\..\src\WordEventAlerts.Infrastructure.Notifications.Slack\WordEventAlerts.Infrastructure.Notifications.Slack.csproj" />
   </ItemGroup>
 
 </Project>

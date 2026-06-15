@@ -1,5 +1,9 @@
 using Scalar.AspNetCore;
+using WordEventAlerts.Core.Abstractions.Notifications;
+using WordEventAlerts.Core.Services;
 using WordEventAlerts.Infrastructure.InMemory.DependencyInjection;
+using WordEventAlerts.Infrastructure.Notifications.Email;
+using WordEventAlerts.Infrastructure.Notifications.Slack;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddInMemoryRepositories();
+builder.Services.AddSingleton<INotificationChannel, EmailNotificationChannel>();
+builder.Services.AddSingleton<INotificationChannel, SlackNotificationChannel>();
+builder.Services.AddSingleton<IChannelRegistry, NotificationChannelRegistry>();
+builder.Services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
 
 var app = builder.Build();
 
