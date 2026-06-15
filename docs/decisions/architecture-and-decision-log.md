@@ -98,3 +98,22 @@ This creates a controlled transition path from prototype to production while pre
 ### Reference
 
 - Roadmap document: `docs/architecture/future-production-roadmap.md`
+
+## Decision 6: Chat Review Fidelity vs Token Efficiency
+
+### Context
+
+The reviewer transcript export flow now produces a clean markdown document in VS Code preview. Further polishing for edge-case formatting would consume additional AI tokens while offering limited reviewer value.
+
+### Decision
+
+Treat native chat JSON import in VS Code as the canonical source of truth for perfect conversation rendering, and keep markdown export as a practical, good-enough reviewer aid without further token-heavy refinement.
+
+### Justification
+
+The JSON import path preserves the exact conversation structure and fidelity. Stopping iterative markdown micro-formatting keeps cost and token usage under control while still providing a readable static artifact for quick review.
+
+### Reference
+
+- JSON import source for reviewers: `docs/copilot-chat/chat.json`
+- Markdown fallback export: `docs/copilot-chat/chat.md`

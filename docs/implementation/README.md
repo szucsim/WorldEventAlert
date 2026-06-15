@@ -28,6 +28,7 @@ This folder tracks each implementation step as a separate markdown file.
 22. [Step 22 - Docker Compose Reviewer Runtime](step-22-docker-compose-reviewer-runtime.md)
 23. [Step 23 - Future Production Roadmap Planning](step-23-future-production-roadmap-planning.md)
 24. [Step 24 - Project Rename to WorldEventAlerts](step-24-project-rename-world-event-alerts.md)
+25. [Step 25 - Chat Export Script Fine-Tuning](step-25-chat-export-script-fine-tuning.md)
 
 ## How We Use This
 

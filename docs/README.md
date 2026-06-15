@@ -55,6 +55,7 @@ If any bug, edge-case vulnerability, or UI inconsistency is discovered during ru
 - [step-22-docker-compose-reviewer-runtime.md](implementation/step-22-docker-compose-reviewer-runtime.md)
 - [step-23-future-production-roadmap-planning.md](implementation/step-23-future-production-roadmap-planning.md)
 - [step-24-project-rename-world-event-alerts.md](implementation/step-24-project-rename-world-event-alerts.md)
+- [step-25-chat-export-script-fine-tuning.md](implementation/step-25-chat-export-script-fine-tuning.md)
 
 ## Reviewer Quick Path
 

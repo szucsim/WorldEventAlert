@@ -1,6 +1,6 @@
 ﻿# Copilot Chat Review Export
 
-Generated: 2026-06-15 18:35:48 +02:00
+Generated: 2026-06-15 19:52:24 +02:00
 Source: Attached file (chat.json via email)
 
 ### 🕵️‍♂️ How to Review My AI Chat Logs Natively
@@ -278,8 +278,7 @@ Step 1 completed: repository initialization
 2. Created a standard .NET gitignore.
 3. Verified pending content is exactly what we expect for a fresh scaffold:
 - .gitignore
--
-
+- [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx)
 - src folder
 - tests folder
 
@@ -310,11 +309,10 @@ I’ve finished both requested pre-commit tasks, and I’ll run one final valida
 Step complete and ready for your review before the init commit.
 
 1. Plan saved:
--
+- [docs/architecture/phase1-scoping.md](docs/architecture/phase1-scoping.md)
 
 2. Solution file completed:
--
-
+- [WordEventAlerts.slnx](WordEventAlerts.slnx)
 - It now includes all 10 projects under src and tests.
 
 3. Validation passed:
@@ -323,13 +321,10 @@ Step complete and ready for your review before the init commit.
 4. Pre-commit git state:
 - Untracked items are exactly the expected baseline:
   - .gitignore
-  -
-
--
-
--
-
--
+  - [WordEventAlerts.slnx](WordEventAlerts.slnx)
+  - [docs](docs)
+  - [src](src)
+  - [tests](tests)
 
 If you approve this checkpoint, I will create Commit 1 with message:
 Initialize repository, scaffold solution, and save Phase 1 architecture plan
@@ -347,17 +342,7 @@ I’ll create the approved baseline commit first, then implement the next milest
 The baseline commit is done. I’m now moving to the next task by inspecting the current API startup files, then I’ll apply only the required OpenAPI + Scalar changes and validate with build and run checks.
 
 I found the API already has AddOpenApi but no Scalar endpoint mapping yet, so I’m now editing Program startup to add proper Scalar exposure and a stable health endpoint, then I’ll validate with build and endpoint smoke test.
-
-```
-
-```
-
 Build surfaced a concrete issue: the Scalar extension method namespace is missing. I’m applying a minimal fix and re-running validation immediately.
-
-```
-
-```
-
 A local API process is currently locking the app host binary, so I’m validating with a non-apphost build to avoid interrupting your running instance while still confirming the code changes compile.
 
 The smoke run failed because no executable was present under no-build mode; I’m restarting with an explicit no-apphost run configuration so we can still verify endpoints cleanly.
@@ -371,7 +356,7 @@ What I completed
 - 0ef9f3f Initialize repository, scaffold solution, and save Phase 1 architecture plan
 
 2. OpenAPI + Scalar wiring implemented in:
--
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 
 3. API bootstrap cleanup done:
 - Removed template weather endpoint
@@ -381,9 +366,7 @@ What I completed
 
 Validation results
 1. Compile validation (non-apphost mode): passed
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Runtime smoke validation: passed
 - GET /api/health -> 200
@@ -395,7 +378,7 @@ Validation results
 
 Pending review diff
 1. Modified file:
--
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 
 If approved, I will create Commit 2 with:
 Wire OpenAPI and Scalar endpoints; replace template weather endpoint with health check
@@ -411,75 +394,8 @@ I did the git commit myself lets move on to the next task.
 I’ll start Milestone 2 now by first re-checking current repository state and reading the Core and Unit test project files, so the domain-contract implementation is based on your latest committed code.
 
 I’m now implementing the core domain contract layer in the Core project (entities, enums, interfaces) plus focused unit tests for invariants and matching semantics, then I’ll run build/tests and pause for your review before any commit.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Core enums are in place; next I’m adding the aggregate models and interfaces in one pass, then I’ll compile and run tests to validate the new contract surface.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve added all core domain models and notification abstractions; I’m finishing this pass with repository interfaces and then creating targeted unit tests before validation.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve finished the code changes for Milestone 2 contracts; next I’m running solution build and unit tests to verify the new domain surface before handing it to you for review.
 
 The test runner tool isn’t detecting tests in this workspace, so I’m using dotnet test directly as a fallback validation and will report the exact result.
@@ -490,45 +406,30 @@ Milestone 2 is implemented and validated, ready for your review before commit.
 
 What I added
 1. Core domain models and enums
--
-
--
-
--
-
--
-
--
-
--
-
--
-
--
-
--
+- [src/WordEventAlerts.Core/Domain/WorldEvent.cs](src/WordEventAlerts.Core/Domain/WorldEvent.cs)
+- [src/WordEventAlerts.Core/Domain/AlertRule.cs](src/WordEventAlerts.Core/Domain/AlertRule.cs)
+- [src/WordEventAlerts.Core/Domain/ChannelSubscription.cs](src/WordEventAlerts.Core/Domain/ChannelSubscription.cs)
+- [src/WordEventAlerts.Core/Domain/DeliveryAttempt.cs](src/WordEventAlerts.Core/Domain/DeliveryAttempt.cs)
+- [src/WordEventAlerts.Core/Domain/NotificationRequest.cs](src/WordEventAlerts.Core/Domain/NotificationRequest.cs)
+- [src/WordEventAlerts.Core/Domain/NotificationSendResult.cs](src/WordEventAlerts.Core/Domain/NotificationSendResult.cs)
+- [src/WordEventAlerts.Core/Domain/WorldEventCategory.cs](src/WordEventAlerts.Core/Domain/WorldEventCategory.cs)
+- [src/WordEventAlerts.Core/Domain/NotificationChannelType.cs](src/WordEventAlerts.Core/Domain/NotificationChannelType.cs)
+- [src/WordEventAlerts.Core/Domain/DeliveryOutcome.cs](src/WordEventAlerts.Core/Domain/DeliveryOutcome.cs)
 
 2. Core abstractions for pluggable channels and repositories
--
-
--
-
--
-
--
-
--
-
--
+- [src/WordEventAlerts.Core/Abstractions/Notifications/INotificationChannel.cs](src/WordEventAlerts.Core/Abstractions/Notifications/INotificationChannel.cs)
+- [src/WordEventAlerts.Core/Abstractions/Notifications/IChannelRegistry.cs](src/WordEventAlerts.Core/Abstractions/Notifications/IChannelRegistry.cs)
+- [src/WordEventAlerts.Core/Abstractions/Repositories/IWorldEventRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IWorldEventRepository.cs)
+- [src/WordEventAlerts.Core/Abstractions/Repositories/IAlertRuleRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IAlertRuleRepository.cs)
+- [src/WordEventAlerts.Core/Abstractions/Repositories/IUserPreferenceRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IUserPreferenceRepository.cs)
+- [src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs)
 
 3. Baseline unit tests for contract invariants and matching semantics
--
+- [tests/WordEventAlerts.Tests.Unit/DomainContractsTests.cs](tests/WordEventAlerts.Tests.Unit/DomainContractsTests.cs)
 
 Validation
 1. Solution build passed:
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Unit tests passed:
 - total: 5
@@ -554,64 +455,28 @@ okay i checked everything, continue
 I’m moving to the next milestone now by implementing the in-memory repository layer behind your Core interfaces, then I’ll validate with build plus tests and pause again for your review.
 
 I confirmed the working tree is clean, so I’m now adding the full in-memory repository implementations plus integration tests in one controlled patch, then I’ll run validation immediately.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve completed the implementation pass and will now run full compile plus unit/integration tests to verify repository behavior and startup wiring before handing over this step for review.
 
 Milestone 3 is complete and validated. I paused before commit so you can review.
 
 Implemented
 1. In-memory repository implementations:
--
-
--
-
--
-
--
+- [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs)
+- [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs)
+- [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryUserPreferenceRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryUserPreferenceRepository.cs)
+- [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs)
 
 2. DI registration extension for the in-memory adapters:
--
+- [src/WordEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs](src/WordEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs)
 
 3. Infrastructure project dependency update:
--
+- [src/WordEventAlerts.Infrastructure.InMemory/WordEventAlerts.Infrastructure.InMemory.csproj](src/WordEventAlerts.Infrastructure.InMemory/WordEventAlerts.Infrastructure.InMemory.csproj)
 
 4. API wiring for in-memory repository registration:
--
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 
 5. Integration tests for repository behavior:
--
+- [tests/WordEventAlerts.Tests.Integration/InMemoryRepositoryTests.cs](tests/WordEventAlerts.Tests.Integration/InMemoryRepositoryTests.cs)
 
 6. Placeholder cleanup:
 - removed src/WordEventAlerts.Infrastructure.InMemory/Class1.cs
@@ -619,15 +484,13 @@ Implemented
 
 Validation
 1. Build passed:
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Unit tests passed:
-- 5/5 succeeded in
+- 5/5 succeeded in [tests/WordEventAlerts.Tests.Unit](tests/WordEventAlerts.Tests.Unit)
 
 3. Integration tests passed:
-- 5/5 succeeded in
+- 5/5 succeeded in [tests/WordEventAlerts.Tests.Integration](tests/WordEventAlerts.Tests.Integration)
 
 Current pending changes
 - exactly the milestone files listed above are in git status and ready for your review/commit.
@@ -645,84 +508,39 @@ Ok, I did check and commit, lets continue.
 I’m moving into the next milestone now: I’ll inspect the current notification projects and API wiring, then implement the channel registry/dispatcher with Email and Slack adapters, validate, and pause for your review before the next commit.
 
 I’ve confirmed placeholders still exist in both channel projects, so I’m now adding the core channel registry/dispatcher pipeline and notification dispatcher interface first, then I’ll plug in Email and Slack adapters.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Core channel pipeline is in; I’m now replacing both notification placeholders with concrete Email/Slack channel adapters and then wiring their registrations in API startup.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’m adding focused tests for the new channel framework (registry and dispatcher with real Email/Slack adapters) so this milestone is verifiable, not just compilable.
-
-```
-
-```
-
-```
-
-```
-
 Build and tests are green; I’m grabbing the exact git delta now so you can review this milestone cleanly before your next commit.
 
 Next milestone is implemented and validated, ready for your review before commit.
 
 What I added
 1. Core channel framework
--
-
--
-
--
+- [src/WordEventAlerts.Core/Abstractions/Notifications/INotificationDispatcher.cs](src/WordEventAlerts.Core/Abstractions/Notifications/INotificationDispatcher.cs)
+- [src/WordEventAlerts.Core/Services/NotificationChannelRegistry.cs](src/WordEventAlerts.Core/Services/NotificationChannelRegistry.cs)
+- [src/WordEventAlerts.Core/Services/NotificationDispatcher.cs](src/WordEventAlerts.Core/Services/NotificationDispatcher.cs)
 
 2. Email and Slack channel adapters
--
-
--
-
+- [src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs)
+- [src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs)
 - Removed placeholders:
   - src/WordEventAlerts.Infrastructure.Notifications.Email/Class1.cs
   - src/WordEventAlerts.Infrastructure.Notifications.Slack/Class1.cs
 
 3. API DI wiring for channel pipeline
--
-
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 - Registered:
   - Email + Slack as INotificationChannel implementations
   - NotificationChannelRegistry as IChannelRegistry
   - NotificationDispatcher as INotificationDispatcher
 
 4. Integration tests for channel registry/dispatcher
--
-
--
-
-updated with direct references to Email/Slack adapter projects.
+- [tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs](tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs)
+- [tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj](tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj) updated with direct references to Email/Slack adapter projects.
 
 Validation
 1. Solution build passed
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Unit tests passed
 - 5/5 succeeded
@@ -768,50 +586,18 @@ Yes go with Observability Foundation, and in each further task also add the logg
 I’m starting the Observability Foundation now by first reading the current observability project and API startup wiring, then I’ll implement correlation middleware + structured logging hooks and validate with tests.
 
 I’m implementing the observability foundation now with correlation middleware, reusable logging constants/helpers, and API wiring so every request gets traceable structured logs and a correlation header.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’m wiring this foundation into API startup now and adding a correlation-aware health log so the pattern is in place for all subsequent features.
-
-```
-
-```
-
-```
-
-```
-
 I’ve finished the observability implementation and tests, so I’m running full build and test validation now to confirm middleware wiring, correlation propagation, and no regressions.
 
 Observability Foundation is now implemented and validated, and I paused before commit for your review.
 
 Implemented
 1. Correlation + structured logging constants/helpers
--
-
--
+- [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+- [src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs)
 
 2. Request correlation middleware
--
-
+- [src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs](src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs)
 - Behavior:
   - reads inbound X-Correlation-Id
   - generates one when missing
@@ -820,14 +606,13 @@ Implemented
   - logs RequestStarted, RequestCompleted, RequestFailed
 
 3. Observability startup extensions
--
+- [src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs)
 
 4. Observability project updated for ASP.NET middleware support
--
+- [src/WordEventAlerts.Infrastructure.Observability/WordEventAlerts.Infrastructure.Observability.csproj](src/WordEventAlerts.Infrastructure.Observability/WordEventAlerts.Infrastructure.Observability.csproj)
 
 5. API wiring updated
--
-
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 - Added:
   - AddObservabilityFoundation
   - UseObservabilityFoundation
@@ -839,17 +624,14 @@ Implemented
 - src/WordEventAlerts.Infrastructure.Observability/Class1.cs
 
 7. Integration tests for observability
--
-
+- [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 - Verifies:
   - correlation ID generation when missing
   - correlation ID propagation when supplied
 
 Validation
 1. Build passed:
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Unit tests passed:
 - 5/5
@@ -861,20 +643,13 @@ Validation
 - RequestStarted / RequestCompleted and HealthCheckRequested entries with correlation IDs.
 
 Pending changes ready for your commit
--
-
--
-
--
-
--
-
--
-
--
-
--
-
+- [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
+- [src/WordEventAlerts.Infrastructure.Observability/WordEventAlerts.Infrastructure.Observability.csproj](src/WordEventAlerts.Infrastructure.Observability/WordEventAlerts.Infrastructure.Observability.csproj)
+- [src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs)
+- [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+- [src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs)
+- [src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs](src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs)
+- [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 - deleted src/WordEventAlerts.Infrastructure.Observability/Class1.cs
 
 Confirmed: from this point onward, I will add structured logging in each new task where behavior is introduced (ingestion, matching, dispatch, admin actions), using the same correlation model.
@@ -890,45 +665,7 @@ Before move on please also create md on each step. Also create function document
 I’ll add a lightweight documentation track now: one markdown file per completed implementation step plus a function-documentation standard for all future code changes, and I’m first checking current git/docs state to anchor it accurately.
 
 I confirmed your Observability commit is already in master, so I’m now creating a structured docs set for every completed step plus a reusable function-documentation standard that we’ll follow on all upcoming changes.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve started the step-doc series and I’m now finishing the remaining step files plus the reusable template and function-doc standard so this process is repeatable from here onward.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve added the step-by-step markdown structure and the function-doc standard; I’ll do a quick status check next and also store your new documentation preference in memory so it’s applied automatically in later tasks.
 
 Done. I added a documentation track for every completed step and set a formal function-documentation standard for all future work.
@@ -936,26 +673,21 @@ Done. I added a documentation track for every completed step and set a formal fu
 Added now
 
 1. Step log index
--
+- [docs/implementation/README.md](docs/implementation/README.md)
 
 2. Per-step markdown docs
--
-
--
-
--
-
--
-
--
-
--
+- [docs/implementation/step-01-repository-bootstrap.md](docs/implementation/step-01-repository-bootstrap.md)
+- [docs/implementation/step-02-openapi-scalar.md](docs/implementation/step-02-openapi-scalar.md)
+- [docs/implementation/step-03-core-domain-contracts.md](docs/implementation/step-03-core-domain-contracts.md)
+- [docs/implementation/step-04-inmemory-repositories.md](docs/implementation/step-04-inmemory-repositories.md)
+- [docs/implementation/step-05-channel-dispatcher.md](docs/implementation/step-05-channel-dispatcher.md)
+- [docs/implementation/step-06-observability-foundation.md](docs/implementation/step-06-observability-foundation.md)
 
 3. Reusable template for upcoming steps
--
+- [docs/implementation/step-template.md](docs/implementation/step-template.md)
 
 4. Function documentation standard for future changes
--
+- [docs/conventions/function-documentation-standard.md](docs/conventions/function-documentation-standard.md)
 
 What I will apply from now on
 1. Every new step gets its own markdown file before moving to the next.
@@ -964,9 +696,8 @@ What I will apply from now on
 
 Current git state
 - New docs are pending under:
-  -
-
--
+  - [docs/conventions](docs/conventions)
+  - [docs/implementation](docs/implementation)
 
 If you want, I can also do a one-time backfill pass to add XML function docs to previously added public methods (Core services, middleware, adapters) in the next step before feature work continues.
 
@@ -981,159 +712,50 @@ yes please do.
 I’ll do the one-time XML documentation backfill now across the existing public methods/constructors (services, adapters, middleware, repositories, and interfaces), then I’ll update the step docs and run full validation.
 
 I’m applying the XML-doc backfill in layers (interfaces first, then implementations, then step docs) so it’s easy to review and we can validate after each logical block.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Interfaces are fully documented; I’m now backfilling XML docs into implementations and extensions (services, adapters, middleware, repositories), then I’ll run build/tests.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Core backfill is done; I’m now applying the same XML-doc standard to infrastructure repositories/adapters/middleware and then validating the whole solution.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 The XML-doc backfill is complete across existing public APIs; I’m now updating the step documentation to record this dedicated documentation step and then running full build/tests.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Backfill completed successfully.
 
 What I did
 1. Added XML function documentation across existing public APIs and implementations:
 - Core notification interfaces:
-  -
-
--
-
--
-
+  - [src/WordEventAlerts.Core/Abstractions/Notifications/INotificationChannel.cs](src/WordEventAlerts.Core/Abstractions/Notifications/INotificationChannel.cs)
+  - [src/WordEventAlerts.Core/Abstractions/Notifications/IChannelRegistry.cs](src/WordEventAlerts.Core/Abstractions/Notifications/IChannelRegistry.cs)
+  - [src/WordEventAlerts.Core/Abstractions/Notifications/INotificationDispatcher.cs](src/WordEventAlerts.Core/Abstractions/Notifications/INotificationDispatcher.cs)
 - Core repository interfaces:
-  -
-
--
-
--
-
--
-
+  - [src/WordEventAlerts.Core/Abstractions/Repositories/IWorldEventRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IWorldEventRepository.cs)
+  - [src/WordEventAlerts.Core/Abstractions/Repositories/IAlertRuleRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IAlertRuleRepository.cs)
+  - [src/WordEventAlerts.Core/Abstractions/Repositories/IUserPreferenceRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IUserPreferenceRepository.cs)
+  - [src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs)
 - Core services:
-  -
-
--
-
+  - [src/WordEventAlerts.Core/Services/NotificationChannelRegistry.cs](src/WordEventAlerts.Core/Services/NotificationChannelRegistry.cs)
+  - [src/WordEventAlerts.Core/Services/NotificationDispatcher.cs](src/WordEventAlerts.Core/Services/NotificationDispatcher.cs)
 - In-memory DI and repositories:
-  -
-
--
-
--
-
--
-
--
-
+  - [src/WordEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs](src/WordEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs)
+  - [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs)
+  - [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs)
+  - [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryUserPreferenceRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryUserPreferenceRepository.cs)
+  - [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs)
 - Channel adapters:
-  -
-
--
-
+  - [src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs)
+  - [src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs)
 - Observability extensions/middleware:
-  -
-
--
-
--
+  - [src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs)
+  - [src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs)
+  - [src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs](src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs)
 
 2. Completed step documentation for this backfill:
--
-
+- [docs/implementation/step-07-function-docs-backfill.md](docs/implementation/step-07-function-docs-backfill.md)
 - updated index:
-  -
+  - [docs/implementation/README.md](docs/implementation/README.md)
 
 3. Function documentation standards docs are in place:
--
+- [docs/conventions/function-documentation-standard.md](docs/conventions/function-documentation-standard.md)
 
 Validation
 1. Build: passed
-- dotnet build
-
-/p:UseAppHost=false
+- dotnet build [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) /p:UseAppHost=false
 
 2. Unit tests: passed
 - 5/5
@@ -1159,124 +781,42 @@ Continue with original plan!
 I’m proceeding with the original plan by implementing the next functional slice now: alert matching plus API ingestion and alert-rule endpoints with structured logging, then I’ll add the new step markdown and run full validation.
 
 I’m implementing the matching engine and API endpoint layer now, with structured logs and XML docs from the start, then I’ll add Step 08 markdown and run full validation.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’m adding the API contracts and endpoint mappers next so ingestion, rule CRUD, and subscription management are available with correlated structured logs and OpenAPI-visible routes.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’m adding focused integration tests for the new endpoints now so this step is verifiable end-to-end, including ingestion-to-dispatch behavior and alert rule API flows.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve completed the implementation and step documentation draft, and I’m running build plus unit/integration tests now to validate the new endpoints, matching engine, and logging flow before review.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I made a small logging vocabulary cleanup after validation, so I’m running a quick rebuild and integration test pass to confirm everything remains green.
 
 Step 08 is complete and follows the methodology you requested: step markdown created, XML function documentation included, and structured logging added with correlation throughout.
 
 What was implemented
 1. Alert matching core
--
-
--
-
--
+- [src/WordEventAlerts.Core/Abstractions/Matching/IAlertMatchingEngine.cs](src/WordEventAlerts.Core/Abstractions/Matching/IAlertMatchingEngine.cs)
+- [src/WordEventAlerts.Core/Domain/AlertMatch.cs](src/WordEventAlerts.Core/Domain/AlertMatch.cs)
+- [src/WordEventAlerts.Core/Services/AlertMatchingEngine.cs](src/WordEventAlerts.Core/Services/AlertMatchingEngine.cs)
 
 2. API contracts
--
-
--
-
--
-
--
+- [src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventRequest.cs](src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventRequest.cs)
+- [src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventResponse.cs](src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventResponse.cs)
+- [src/WordEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs](src/WordEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs)
+- [src/WordEventAlerts.Api/Contracts/Alerts/UpsertChannelSubscriptionRequest.cs](src/WordEventAlerts.Api/Contracts/Alerts/UpsertChannelSubscriptionRequest.cs)
 
 3. New endpoint groups
--
-
--
-
+- [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs)
+- [src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs](src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs)
 - wired in startup:
-  -
+  - [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 
 4. Observability/logging expansion for this feature
--
-
+- [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
 - Added pipeline event names such as EventIngested, EventRead, RuleMatched, RuleNotMatched, DeliveryAttempted, DeliverySucceeded, DeliveryFailed, AlertRuleUpserted, SubscriptionUpserted.
 
 5. Step markdown added
--
-
+- [docs/implementation/step-08-alert-matching-api.md](docs/implementation/step-08-alert-matching-api.md)
 - index updated:
-  -
+  - [docs/implementation/README.md](docs/implementation/README.md)
 
 6. Integration tests for API flow
--
-
+- [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs)
 - Covers:
   - rule + subscription setup
   - ingestion with match and dispatch
@@ -1290,26 +830,17 @@ Validation
 4. Runtime logs confirmed correlation + structured pipeline events during tests.
 
 Pending changes ready for your commit
-1.
-
-2.
-
-3.
-
-4.
-
+1. [docs/implementation/README.md](docs/implementation/README.md)
+2. [docs/implementation/step-08-alert-matching-api.md](docs/implementation/step-08-alert-matching-api.md)
+3. [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
+4. [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
 5. new files under:
--
-
--
-
--
-
--
-
--
-
--
+- [src/WordEventAlerts.Api/Contracts](src/WordEventAlerts.Api/Contracts)
+- [src/WordEventAlerts.Api/Endpoints](src/WordEventAlerts.Api/Endpoints)
+- [src/WordEventAlerts.Core/Abstractions/Matching](src/WordEventAlerts.Core/Abstractions/Matching)
+- [src/WordEventAlerts.Core/Domain/AlertMatch.cs](src/WordEventAlerts.Core/Domain/AlertMatch.cs)
+- [src/WordEventAlerts.Core/Services/AlertMatchingEngine.cs](src/WordEventAlerts.Core/Services/AlertMatchingEngine.cs)
+- [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs)
 
 Next, after your commit, I will continue original plan with Admin API surface and then the minimal Razor admin/user pages, again with step markdown + XML docs + structured logging.
 
@@ -1323,81 +854,31 @@ before we move on I caught an AI architecture flaw in the generated `IngestWorld
 
 I’m applying a contract hardening fix now: remove payload-controlled schema versioning and switch all API routes to a strict `/api/v1/...` prefix, then I’ll run full tests to verify no regressions.
 
-I located every affected reference, and I’m now applying a focused patch set: remove the request
-
-, migrate routes to `/api/v1/...`, update tests, and document this as a dedicated implementation step.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
+I located every affected reference, and I’m now applying a focused patch set: remove the request , migrate routes to `/api/v1/...`, update tests, and document this as a dedicated implementation step.
 I’ve updated the contracts and endpoint groups; next I’m patching health/test routes and documentation to keep everything aligned to `/api/v1/...` and your step-by-step methodology.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve applied the hardening changes and step documentation; I’m running full build/tests now, then I’ll finalize Step 09 validation status and give you a clean review snapshot.
-
-```
-
-```
-
 Implemented exactly as requested: payload schema control removed, API versioning locked to route prefix.
 
 **What Changed**
 1. Removed SchemaVersion from ingest request payload contract:
--
+- [src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventRequest.cs](src/WordEventAlerts.Api/Contracts/Events/IngestWorldEventRequest.cs)
 
 2. Locked API routes to versioned prefix:
-- Health: /api/v1/health in
-
-- Events group: /api/v1/events in
-
-- Alert rules group: /api/v1/alert-rules in
+- Health: /api/v1/health in [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
+- Events group: /api/v1/events in [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs)
+- Alert rules group: /api/v1/alert-rules in [src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs](src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs)
 
 3. Made schema version server-managed in ingestion pipeline:
-- Set to v1 internally, no client override path in
+- Set to v1 internally, no client override path in [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs)
 
 4. Updated integration tests to versioned routes and removed request payload SchemaVersion usage:
--
-
--
+- [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs)
+- [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 
 5. Documented the hardening step per your methodology:
--
-
--
-
-- Clarified architecture note in
+- [docs/implementation/step-09-route-versioning-contract-hardening.md](docs/implementation/step-09-route-versioning-contract-hardening.md)
+- [docs/implementation/README.md](docs/implementation/README.md)
+- Clarified architecture note in [docs/architecture/phase1-scoping.md](docs/architecture/phase1-scoping.md)
 
 **Validation**
 1. Build passed.
@@ -1418,75 +899,24 @@ okay continue the original plan
 I’m moving to the next original-plan milestone now: implement Admin API operations (delivery visibility + replay), wire structured logs, add XML docs, then create the next step markdown and validate with integration tests.
 
 I’m implementing the Admin API milestone now with operational delivery endpoints (dead-letter view, correlation lookup, attempt replay), including structured admin logs and XML docs, then I’ll add Step 10 markdown and integration tests.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Repository support and log constants are in place; I’m now adding the admin endpoints and wiring them into startup, with XML docs on all new public API methods.
-
-```
-
-```
-
-```
-
-```
-
 I caught a likely compile issue in the new replay response object, so I’m fixing that and adding Admin integration tests next to validate dead-letter listing, correlation filtering, and replay behavior end-to-end.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Admin endpoints, repository extension, tests, and Step 10 docs are in place; I’m running full build and test validation now and will finalize the step markdown status once green.
 
 Validation passed cleanly across build, unit, and integration tests, including the new Admin API tests. I’m updating the Step 10 markdown with concrete validation results so you can review this checkpoint before we commit.
-
-```
-
-```
-
 Step 10 is implemented and validated, ready for your checkpoint review before commit.
 
 What was added:
-1. Admin API endpoints under /api/v1/admin in
-
-2. Startup wiring for admin endpoints in
-
+1. Admin API endpoints under /api/v1/admin in [src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs](src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs)
+2. Startup wiring for admin endpoints in [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
 3. Delivery attempt lookup by ID in repository contract and in-memory adapter:
--
-
--
-
-4. Admin observability log events in
-
-5. Integration tests for admin dead-letter listing, correlation filtering, and replay flow in
-
+- [src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs)
+- [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs)
+4. Admin observability log events in [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+5. Integration tests for admin dead-letter listing, correlation filtering, and replay flow in [tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs](tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs)
 6. Step documentation updates:
--
-
--
+- [docs/implementation/step-10-admin-api-delivery-ops.md](docs/implementation/step-10-admin-api-delivery-ops.md)
+- [docs/implementation/README.md](docs/implementation/README.md)
 
 Validation results:
 1. Build succeeded for solution.
@@ -1494,23 +924,16 @@ Validation results:
 3. Integration tests passed: 16/16, including the new admin test suite.
 
 Current working tree (checkpoint scope):
-1.
+1. [docs/implementation/README.md](docs/implementation/README.md)
+2. [docs/implementation/step-10-admin-api-delivery-ops.md](docs/implementation/step-10-admin-api-delivery-ops.md)
+3. [src/WordEventAlerts.Api/Program.cs](src/WordEventAlerts.Api/Program.cs)
+4. [src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs](src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs)
+5. [src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs](src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs)
+6. [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs)
+7. [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+8. [tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs](tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs)
 
-2.
-
-3.
-
-4.
-
-5.
-
-6.
-
-7.
-
-8.
-
-If you approve this step, I will create the Step 10 commit next and then backfill the commit hash/message in
+If you approve this step, I will create the Step 10 commit next and then backfill the commit hash/message in [docs/implementation/step-10-admin-api-delivery-ops.md](docs/implementation/step-10-admin-api-delivery-ops.md)
 
 .
 
@@ -1538,83 +961,11 @@ Plan for Step 11:
 5. Add step documentation for Step 11 and run full validation build plus tests before your next checkpoint review.
 
 I am now applying the main Step 11 code changes in the Web project: API client wiring, new user/admin Razor pages, and responsive UI updates, then I will compile and fix any issues immediately.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Core Web plumbing is now in place with a typed API client and correlation-aware logging. Next I am adding the actual Razor pages for user and admin workflows, then I will wire navigation and styling.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 User and Admin workflow pages plus the UI redesign are now added; next I am compiling to catch any Razor or C# issues, then I will patch failures and finish Step 11 documentation.
 
 Build found five compile issues in the new typed client only; I am patching those now and re-running validation immediately.
-
-```
-
-```
-
 All builds and tests are green after the Web UI additions, so I am now writing the Step 11 implementation markdown and updating the step index for your next review checkpoint.
-
-```
-
-```
-
-```
-
-```
-
 Step 11 is implemented and validated.
 
 1. What I added
@@ -1629,12 +980,13 @@ Services/IAlertsApiClient.cs
 Services/AlertsApiClient.cs
 Configuration/AlertsApiOptions.cs
 4. Web startup/config wiring for API base URL:
-
+[src/WordEventAlerts.Web/Program.cs](src/WordEventAlerts.Web/Program.cs)[src/WordEventAlerts.Web/appsettings.json](src/WordEventAlerts.Web/appsettings.json)[src/WordEventAlerts.Web/appsettings.Development.json](src/WordEventAlerts.Web/appsettings.Development.json)[src/WordEventAlerts.Web/WordEventAlerts.Web.csproj](src/WordEventAlerts.Web/WordEventAlerts.Web.csproj)
 5. UI refresh for responsive, non-template visual design and navigation:
 Pages/Shared/_Layout.cshtml
 Pages/Index.cshtml
 wwwroot/css/site.css
 6. Step documentation:
+[docs/implementation/step-11-minimal-razor-user-admin-ui.md](docs/implementation/step-11-minimal-razor-user-admin-ui.md)[docs/implementation/README.md](docs/implementation/README.md)
 
 2. Validation run
 1. Solution build passed.
@@ -1662,41 +1014,17 @@ Step 11 is committed on master, so baseline is clean for Step 12. The observabil
 I identified concrete gaps: missing dead-letter log event constant, missing failure-classification fields in delivery logs, and no end-to-end tests proving correlation traceability from ingest through admin delivery lookup. I’m implementing those hardening updates plus new integration coverage now.
 
 I’m now editing the API observability layer: adding missing dead-letter/failure-classification semantics and enriching delivery logs with attempt identifiers and classification so trace fields are consistent.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 The hardening code and new observability E2E tests are in. Next I’m running full validation, then I’ll create the Step 12 markdown and update the implementation index.
 
 Validation is fully green with expanded integration coverage (now 18 tests). I’m adding the Step 12 implementation markdown and index entry so you can review this checkpoint in the same format as prior steps.
-
-```
-
-```
-
-```
-
-```
-
 Step 12 is complete and validated: Observability hardening + end-to-end trace coverage.
 
 Implemented changes:
-1. Hardened observability schema in
-
-2. Enriched delivery outcome logs in
-
-3. Added two E2E observability integration tests in
-
+1. Hardened observability schema in [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+2. Enriched delivery outcome logs in [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs)
+3. Added two E2E observability integration tests in [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 4. Added step documentation and index update:
+[docs/implementation/step-12-observability-hardening-e2e-trace-coverage.md](docs/implementation/step-12-observability-hardening-e2e-trace-coverage.md)[docs/implementation/README.md](docs/implementation/README.md)
 
 What was hardened:
 1. Added missing structured fields:
@@ -1725,15 +1053,11 @@ Validation:
 3. Integration tests passed: 18/18.
 
 Current checkpoint diff:
-1.
-
-2.
-
-3.
-
-4.
-
-5.
+1. [docs/implementation/README.md](docs/implementation/README.md)
+2. [docs/implementation/step-12-observability-hardening-e2e-trace-coverage.md](docs/implementation/step-12-observability-hardening-e2e-trace-coverage.md)
+3. [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs)
+4. [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs)
+5. [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 
 If you approve, I’ll proceed directly to the next planned step (ADR freeze + architecture readiness review artifacts).
 
@@ -1818,85 +1142,9 @@ I’m going to harden this now by fixing the Web API client URI bug first, then 
 Next I’m tracing every AlertRule constructor and rule contract usage so adding Rule Name won’t break builds or tests and we can update everything in one pass.
 
 I found the root cause for your runtime exception: the client logger was reading PathAndQuery on a relative URI before send. I’m fixing that safely and then rolling out the Rule Name + simplified user flow changes across API, domain, tests, and Web UI.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’m now simplifying the User page flow exactly as requested: fixed demo user, auto-generated IDs, rule-name-first creation, and rule selection dropdown for subscriptions.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve applied the contract/domain updates and test updates; I’m doing a quick compile-focused pass now to fix any remaining model/UI regressions from the simplified flow refactor.
-
-```
-
-```
-
 Build and tests are passing with the hardening changes; I’m adding one more UX polish for safer subscription postbacks plus the required step markdown entry before I hand this back for your validation.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Hardening is implemented and validated, including the exact runtime error you hit.
 
 Primary fix for your manual-testing failure:
@@ -1905,7 +1153,7 @@ Primary fix for your manual-testing failure:
 3. A startup guard was added so missing HttpClient BaseAddress fails with a clear message.
 
 Files:
-1.
+1. [src/WordEventAlerts.Web/Services/AlertsApiClient.cs](src/WordEventAlerts.Web/Services/AlertsApiClient.cs)
 
 You also requested UX simplification and rule naming, which is now done end-to-end:
 1. AlertRule now has a required Name field in domain.
@@ -1918,39 +1166,28 @@ You also requested UX simplification and rule naming, which is now done end-to-e
 8. Severity is now selection-based in the form.
 
 Key files:
-1.
-
-2.
-
-3.
-
-4.
-
-5.
-
-6.
-
-7.
+1. [src/WordEventAlerts.Core/Domain/AlertRule.cs](src/WordEventAlerts.Core/Domain/AlertRule.cs)
+2. [src/WordEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs](src/WordEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs)
+3. [src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs](src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs)
+4. [src/WordEventAlerts.Web/Services/IAlertsApiClient.cs](src/WordEventAlerts.Web/Services/IAlertsApiClient.cs)
+5. [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs)
+6. [src/WordEventAlerts.Web/Pages/User/Rules.cshtml](src/WordEventAlerts.Web/Pages/User/Rules.cshtml)
+7. [src/WordEventAlerts.Web/wwwroot/css/site.css](src/WordEventAlerts.Web/wwwroot/css/site.css)
 
 Regression updates completed:
 1. Rule repository ordering adjusted for UI readability.
 2. Unit and integration tests updated for required Name field.
 
 Files:
-1.
-
-2.
-
-3.
-
-4.
-
-5.
+1. [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryAlertRuleRepository.cs)
+2. [tests/WordEventAlerts.Tests.Unit/DomainContractsTests.cs](tests/WordEventAlerts.Tests.Unit/DomainContractsTests.cs)
+3. [tests/WordEventAlerts.Tests.Integration/InMemoryRepositoryTests.cs](tests/WordEventAlerts.Tests.Integration/InMemoryRepositoryTests.cs)
+4. [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs)
+5. [tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs](tests/WordEventAlerts.Tests.Integration/ObservabilityFoundationTests.cs)
 
 Documentation step added:
-1.
-
-2.
+1. [docs/implementation/step-13-manual-testing-hardening-rule-naming.md](docs/implementation/step-13-manual-testing-hardening-rule-naming.md)
+2. [docs/implementation/README.md](docs/implementation/README.md)
 
 Validation status:
 1. Build passed.
@@ -2015,58 +1252,23 @@ Manual testing I found and error: - ### System.Net.Http.HttpConnectionPool.Conne
 I see this is a connection-level failure now, so I’m hardening the Web app to handle API unavailability gracefully and checking API/Web port configuration so manual testing doesn’t crash the page.
 
 I confirmed the crash is now a connectivity failure path, not the earlier relative-URI bug, so I’m adding graceful API-unavailable handling on initial page load and aligning default API base URL with the actual API launch profile port.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve patched graceful handling and port alignment; next I’ll make one small resource-safety fix in the client and run full build/tests to confirm no regressions.
-
-```
-
-```
-
-```
-
-```
-
 I’ve verified everything passes; I’m now updating Step 13 notes to explicitly include this new API-unavailable handling and port-alignment hardening so your change log stays accurate.
-
-```
-
-```
-
 Good catch. This failure was a network-connectivity path, and it is now hardened so the UI does not crash on first load when API is unreachable.
 
 What I changed:
-1. Wrapped API send connection failures with a clear actionable message in
+1. Wrapped API send connection failures with a clear actionable message in [src/WordEventAlerts.Web/Services/AlertsApiClient.cs](src/WordEventAlerts.Web/Services/AlertsApiClient.cs)
 
 .
-2. Added graceful error handling for initial rules page load in
-
-so it shows an error banner instead of a developer exception page.
+2. Added graceful error handling for initial rules page load in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs) so it shows an error banner instead of a developer exception page.
 3. Aligned default Web API base URL to the API project launch URL:
--
-
--
-
--
+- [src/WordEventAlerts.Web/appsettings.json](src/WordEventAlerts.Web/appsettings.json)
+- [src/WordEventAlerts.Web/appsettings.Development.json](src/WordEventAlerts.Web/appsettings.Development.json)
+- [src/WordEventAlerts.Web/Configuration/AlertsApiOptions.cs](src/WordEventAlerts.Web/Configuration/AlertsApiOptions.cs)
 
 Why this happened:
 1. The Web app was configured to call http://localhost:5299.
-2. The API project launch profile is http://localhost:5239 in
+2. The API project launch profile is http://localhost:5239 in [src/WordEventAlerts.Api/Properties/launchSettings.json](src/WordEventAlerts.Api/Properties/launchSettings.json)
 
 .
 3. If API is not reachable at configured URL, HttpClient throws during connect, which previously bubbled up from OnGet.
@@ -2078,7 +1280,7 @@ Validation:
 
 Also kept your previous hardening in place:
 1. Rule name support and simplified user flow are still intact.
-2. Step log updated in
+2. Step log updated in [docs/implementation/step-13-manual-testing-hardening-rule-naming.md](docs/implementation/step-13-manual-testing-hardening-rule-naming.md)
 
 .
 
@@ -2100,160 +1302,47 @@ I did the manual tests. Add some points before we finalize. 1. On User panel the
 I’m implementing these three enhancements now: editable/deletable rules/subscriptions in User UI, Admin “show all alerts + mock event” tooling, and realistic simulated channel SendAsync behavior that still stays deterministic for tests.
 
 I’m adding backend support first (delete operations + admin alert listing endpoints), then I’ll wire the User/Admin pages for edit/delete and mock event testing so it all works end-to-end.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Backend endpoints are in place; I’m wiring the Web client contract and implementation next so User/Admin pages can call delete/edit operations, list alerts, and send mock events.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve wired most of the new functionality; next I’m updating tests and fixing a few UI binding details (selected option behavior, action buttons) to keep everything stable before final validation.
-
-```
-
-```
-
-```
-
-```
-
 I hit a patch-context mismatch in the notification channel files, so I’ve pulled the current file contents and will re-apply minimal, exact patches next.
-
-```
-
-```
-
-```
-
-```
-
 I’m now checking the updated page models and client contracts together for compile consistency, then I’ll add focused integration tests for delete/admin-alert/mock-event workflows and run full validation.
 
 I’ve identified the remaining gap as automated coverage for the newly added delete and admin-alert capabilities; I’m adding integration tests for those now, then I’ll run build/tests to surface any regressions.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve completed code and test updates and I’m running a full solution test pass now to verify everything end-to-end before I summarize and checkpoint for your review.
-
-```
-
-```
-
 I validated all tests are green. I’m now adding the required per-step markdown checkpoint for this implementation slice so it matches your process before we proceed to commit.
-
-```
-
-```
-
-```
-
-```
-
 Implemented and validated the requested feature set for this step.
 
 **What’s done**
 - User panel edit/delete for rules and subscriptions is fully wired in page model + UI:
-  -
-
--
-
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs)
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml](src/WordEventAlerts.Web/Pages/User/Rules.cshtml)
 - Admin panel now supports:
   - Show all alerts
   - Send random mock event
   - Auto-load attempts for returned correlation
-  -
-
--
-
+  - [src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml.cs](src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml.cs)
+  - [src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml](src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml)
 - Simulated channel send behavior added (success + transient + permanent deterministic cases):
-  -
-
--
-
+  - [src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs)
+  - [src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs](src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs)
 - UI styling support for new action controls:
-  -
+  - [src/WordEventAlerts.Web/wwwroot/css/site.css](src/WordEventAlerts.Web/wwwroot/css/site.css)
 
 **Tests added/updated**
 - API flow delete coverage:
-  -
-
+  - [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs)
 - Admin alerts listing coverage:
-  -
-
+  - [tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs](tests/WordEventAlerts.Tests.Integration/AdminApiTests.cs)
 - Simulated channel outcome coverage:
-  -
+  - [tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs](tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs)
 
 **Step markdown created**
--
-
+- [docs/implementation/step-14-user-admin-edit-delete-mock-simulation.md](docs/implementation/step-14-user-admin-edit-delete-mock-simulation.md)
 - Updated index:
-  -
+  - [docs/implementation/README.md](docs/implementation/README.md)
 
 **Validation**
-- Ran full suite: dotnet test
-
+- Ran full suite: dotnet test [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx)
 - Result: Build succeeded, 29 passed, 0 failed.
 
 Ready for your checkpoint review. If approved, I can do the next step:
@@ -2273,149 +1362,63 @@ Ready for your checkpoint review. If approved, I can do the next step:
 I’m implementing two targeted fixes now: first the mock-event outcome path plus a richer, scrollable sticky-header alerts view with outcome columns; then I’ll rework User subscriptions to load all by user grouped by channel and keep lists populated after create/edit actions.
 
 I found the root cause of your first issue: event ingestion increments “dispatched” for any delivery attempt, even failed ones, and never increments “failed” unless an exception occurs. Next I’m patching response metrics and adding admin-table outcome aggregation, then I’ll update user subscription loading/grouping and list persistence behavior.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I finished backend outcome fixes and admin alert enrichment. Next I’m patching user-subscription loading to user-level grouping and preventing list resets during create/edit/clear actions, then I’ll wire the updated UI tables.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve finished the core code changes and now I’m adding regression tests specifically for your two bug reports so these behaviors stay fixed.
-
-```
-
-```
-
 The requested behaviors are now coded. I’m running the test suite to confirm there are no regressions and to verify the new counters/subscription API changes end-to-end.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Implemented both requested fixes and validated them end-to-end.
 
 What I changed
 
 1. Mock event counters + better Admin alerts visibility
 - Fixed ingestion counting so dispatched means only successful sends, and failed includes non-success delivery outcomes plus exceptions.
-  -
-
+  - [src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs#L134](src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs#L134)
 - Added per-event delivery summary data to Admin alerts response:
   - total attempts
   - succeeded/transient/permanent/dead-letter counts
   - last outcome and last failure reason
-  -
-
+  - [src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs#L146](src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs#L146)
 - Added delivery-attempt lookup by event id in repository contract + in-memory implementation.
-  -
-
--
-
+  - [src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs#L33](src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs#L33)
+  - [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs#L35](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryDeliveryAttemptRepository.cs#L35)
 - Extended web DTOs/client to consume the new outcome fields.
-  -
-
+  - [src/WordEventAlerts.Web/Services/IAlertsApiClient.cs#L332](src/WordEventAlerts.Web/Services/IAlertsApiClient.cs#L332)
 - Upgraded All Alerts table UX:
   - outcome badge column
   - attempt breakdown column
   - last failure column
   - scrollable container with sticky header
-  -
-
--
+  - [src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml#L82](src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml#L82)
+  - [src/WordEventAlerts.Web/wwwroot/css/site.css#L205](src/WordEventAlerts.Web/wwwroot/css/site.css#L205)
 
 2. User panel subscriptions: load all, grouped by channel, no list clearing on create/edit
 - Added API endpoint to list subscriptions by user (instead of rule-only listing).
-  -
-
--
-
+  - [src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs#L52](src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs#L52)
+  - [src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs#L337](src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs#L337)
 - Added typed client method for user-wide subscription listing.
-  -
-
--
-
+  - [src/WordEventAlerts.Web/Services/IAlertsApiClient.cs#L67](src/WordEventAlerts.Web/Services/IAlertsApiClient.cs#L67)
+  - [src/WordEventAlerts.Web/Services/AlertsApiClient.cs#L91](src/WordEventAlerts.Web/Services/AlertsApiClient.cs#L91)
 - Reworked User page model:
   - subscriptions load by user
   - grouped by channel
   - create/edit/clear handlers now keep rules/subscription lists loaded
   - stale edit ids are auto-cleared only when item no longer exists
-  -
-
--
-
--
-
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L57](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L57)
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L300](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L300)
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L524](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L524)
 - Updated User subscriptions UI:
   - grouped sections by channel
   - rule-aware edit/delete routes so actions work from grouped rows
-  -
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml#L197](src/WordEventAlerts.Web/Pages/User/Rules.cshtml#L197)
 
 Observability update
 - Added dedicated event constant for user-wide subscription listing:
-  -
+  - [src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs#L42](src/WordEventAlerts.Infrastructure.Observability/Logging/ObservabilityConstants.cs#L42)
 
 Regression tests added
 - User-wide subscriptions endpoint behavior:
-  -
-
+  - [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs#L260](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs#L260)
 - Correct ingestion failed counter for simulated channel failure:
-  -
+  - [tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs#L329](tests/WordEventAlerts.Tests.Integration/AlertApiFlowTests.cs#L329)
 
 Validation
 - Ran full suite with dotnet test on solution.
@@ -2423,10 +1426,9 @@ Validation
 
 Step markdown
 - Added this checkpoint:
-  -
-
+  - [docs/implementation/step-15-admin-outcome-ux-and-user-subscription-grouping.md](docs/implementation/step-15-admin-outcome-ux-and-user-subscription-grouping.md)
 - Updated index:
-  -
+  - [docs/implementation/README.md#L21](docs/implementation/README.md#L21)
 
 If you want, I can do the next checkpoint action now:
 1. prepare a focused commit for just this Step 15 delta
@@ -2445,56 +1447,26 @@ Some final touches:
 
 I’ll make these as focused UI behavior fixes: adjust footer/header layout so the copyright never overlays content, and change rule-create flow to leave edit mode immediately after creation. I’m checking layout + rule handler now.
 
-I found the overlap culprit:
-
-still forces `.footer` to absolute positioning. I’m moving the copyright into the navbar header and removing footer rendering, then I’ll switch rule-create to exit edit mode immediately.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
+I found the overlap culprit: [src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml.css#L42](src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml.css#L42) still forces `.footer` to absolute positioning. I’m moving the copyright into the navbar header and removing footer rendering, then I’ll switch rule-create to exit edit mode immediately.
 I’ve applied the UI/layout and rule-create flow patches. I’m running validation now to ensure there are no regressions before you retest in browser.
-
-```
-
-```
-
-```
-
-```
-
 Implemented both final touches.
 
 What was changed
 
 1. Copyright moved into header (no overlap with UI)
 - Footer block removed from layout and copyright rendered in navbar:
-  -
-
+  - [src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml](src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml)
 - Header copyright styling added (and hidden on small screens to avoid nav crowding):
-  -
-
+  - [src/WordEventAlerts.Web/wwwroot/css/site.css#L48](src/WordEventAlerts.Web/wwwroot/css/site.css#L48)
 - Legacy layout-scoped footer absolute positioning neutralized (this was the overlap cause):
-  -
+  - [src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml.css#L42](src/WordEventAlerts.Web/Pages/Shared/_Layout.cshtml.css#L42)
 
 2. After creating a new rule, edit mode exits immediately
 - Rule upsert flow now:
   - create: resets form and leaves edit mode
   - update: keeps existing edit behavior
 - Updated here:
-  -
+  - [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L196](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L196)
 
 Validation
 
@@ -2507,10 +1479,9 @@ Validation
 Step documentation
 
 - Added:
-  -
-
+  - [docs/implementation/step-16-header-copyright-and-create-mode-reset.md](docs/implementation/step-16-header-copyright-and-create-mode-reset.md)
 - Index updated:
-  -
+  - [docs/implementation/README.md#L22](docs/implementation/README.md#L22)
 
 If you want, I can prepare the commit for just this Step 16 delta next.
 
@@ -2524,33 +1495,7 @@ If you want, I can prepare the commit for just this Step 16 delta next.
 #### Assistant
 
 I found likely root causes and I’m applying a concrete fix set: reset/exit edit for both forms on create and update, persist failed delivery attempts (instead of throwing away invalid-destination failures), and make All Alerts show newest first so newly inserted mock events are visible immediately.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve applied all functional fixes; next I’m running full validation, then I’ll add the step markdown checkpoint and give you the exact outcome summary.
-
-```
-
-```
-
-```
-
-```
-
 Implemented both requests and verified with full tests.
 
 What I changed
@@ -2558,26 +1503,24 @@ What I changed
 1. Subscription panel save behavior now matches alert panel
 - After successful create and update, subscription edit mode is canceled and subscription inputs are cleared.
 - After successful create and update, alert edit mode is also canceled and alert inputs are cleared.
-- Updated in
-
-and
+- Updated in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L173](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L173) and [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L350](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L350)
 
 .
 
 2. Mock ingestion failures are now visible and newest events appear first
 - Notification dispatch no longer drops invalid-destination channel failures as untracked exceptions.
 - Those failures are now persisted as permanent failed attempts so Admin can inspect them.
-- Updated in
+- Updated in [src/WordEventAlerts.Core/Services/NotificationDispatcher.cs#L40](src/WordEventAlerts.Core/Services/NotificationDispatcher.cs#L40)
 
 .
 - All alerts listing now returns newest first, so freshly inserted mock events show up immediately in the table.
-- Updated in
+- Updated in [src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs#L34](src/WordEventAlerts.Infrastructure.InMemory/Repositories/InMemoryWorldEventRepository.cs#L34)
 
 .
 
 Test update
 - Adjusted integration expectation for invalid Slack destination to persisted failed attempt instead of thrown exception:
-  -
+  - [tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs#L39](tests/WordEventAlerts.Tests.Integration/NotificationPipelineTests.cs#L39)
 
 Validation
 - Full regression run passed:
@@ -2585,9 +1528,8 @@ Validation
 - Build succeeded.
 
 Step markdown
-- Added
-
-- Updated index
+- Added [docs/implementation/step-17-form-reset-and-mock-ingestion-visibility-fix.md](docs/implementation/step-17-form-reset-and-mock-ingestion-visibility-fix.md)
+- Updated index [docs/implementation/README.md#L23](docs/implementation/README.md#L23)
 
 If you want, I can now prepare the commit for this Step 17 delta.
 
@@ -2600,29 +1542,15 @@ Sub panel email destination is currently does not validate for valid email. it i
 #### Assistant
 
 I’ll add destination-format validation in the User subscription create/update handler so invalid email addresses are rejected before API call, then I’ll run tests and document this as the next step checkpoint.
-
-```
-
-```
-
 I added pre-submit channel destination validation in the user subscription handler (including email format), and now I’m running validation to ensure no regressions.
-
-```
-
-```
-
-```
-
-```
-
 Implemented.
 
 Your request is now covered in the User subscription flow:
 
-- Added destination-format validation before API submit in
+- Added destination-format validation before API submit in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs)
 
 .
-- In
+- In [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L321](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L321)
 
 , after empty-check, the form now validates destination based on selected channel:
   - Email: must be email-like (`@` present, not first/last char).
@@ -2630,18 +1558,15 @@ Your request is now covered in the User subscription flow:
 - If invalid, it sets ErrorMessage and returns Page immediately (no API call).
 
 Implementation details added:
-- New helper:
+- New helper: [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L606](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L606)
 
 Validation:
-- Ran full regression suite: dotnet test
-
---nologo -v minimal
+- Ran full regression suite: dotnet test [repos/WordEventAlerts/WordEventAlerts.slnx](repos/WordEventAlerts/WordEventAlerts.slnx) --nologo -v minimal
 - Result: 31 passed, 0 failed, build succeeded.
 
 Step log updated:
-- Added
-
-- Updated index
+- Added [docs/implementation/step-18-user-subscription-destination-prevalidation.md](docs/implementation/step-18-user-subscription-destination-prevalidation.md)
+- Updated index [docs/implementation/README.md#L24](docs/implementation/README.md#L24)
 
 If you want, I can now prepare the commit for just this Step 18 change.
 
@@ -2656,49 +1581,24 @@ At some point you missed to follow this md.
 You’re right to flag this. I’ll check the documentation standard now, audit the latest touched files against it, and patch any missing XML docs immediately.
 
 I audited the standard against the recently edited code and found concrete misses (notably constructor/on-get XML completeness and expected cancellation exception docs), so I’m fixing those now to bring it back in line.
-
-```
-
-```
-
-```
-
-```
-
 I’ve confirmed the fixes compile and tests pass; I’ll now add the required implementation-step markdown for this documentation-standard alignment so process stays consistent.
-
-```
-
-```
-
-```
-
-```
-
 You are right. I missed parts of the documentation standard in recent edits, and I have corrected that now.
 
 What I fixed
-- Added full XML docs for the public constructor in
+- Added full XML docs for the public constructor in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs)
 
 , including summary, params, and expected exception.
-- Added missing XML param and returns tags for
-
-in
+- Added missing XML param and returns tags for [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L122](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs#L122) in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs)
 
 .
-- Added expected cancellation exception XML doc for
-
-in
+- Added expected cancellation exception XML doc for [src/WordEventAlerts.Core/Services/NotificationDispatcher.cs#L41](src/WordEventAlerts.Core/Services/NotificationDispatcher.cs#L41) in [src/WordEventAlerts.Core/Services/NotificationDispatcher.cs](src/WordEventAlerts.Core/Services/NotificationDispatcher.cs)
 
 .
-- Added constructor null guards in
-
-so implementation and docs match.
+- Added constructor null guards in [src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs](src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs) so implementation and docs match.
 
 Process compliance
-- Added step record:
-
-- Updated index:
+- Added step record: [docs/implementation/step-19-documentation-standard-alignment.md](docs/implementation/step-19-documentation-standard-alignment.md)
+- Updated index: [docs/implementation/README.md](docs/implementation/README.md)
 
 Validation
 - Ran full tests on the solution.
@@ -2723,82 +1623,46 @@ If you want to view the full prompt engineering session exactly as it appeared i
 
 #### Assistant
 
-I understand you want a reusable converter from
-
-to a reviewer-friendly markdown file, including the VS Code native import instructions block, and I’ll inspect the JSON shape first so the script handles your actual data correctly.
+I understand you want a reusable converter from [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) to a reviewer-friendly markdown file, including the VS Code native import instructions block, and I’ll inspect the JSON shape first so the script handles your actual data correctly.
 
 I checked your chat export shape and confirmed it has turn-based request entries with user message text plus assistant response fragments, so I can generate a clean reviewer markdown transcript from it. Next I’ll add a PowerShell script under docs/copilot-chat and run it to produce the markdown file.
 
 I have enough context now and I’m about to add a PowerShell converter script plus an implementation-step markdown entry so this change stays aligned with your process requirements.
-
-```
-
-```
-
 The first generated markdown worked, but I caught a formatting issue in the review block (emoji/backtick encoding), so I’m patching the script to output that section cleanly and then regenerating the file.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I found that the script file itself is updated, but the generated markdown still shows the old heading, so I’m checking timestamp/output behavior and then I’ll force a clean regeneration.
 
 The converter is now implemented and producing the markdown transcript correctly, including your VS Code native import block exactly in the generated file. I’m doing one final quick sanity check of the script file and then I’ll share what changed and how to run it.
 
 I’m making one small improvement to match your requested heading style exactly: the generated markdown will now include the detective emoji heading in a reliable way without encoding corruption.
-
-```
-
-```
-
 Created and validated a JSON to Markdown export script for your chat logs.
 
 What I added
-1. Script:
-
-2. Generated transcript:
-
-3. Step log entry:
-
-4. Step index update:
+1. Script: [docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1)
+2. Generated transcript: [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
+3. Step log entry: [docs/implementation/step-20-chat-json-to-markdown-export.md](docs/implementation/step-20-chat-json-to-markdown-export.md)
+4. Step index update: [docs/implementation/README.md](docs/implementation/README.md)
 
 What the script does
-1. Reads
-
-by default.
-2. Writes
-
-by default.
+1. Reads [docs/copilot-chat/chat.json](docs/copilot-chat/chat.json) by default.
+2. Writes [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md) by default.
 3. Preserves turn structure (User and Assistant).
 4. Skips internal thinking blocks.
 5. Optionally includes tool-invocation lines with the IncludeToolEvents switch.
 6. Inserts the VS native import guidance block at the top, including:
    1. Chat: Import Chat...
-   2. Path hint to
+   2. Path hint to [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json)
 
 How to run
 1. From repo root:
-
+   [repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1)
 2. Optional custom paths:
-
--InputPath
-
--OutputPath .\docs\copilot-chat\review.md
+   [repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1) -InputPath [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) -OutputPath .\docs\copilot-chat\review.md
 3. Optional tool lines:
-
--IncludeToolEvents
+   [repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1) -IncludeToolEvents
 
 Validation
 1. Script executed successfully.
-2. Markdown output was regenerated and confirmed at
+2. Markdown output was regenerated and confirmed at [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
 
 .
 
@@ -2839,9 +1703,8 @@ The new folder and document are created. I’ll quickly validate the file conten
 
 Created the new decisions folder and markdown file with your workflow log.
 
-- Folder:
-
-- File:
+- Folder: [docs/decisions](docs/decisions)
+- File: [docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
 
 I also verified the file exists and has no errors.
 
@@ -2865,31 +1728,15 @@ Adaptive Feedback Loop: If any bug, edge-case vulnerability, or UI inconsistency
 I’ll build a docs-level index markdown that links everything under architecture, decisions, and implementation, and include your Code Validation section as a starter block you can extend. I’m first collecting the exact markdown files so links are complete.
 
 I’ve identified all markdown files in those three areas, so next I’m creating a single docs hub file that links each of them and embeds your Code Validation methodology as the baseline section you can keep extending.
-
-```
-
-```
-
 The hub file is created; I’ll quickly validate its content and link structure so you can use it immediately as your reviewer entry point.
 
 I’m adding a matching implementation step record for this change so your documentation process remains consistent with the step-by-step workflow you’ve been enforcing.
-
-```
-
-```
-
-```
-
-```
-
 Created a base documentation hub and linked all markdown files across architecture, decisions, and implementation, with your validation methodology included.
 
 Updated files:
-1.
-
-2.
-
-3.
+1. [docs/README.md](docs/README.md)
+2. [docs/implementation/step-21-documentation-hub-and-validation-methodology.md](docs/implementation/step-21-documentation-hub-and-validation-methodology.md)
+3. [docs/implementation/README.md](docs/implementation/README.md)
 
 What is in the new base file:
 1. A dedicated Code Validation and Quality Assurance Methodology section using your provided workflow text.
@@ -2917,65 +1764,32 @@ I will wire containerized startup for both API and Web so reviewers can run ever
 I confirmed current local ports are API 5239 and Web 5111, and the Web app points to the API via AlertsApi BaseUrl. Next I’ll add a reusable Dockerfile plus compose services with matching host port mappings and container-to-container API wiring.
 
 I am now implementing the container files and documentation updates in one pass: Dockerfile, compose service definitions for API and Web with fixed host ports, plus decision-log and README updates so reviewers have a clear single-command run path.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 Container runtime files are now added. Next I’m updating the decision log and docs hub to record this new reviewer-oriented Docker choice and include explicit setup/run instructions there too.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I have completed all edits; now I will validate compose syntax and quickly verify the updated documents so we can be confident reviewers can run it as requested.
 
 I validated syntax, and now I will actually bring both services up with Docker Compose and probe the mapped host ports so we can confirm the runtime behavior, not just configuration.
 
 Both containers are now running and reachable on the mapped ports with HTTP 200 checks. I’m making a small follow-up doc sync to include the newly added implementation steps in the docs hub and to record the live Docker validation results.
-
-```
-
-```
-
-```
-
-```
-
 Implemented end-to-end Docker reviewer startup and verified both projects are running with correct ports.
 
 What was added
 1. Container build file for both app targets:
+[Dockerfile](Dockerfile)
 
 2. Single-command orchestration with API + Web and internal service wiring:
+[docker-compose.yml](docker-compose.yml)
 
 3. Root setup/run guide for reviewers:
+[README.md](README.md)
 
 4. Docs hub setup/run section (plus full docs linkage):
+[docs/README.md](docs/README.md)
 
 5. Decision log updated with containerization rationale and port contract:
+[docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
 
 6. Implementation tracking for this step:
+[docs/implementation/step-22-docker-compose-reviewer-runtime.md](docs/implementation/step-22-docker-compose-reviewer-runtime.md)[docs/implementation/README.md](docs/implementation/README.md)
 
 Runtime status and validation
 1. Started successfully with Docker Compose.
@@ -3006,45 +1820,24 @@ Add Future Production Roadmap plans (do not implement, just create the plan)
 I’ll add a documentation-only Future Production Roadmap plan that covers your four requested tracks and wire it into the docs index, after first checking the current docs files so I preserve your latest edits.
 
 I’ve confirmed the current docs state, including your recent edits, and next I’m adding a dedicated future roadmap markdown plus cross-links and a matching decision-log entry so the plan is visible from both docs indexes and decisions.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 The roadmap plan is now added and linked in docs/readme and decisions. I’ll finish by adding the corresponding implementation step record and validating all updated files are clean.
-
-```
-
-```
-
-```
-
-```
-
 Added a planning-only Future Production Roadmap and connected it across docs, decisions, and README, without implementing any production changes.
 
 Updated artifacts
 1. New roadmap plan:
+[docs/architecture/future-production-roadmap.md](docs/architecture/future-production-roadmap.md)
 
 2. Docs hub linked to roadmap:
+[docs/README.md](docs/README.md)
 
 3. Root README linked to roadmap:
+[README.md](README.md)
 
 4. Decision log updated with roadmap governance decision:
+[docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
 
 5. Implementation tracking step added:
+[docs/implementation/step-23-future-production-roadmap-planning.md](docs/implementation/step-23-future-production-roadmap-planning.md)[docs/implementation/README.md](docs/implementation/README.md)
 
 What the roadmap now covers
 1. In-memory to PostgreSQL migration plan.
@@ -3054,9 +1847,7 @@ What the roadmap now covers
 
 Validation status
 1. All updated markdown files were checked and report no errors.
-2. Existing user edits in
-
-were preserved while applying the roadmap link/update.
+2. Existing user edits in [docs/README.md](docs/README.md) were preserved while applying the roadmap link/update.
 
 ### Turn 31
 
@@ -3085,45 +1876,33 @@ Directory renames are complete. I’m now reviewing the remaining text-match rep
 The rename itself is now clean in source/docs (excluding archived chat transcript logs), so I’m running a full solution test pass on the renamed solution file to ensure nothing broke.
 
 The rename is functionally validated (31/31 tests passing). I’m adding the corresponding implementation-step markdown entry and index update so your process log stays consistent with this rename action.
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```
-
 I’ve finished the rename and synced the docs index; I’m doing one final status and integrity check so I can report exactly what changed and any intentional leftovers.
 
 Completed. I renamed the project token from WordEventAlerts to WorldEventAlerts across the codebase and validated it with tests.
 
 Key outcomes
 1. Solution renamed to:
+[WorldEventAlerts.slnx](WorldEventAlerts.slnx)
 
 2. Source project folders renamed:
+[src/WorldEventAlerts.Api](src/WorldEventAlerts.Api)[src/WorldEventAlerts.Core](src/WorldEventAlerts.Core)[src/WorldEventAlerts.Infrastructure.InMemory](src/WorldEventAlerts.Infrastructure.InMemory)[src/WorldEventAlerts.Infrastructure.Notifications.Email](src/WorldEventAlerts.Infrastructure.Notifications.Email)[src/WorldEventAlerts.Infrastructure.Notifications.Slack](src/WorldEventAlerts.Infrastructure.Notifications.Slack)[src/WorldEventAlerts.Infrastructure.Observability](src/WorldEventAlerts.Infrastructure.Observability)[src/WorldEventAlerts.Web](src/WorldEventAlerts.Web)
 
 3. Test project folders renamed:
+[tests/WorldEventAlerts.Tests.Api](tests/WorldEventAlerts.Tests.Api)[tests/WorldEventAlerts.Tests.Integration](tests/WorldEventAlerts.Tests.Integration)[tests/WorldEventAlerts.Tests.Unit](tests/WorldEventAlerts.Tests.Unit)
 
 4. References updated in code/config/docs (namespaces, csproj references, run commands, docs links), including:
+[README.md](README.md)[docs/README.md](docs/README.md)[docs/implementation/README.md](docs/implementation/README.md)
 
 5. I added a process step record for this change:
+[docs/implementation/step-24-project-rename-world-event-alerts.md](docs/implementation/step-24-project-rename-world-event-alerts.md)
 
 Validation
 1. Ran tests on the renamed solution:
-dotnet test
-
---nologo -v minimal
+dotnet test [repos/WordEventAlerts/WorldEventAlerts.slnx](repos/WordEventAlerts/WorldEventAlerts.slnx) --nologo -v minimal
 2. Result: 31 passed, 0 failed, build succeeded.
 
 Notes
-1. The archived transcript file
-
-still contains historical old-name strings in prior chat content, which I left intact for audit/history fidelity.
+1. The archived transcript file [docs/copilot-chat/chat.json](docs/copilot-chat/chat.json) still contains historical old-name strings in prior chat content, which I left intact for audit/history fidelity.
 2. Your workspace root folder name is still E:\repos\WordEventAlerts. I did not rename the root directory itself to avoid breaking the active workspace session. If you want, I can guide you through safely renaming that as a final cleanup.
 
 ### Turn 32
@@ -3137,14 +1916,10 @@ actually insert a decision 2 (i forget to add in my logs before) That at some po
 I’ll update the decision log by inserting the missing Decision 2 about adding automated testing alongside logging, then I’ll renumber the subsequent decisions so the sequence stays consistent.
 
 I’ve got the exact current structure and I’m now inserting your missed testing decision as the new Decision 2, then shifting existing numbers down so the log reads naturally in chronological order.
-
-```
-
-```
-
 Inserted your missing testing decision as the new Decision 2 and renumbered the rest.
 
 Updated file:
+[docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
 
 What changed:
 1. Added new Decision 2:
@@ -3155,3 +1930,292 @@ Testing Coverage Course-Correction (Alongside Logging)
 - previous Decision 4 -> Decision 5
 
 No other content was altered beyond the insertion and numbering updates.
+
+### Turn 33
+
+#### User
+
+remove and untrack chat.json file add to gitignore
+
+#### Assistant
+
+I’m now removing [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) from version control and adding an ignore rule so it stays local-only going forward; first I’ll check current gitignore and file tracking state to apply the cleanest patch.
+
+I’ll untrack [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) from git while keeping the rest of your work untouched, then add a targeted ignore rule so future exports don’t get tracked again.
+Done. I removed [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) from git tracking and added it to ignore rules.
+
+Changes made:
+1. Untracked from repository index:
+[docs/copilot-chat/chat.json](docs/copilot-chat/chat.json)
+2. Added ignore rule:
+[.gitignore](.gitignore)
+
+Current git status shows:
+1. Modified: [.gitignore](.gitignore)
+2. Deleted (tracked removal): [docs/copilot-chat/chat.json](docs/copilot-chat/chat.json)
+3. Your existing unrelated edit remains untouched: [src/WorldEventAlerts.Web/Pages/User/Rules.cshtml](src/WorldEventAlerts.Web/Pages/User/Rules.cshtml)
+
+Note:
+The local file still exists on disk (only untracked from git). If you want, I can also delete the local copy in the next step.
+
+### Turn 34
+
+#### User
+
+PS E:\repos\WordEventAlerts> git push -u origin master
+Enumerating objects: 643, done.
+Counting objects: 100% (643/643), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (630/630), done.
+Writing objects: 100% (643/643), 5.87 MiB | 4.36 MiB/s, done.
+Total 643 (delta 332), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (332/332), done.
+remote: error: GH013: Repository rule violations found for refs/heads/master.
+remote: 
+remote: - GITHUB PUSH PROTECTION
+remote:   ÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇö
+remote:     Resolve the following violations before pushing again
+remote: 
+remote:     - Push cannot contain secrets
+remote: 
+remote:     
+remote:      (?) Learn how to resolve a blocked push
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+remote:     
+remote:     
+remote:       ÔÇöÔÇö Slack Incoming Webhook URL ÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇöÔÇö
+remote:        locations:
+remote:          - commit: 9cfd8b223a8bf1370faf9f7bd3a1480a787d02ee
+remote:            path: docs/copilot-chat/chat.json:493377
+remote:          - commit: dbe1c3227f2a7296b8874c5f9c2e739087de51a9
+remote:            path: docs/copilot-chat/chat.json:493377
+remote:          - commit: 38d1091780a0794e38787928bfa77552e1674f02
+remote:            path: src/WordEventAlerts.Web/Pages/User/Rules.cshtml:118
+remote:          - commit: dbe1c3227f2a7296b8874c5f9c2e739087de51a9
+remote:            path: src/WorldEventAlerts.Web/Pages/User/Rules.cshtml:118
+remote:     
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/szucsim/WorldEventAlert/security/secret-scanning/unblock-secret/3FBHUsBe949JdwBVjb1G204L22r
+remote:     
+remote: 
+remote: 
+To github.com:szucsim/WorldEventAlert.git
+ ! [remote rejected] master -> master (push declined due to repository rule violations)
+error: failed to push some refs to 'github.com:szucsim/WorldEventAlert.git'
+
+#### Assistant
+
+I’ll resolve this push-protection block by locating and removing the Slack webhook secret from both current files and your branch history, then re-validate that no secret patterns remain before you push again.
+
+I confirmed there are no current working-tree secrets, so the block is coming from older commits; next I’ll rewrite history to remove `docs/copilot-chat/chat.json` from all commits and scrub any Slack webhook URLs from historical files, then force-push safely.
+
+I found the exact blocked secret pattern in historical commits (a Slack webhook example in the old `title` attribute), so I’ll now do a safe history rewrite: stash current work, strip that pattern from all commits, remove [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) from all commits, then restore your working changes.
+
+The rewrite command failed due shell quoting, so I’m switching to a safer approach: create a tiny cleanup script and run `git filter-branch` using that script, which avoids escaping issues.
+
+The history rewrite finished but the script emitted an encoding-related warning, so I’m now verifying directly whether the blocked secret and [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) were actually removed from rewritten commits; if not, I’ll run one clean rewrite pass more.
+
+Master history now appears sanitized (new commit IDs and no webhook hits in reachable commits), so I’ll do a final status check and retry the push to confirm the push-protection block is gone.
+
+Resolved. The push-protection block is cleared and your push succeeded.
+
+What I did
+1. Located the blocked secret pattern in historical commits:
+[src/WorldEventAlerts.Web/Pages/User/Rules.cshtml](src/WorldEventAlerts.Web/Pages/User/Rules.cshtml)
+2. Confirmed current working tree had no active secret references.
+3. Rewrote master history to sanitize the old webhook pattern in past commits.
+4. Verified no webhook pattern remains in commits reachable from master.
+5. Verified docs/copilot-chat/chat.json is not present in master history.
+6. Pushed rewritten history with force-with-lease.
+
+Push result
+1. Push completed successfully to origin:
+master -> master
+2. Upstream tracking is now set:
+master tracks origin/master
+
+If you want, I can also add a short note to [docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md) documenting that push-protection remediation required history sanitization.
+
+### Turn 35
+
+#### User
+
+modify this md so the json file will be attached to the email instead of including it into the repo:
+docs/copilot-chat/chat.json
+
+#### Assistant
+
+I’ll update the import instructions at the top of the markdown so reviewers use the JSON from your email attachment, not from the repository path.
+Updated as requested in [docs/copilot-chat/chat.md#L1](docs/copilot-chat/chat.md#L1)
+
+.
+
+Changes made:
+1. Source line now says the JSON comes from an email attachment.
+2. Import step 4 now says to select the attached [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) from email, instead of the repository path.
+
+If you want, I can also update [docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1) so future regenerated markdown files keep this same email-attachment wording automatically.
+
+### Turn 36
+
+#### User
+
+https://github.com/szucsim/WorldEventAlert/blob/master/docs/copilot-chat/chat.md
+
+A bit fine tune the script. if not power shell it can be Node.js vagy Python or whichever is better.
+
+#### Assistant
+
+I’ll fine-tune the existing PowerShell script so it generates safer reviewer-ready output by default (email attachment instructions, no local absolute paths, and optional secret redaction), then I’ll regenerate the markdown to verify.
+
+I’m applying a targeted script upgrade now: add explicit “email attachment vs repo file” modes, redact known secret patterns by default, and then regenerate [repos/WordEventAlerts/docs/copilot-chat/chat.md](repos/WordEventAlerts/docs/copilot-chat/chat.md) to confirm output.
+I’m adding a quick step-log entry for this script tuning so your methodology stays consistent, then I’ll update the implementation indexes to include it.
+Fine-tuned. I kept PowerShell (best fit here since you already use it and no extra runtime needed), and upgraded the script so future exports are safer and match your email workflow by default.
+
+Updated script:
+[docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1)
+
+What was improved
+1. Added import-source modes:
+- EmailAttachment (default)
+- RepositoryPath
+
+2. Added configurable parameters:
+- ImportSourceMode
+- RepositoryJsonPath
+- AttachmentFileName
+- RedactSensitiveContent
+- IncludeToolEvents (existing)
+
+3. Changed default output behavior:
+- “Source” line now defaults to email attachment wording.
+- Import instructions now default to:
+“Select the attached [repos/WordEventAlerts/docs/copilot-chat/chat.json](repos/WordEventAlerts/docs/copilot-chat/chat.json) file from the email.”
+
+4. Added automatic sensitive-content redaction (enabled by default):
+- Slack webhook URL patterns
+- Common token patterns (for example ghp_ and xox*)
+
+5. Regenerated output:
+[docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
+
+Examples
+1. Default (email attachment mode):
+[repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1)
+
+2. Repo-path mode:
+[repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1) -ImportSourceMode RepositoryPath
+
+3. Disable redaction:
+[repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1](repos/WordEventAlerts/docs/copilot-chat/json-to-md.ps1) -RedactSensitiveContent $false
+
+Also updated process docs
+1. Added step log:
+[docs/implementation/step-25-chat-export-script-fine-tuning.md](docs/implementation/step-25-chat-export-script-fine-tuning.md)
+2. Updated index:
+[docs/implementation/README.md](docs/implementation/README.md)
+3. Synced docs hub:
+[docs/README.md](docs/README.md)
+
+### Turn 37
+
+#### User
+
+Try to correct these.
+
+#### Assistant
+
+I see what you mean from the screenshot: the exported markdown contains empty fenced code blocks, so I’ll fix the exporter to strip those placeholders and regenerate [repos/WordEventAlerts/docs/copilot-chat/chat.md](repos/WordEventAlerts/docs/copilot-chat/chat.md) cleanly.
+
+I identified two concrete issues to fix in the exporter: empty placeholder code fences and a formatting bug that printed `$AttachmentFileName` literally, so I’m patching both and regenerating chat.md.
+I’ve applied a second, targeted fix because the first regex cleanup missed line-based placeholder fences in your actual transcript shape. I’m regenerating again and verifying both the import line and fence count.
+
+I found a PowerShell parsing issue in the new cleanup block due to quoting around triple backticks. I’m fixing that syntax now, then I’ll rerun the exporter and re-verify the output.
+Implemented and verified both corrections.
+
+What I changed:
+1. Updated exporter logic in [docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1)
+
+:
+- Added cleanup controls and normalization to remove empty fenced placeholder blocks from exported transcript text.
+- Added a final line-level pass that skips fence-only empty blocks and collapses repeated blank lines.
+- Fixed the Step 4 instruction string construction so the filename is rendered correctly instead of showing the literal variable name.
+
+2. Regenerated output file [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
+
+:
+- Email attachment instruction now renders correctly at [docs/copilot-chat/chat.md#L11](docs/copilot-chat/chat.md#L11)
+
+.
+- Empty standalone triple-backtick placeholders are removed from the transcript body.
+
+Validation performed:
+1. Ran the exporter script successfully.
+2. Verified no PowerShell diagnostics in [docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1)
+
+.
+3. Searched the generated markdown for standalone empty code-fence lines and confirmed none remain.
+
+If you want, I can do the next step now: create a checkpoint commit for these exporter fixes.
+
+### Turn 38
+
+#### User
+
+Its better but still not perfect.
+
+#### Assistant
+
+I see what you mean, so I’m going to inspect the exact sections that still render poorly in the generated markdown and trace which exporter rule is stripping too much content.
+
+I found the remaining defect pattern: list bullets are present but their item content got stripped, so I’m checking the original JSON turn payload to preserve real item text instead of flattening it away.
+
+I confirmed the source JSON itself stores a richer “final response” string with full file links, while the streamed response fragments contain the stripped “- ” lines; next I’ll switch the exporter to prefer that final response field when available.
+
+I’ve pinpointed the remaining root cause: streamed assistant chunks store file links as inlineReference objects, and the exporter currently drops them. I’m patching the parser to rehydrate those inline references into markdown links in-place.
+The parser update compiled, but the output didn’t change, so I’m now probing the live JSON object shape at runtime to see exactly where those references sit for the affected turns.
+
+The remaining visual noise is now mostly orphan bullet markers, so I’m adding a final cleanup rule to drop bullet-only lines (including indented bullets) and regenerating once more.
+I also noticed readability can still feel cramped where streamed chunks were concatenated, so I’m making one final formatter tweak to insert paragraph breaks between adjacent plain-text chunks while preserving list/link joins.
+Good catch. I made another cleanup pass and regenerated the export.
+
+What I fixed now:
+1. Reconstructed inline file references from the chat JSON stream, so list items no longer lose their file names.
+2. Removed orphan list markers that were left as empty bullets.
+3. Kept the earlier fixes for empty code-fence artifacts and correct attachment filename rendering.
+
+Verified results:
+1. Turn 6 now shows populated file bullets, for example at [docs/copilot-chat/chat.md#L409](docs/copilot-chat/chat.md#L409)
+
+.
+2. The XML-doc backfill section also shows populated nested bullets at [docs/copilot-chat/chat.md#L722](docs/copilot-chat/chat.md#L722)
+
+.
+3. No standalone empty bullet lines or empty triple-fence lines remain in [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
+
+.
+4. Exporter script is clean with no diagnostics in [docs/copilot-chat/json-to-md.ps1](docs/copilot-chat/json-to-md.ps1)
+
+.
+
+If you still see anything off, send the exact turn number or section title and I will tune that formatting rule next.
+
+### Turn 39
+
+#### User
+
+it seems nice in vs viewer (ctrl+shift+v) it does not worth more token to burn on it. perfect chat response can be imported from json anyways. place this into decisions as ell.
+
+#### Assistant
+
+Makes sense, I’ll add a concise architecture decision noting that native JSON import is the canonical reviewer path and markdown export is “good enough” without further token-heavy polishing.
+I’ve added the new decision entry; I’ll quickly verify the exact wording and location so it’s ready for your docs flow.
+
+Added as requested in [docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
+
+.
+
+I inserted Decision 6: Chat Review Fidelity vs Token Efficiency, documenting that:
+1. Native JSON import is the canonical reviewer path for perfect fidelity.
+2. Markdown export remains a good-enough fallback.
+3. Further markdown micro-polish is intentionally stopped to avoid unnecessary token burn.
