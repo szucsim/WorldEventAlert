@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# Copilot chat exports (keep local, do not commit)
+docs/copilot-chat/chat.json
+
 # User-specific files
 *.rsuser
 *.suo
