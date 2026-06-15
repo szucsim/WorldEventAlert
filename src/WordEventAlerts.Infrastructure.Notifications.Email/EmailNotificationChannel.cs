@@ -8,6 +8,8 @@ namespace WordEventAlerts.Infrastructure.Notifications.Email;
 /// </summary>
 public sealed class EmailNotificationChannel : INotificationChannel
 {
+    private static readonly TimeSpan SimulatedLatency = TimeSpan.FromMilliseconds(40);
+
     /// <inheritdoc />
     public NotificationChannelType ChannelType => NotificationChannelType.Email;
 
@@ -28,7 +30,7 @@ public sealed class EmailNotificationChannel : INotificationChannel
     }
 
     /// <inheritdoc />
-    public Task<NotificationSendResult> SendAsync(
+    public async Task<NotificationSendResult> SendAsync(
         NotificationRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -37,6 +39,27 @@ public sealed class EmailNotificationChannel : INotificationChannel
         cancellationToken.ThrowIfCancellationRequested();
         ValidateDestination(request.Destination);
 
-        return Task.FromResult(NotificationSendResult.Succeeded());
+        await Task.Delay(SimulatedLatency, cancellationToken);
+
+        var destination = request.Destination.Trim().ToLowerInvariant();
+        var subject = request.Subject.Trim().ToLowerInvariant();
+
+        if (destination.Contains("simulate-transient", StringComparison.Ordinal)
+            || subject.Contains("simulate-transient", StringComparison.Ordinal))
+        {
+            return NotificationSendResult.FailedTransient(
+                errorCode: "EMAIL_SIMULATED_TRANSIENT",
+                errorMessage: "Simulated transient SMTP timeout. Retry can succeed later.");
+        }
+
+        if (destination.Contains("simulate-permanent", StringComparison.Ordinal)
+            || subject.Contains("simulate-permanent", StringComparison.Ordinal))
+        {
+            return NotificationSendResult.FailedPermanent(
+                errorCode: "EMAIL_SIMULATED_PERMANENT",
+                errorMessage: "Simulated permanent recipient rejection.");
+        }
+
+        return NotificationSendResult.Succeeded();
     }
 }

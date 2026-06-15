@@ -36,7 +36,8 @@ public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
 
         var result = _rules.Values
             .Where(rule => rule.UserId == userId)
-            .OrderBy(rule => rule.RuleId)
+            .OrderBy(rule => rule.Name)
+            .ThenBy(rule => rule.RuleId)
             .ToArray();
 
         return Task.FromResult<IReadOnlyCollection<AlertRule>>(result);
@@ -49,9 +50,18 @@ public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
 
         var result = _rules.Values
             .Where(rule => rule.IsEnabled)
-            .OrderBy(rule => rule.RuleId)
+            .OrderBy(rule => rule.Name)
+            .ThenBy(rule => rule.RuleId)
             .ToArray();
 
         return Task.FromResult<IReadOnlyCollection<AlertRule>>(result);
+    }
+
+    /// <inheritdoc />
+    public Task<bool> DeleteAsync(Guid ruleId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var wasDeleted = _rules.TryRemove(ruleId, out _);
+        return Task.FromResult(wasDeleted);
     }
 }

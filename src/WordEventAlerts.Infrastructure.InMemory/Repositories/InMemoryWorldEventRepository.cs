@@ -36,8 +36,8 @@ public sealed class InMemoryWorldEventRepository : IWorldEventRepository
         EnsureValidPaging(skip, take);
 
         var result = _events.Values
-            .OrderBy(e => e.IngestedAtUtc)
-            .ThenBy(e => e.EventId)
+            .OrderByDescending(e => e.IngestedAtUtc)
+            .ThenByDescending(e => e.EventId)
             .Skip(skip)
             .Take(take)
             .ToArray();

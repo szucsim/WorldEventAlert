@@ -100,6 +100,7 @@ public sealed class DomainContractsTests
         return new AlertRule(
             ruleId: Guid.NewGuid(),
             userId: Guid.NewGuid(),
+            name: "Test Rule",
             isEnabled: isEnabled,
             categories: categories ?? [],
             minimumSeverity: minimumSeverity,

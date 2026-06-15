@@ -29,4 +29,12 @@ public interface IUserPreferenceRepository
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A read-only collection of channel subscriptions for the user.</returns>
     Task<IReadOnlyCollection<ChannelSubscription>> ListByUserAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a channel subscription by identifier.
+    /// </summary>
+    /// <param name="subscriptionId">The subscription identifier.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>True when the subscription was deleted; otherwise false.</returns>
+    Task<bool> DeleteSubscriptionAsync(Guid subscriptionId, CancellationToken cancellationToken = default);
 }

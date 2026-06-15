@@ -13,5 +13,5 @@ public sealed class AlertsApiOptions
     /// <summary>
     /// Gets or sets the base URL for the alerts API.
     /// </summary>
-    public string BaseUrl { get; set; } = "http://localhost:5299";
+    public string BaseUrl { get; set; } = "http://localhost:5239";
 }

@@ -39,6 +39,11 @@ public static class AdminEndpoints
             .WithSummary("Gets a delivery attempt by ID.")
             .WithDescription("Returns the requested delivery attempt record when it exists.");
 
+        group.MapGet("/alerts", ListAlertsAsync)
+            .WithName("AdminListAlerts")
+            .WithSummary("Lists ingested alerts.")
+            .WithDescription("Returns ingested world events for admin operational review.");
+
         group.MapPost("/delivery-attempts/{deliveryAttemptId:guid}/replay", ReplayDeliveryAttemptAsync)
             .WithName("AdminReplayDeliveryAttempt")
             .WithSummary("Replays a previous delivery attempt.")
@@ -110,6 +115,67 @@ public static class AdminEndpoints
             deliveryAttemptId);
 
         return Results.Ok(ToResponse(attempt));
+    }
+
+    private static async Task<IResult> ListAlertsAsync(
+        HttpContext httpContext,
+        IWorldEventRepository worldEventRepository,
+        IDeliveryAttemptRepository deliveryAttemptRepository,
+        ILoggerFactory loggerFactory,
+        int skip = 0,
+        int take = 200,
+        CancellationToken cancellationToken = default)
+    {
+        var logger = loggerFactory.CreateLogger("AdminAlerts");
+        var correlationId = httpContext.GetCorrelationId();
+        var safeTake = Math.Clamp(take, 1, 500);
+        var alerts = await worldEventRepository.ListAsync(skip, safeTake, cancellationToken);
+
+        logger.LogInformation(
+            "{LogEvent} CorrelationId={CorrelationId} Skip={Skip} Take={Take} Count={Count}",
+            ObservabilityConstants.LogEvents.AdminAlertsListed,
+            correlationId,
+            skip,
+            safeTake,
+            alerts.Count);
+
+        var response = new List<object>(alerts.Count);
+
+        foreach (var alert in alerts)
+        {
+            var attempts = await deliveryAttemptRepository.ListByEventIdAsync(alert.EventId, cancellationToken);
+            var lastAttempt = attempts
+                .OrderByDescending(item => item.AttemptedAtUtc)
+                .ThenByDescending(item => item.AttemptNumber)
+                .FirstOrDefault();
+
+            response.Add(new
+            {
+                alert.EventId,
+                alert.SourceEventId,
+                alert.SourceSystem,
+                alert.Category,
+                alert.SeverityScore,
+                alert.Headline,
+                alert.Summary,
+                Regions = alert.Regions,
+                Keywords = alert.Keywords,
+                alert.OccurredAtUtc,
+                alert.IngestedAtUtc,
+                alert.SchemaVersion,
+                alert.CorrelationId,
+                TotalAttempts = attempts.Count,
+                SucceededAttempts = attempts.Count(item => item.Outcome == DeliveryOutcome.Succeeded),
+                FailedTransientAttempts = attempts.Count(item => item.Outcome == DeliveryOutcome.FailedTransient),
+                FailedPermanentAttempts = attempts.Count(item => item.Outcome == DeliveryOutcome.FailedPermanent),
+                DeadLetteredAttempts = attempts.Count(item => item.Outcome == DeliveryOutcome.DeadLettered),
+                LastOutcome = lastAttempt?.Outcome,
+                LastFailureReason = lastAttempt?.FailureReason,
+                LastAttemptedAtUtc = lastAttempt?.AttemptedAtUtc
+            });
+        }
+
+        return Results.Ok(response);
     }
 
     private static async Task<IResult> ReplayDeliveryAttemptAsync(

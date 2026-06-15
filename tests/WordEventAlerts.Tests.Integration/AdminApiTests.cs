@@ -1,7 +1,9 @@
 using System.Net;
+using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using WordEventAlerts.Api.Contracts.Events;
 using WordEventAlerts.Core.Abstractions.Repositories;
 using WordEventAlerts.Core.Domain;
 
@@ -78,6 +80,41 @@ public sealed class AdminApiTests
 
         var attemptJson = JsonDocument.Parse(await getByIdResponse.Content.ReadAsStringAsync());
         Assert.Equal(replayAttemptId, attemptJson.RootElement.GetProperty("deliveryAttemptId").GetGuid());
+    }
+
+    [Fact]
+    public async Task AdminAlertsEndpoint_ShouldReturnIngestedAlerts()
+    {
+        using var factory = new WebApplicationFactory<Program>();
+        using var client = factory.CreateClient();
+
+        var ingestionResponse = await client.PostAsJsonAsync(
+            "/api/v1/events",
+            new IngestWorldEventRequest
+            {
+                SourceEventId = Guid.NewGuid().ToString("N"),
+                SourceSystem = "admin-alerts-test",
+                Category = WorldEventCategory.MarketMovement,
+                SeverityScore = 88,
+                Headline = "Admin alerts listing test",
+                Summary = "Seeded alert for admin listing endpoint verification.",
+                Regions = ["US"],
+                Keywords = ["listing"]
+            });
+
+        Assert.Equal(HttpStatusCode.Accepted, ingestionResponse.StatusCode);
+
+        var ingestionJson = JsonDocument.Parse(await ingestionResponse.Content.ReadAsStringAsync());
+        var eventId = ingestionJson.RootElement.GetProperty("eventId").GetGuid();
+
+        var response = await client.GetAsync("/api/v1/admin/alerts?skip=0&take=50");
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        Assert.Equal(JsonValueKind.Array, json.RootElement.ValueKind);
+        Assert.Contains(
+            json.RootElement.EnumerateArray(),
+            item => item.GetProperty("eventId").GetGuid() == eventId);
     }
 
     private static async Task SeedAttemptAsync(WebApplicationFactory<Program> factory, DeliveryAttempt attempt)

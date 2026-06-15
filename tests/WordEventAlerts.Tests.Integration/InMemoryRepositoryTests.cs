@@ -115,6 +115,7 @@ public sealed class InMemoryRepositoryTests
         return new AlertRule(
             ruleId: Guid.NewGuid(),
             userId: Guid.NewGuid(),
+            name: $"Rule-{Guid.NewGuid():N}",
             isEnabled: isEnabled,
             categories: [WorldEventCategory.BreakingNews],
             minimumSeverity: 50,

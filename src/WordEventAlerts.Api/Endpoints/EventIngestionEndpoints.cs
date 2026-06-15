@@ -129,7 +129,15 @@ public static class EventIngestionEndpoints
                         attemptNumber: 1,
                         cancellationToken: cancellationToken);
 
-                    dispatchedNotifications++;
+                    if (attempt.Outcome == DeliveryOutcome.Succeeded)
+                    {
+                        dispatchedNotifications++;
+                    }
+                    else
+                    {
+                        failedNotifications++;
+                    }
+
                     var logEventName = GetDeliveryOutcomeLogEvent(attempt.Outcome);
                     var failureClassification = GetFailureClassification(attempt.Outcome);
 

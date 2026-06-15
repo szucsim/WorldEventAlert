@@ -22,6 +22,20 @@
 
 <div class="dashboard-grid">
     <section class="card-panel">
+        <h2>Alerts Feed</h2>
+        <form method="post" asp-page-handler="LoadAlerts" class="form-stack compact">
+            <button type="submit" class="btn btn-outline-primary">Load All Alerts</button>
+        </form>
+    </section>
+
+    <section class="card-panel">
+        <h2>Mock Event</h2>
+        <form method="post" asp-page-handler="SendMockEvent" class="form-stack compact">
+            <button type="submit" class="btn btn-primary">Send Random Event</button>
+        </form>
+    </section>
+
+    <section class="card-panel">
         <h2>Dead Letters</h2>
         <form method="post" asp-page-handler="LoadDeadLetters" class="form-stack compact">
             <button type="submit" class="btn btn-danger">Load Dead Letters</button>
@@ -57,6 +71,63 @@
 </div>
 
 <div class="dashboard-grid tables">
+    <section class="card-panel">
+        <h3>All Alerts</h3>
+        @if (Model.Alerts.Count == 0)
+        {
+            <p>No alerts loaded.</p>
+        }
+        else
+        {
+            <div class="table-wrap alerts-table-scroll">
+                <table class="table table-sm sticky-header-table">
+                    <thead>
+                        <tr>
+                            <th>Event ID</th>
+                            <th>Category</th>
+                            <th>Severity</th>
+                            <th>Headline</th>
+                            <th>Last Outcome</th>
+                            <th>Attempts (S/T/P/DL)</th>
+                            <th>Last Failure</th>
+                            <th>Correlation</th>
+                            <th>Ingested UTC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var alert in Model.Alerts)
+                        {
+                            <tr>
+                                <td>@alert.EventId</td>
+                                <td>@alert.Category</td>
+                                <td>@alert.SeverityScore</td>
+                                <td>@alert.Headline</td>
+                                <td>
+                                    @if (alert.LastOutcome is null)
+                                    {
+                                        <span class="outcome-pill outcome-none">No attempts</span>
+                                    }
+                                    else if (alert.LastOutcome == WordEventAlerts.Core.Domain.DeliveryOutcome.Succeeded)
+                                    {
+                                        <span class="outcome-pill outcome-success">@alert.LastOutcome</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="outcome-pill outcome-failed">@alert.LastOutcome</span>
+                                    }
+                                </td>
+                                <td>@alert.SucceededAttempts/@alert.FailedTransientAttempts/@alert.FailedPermanentAttempts/@alert.DeadLetteredAttempts</td>
+                                <td>@(string.IsNullOrWhiteSpace(alert.LastFailureReason) ? "-" : alert.LastFailureReason)</td>
+                                <td>@alert.CorrelationId</td>
+                                <td>@alert.IngestedAtUtc</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
     <section class="card-panel">
         <h3>Dead-Letter Attempts</h3>
         @if (Model.DeadLetters.Count == 0)

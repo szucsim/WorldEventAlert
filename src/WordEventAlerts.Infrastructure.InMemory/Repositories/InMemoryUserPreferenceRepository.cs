@@ -52,4 +52,12 @@ public sealed class InMemoryUserPreferenceRepository : IUserPreferenceRepository
 
         return Task.FromResult<IReadOnlyCollection<ChannelSubscription>>(result);
     }
+
+    /// <inheritdoc />
+    public Task<bool> DeleteSubscriptionAsync(Guid subscriptionId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var wasDeleted = _subscriptions.TryRemove(subscriptionId, out _);
+        return Task.FromResult(wasDeleted);
+    }
 }

@@ -152,6 +152,7 @@ public sealed class ObservabilityFoundationTests : IClassFixture<WebApplicationF
             new UpsertAlertRuleRequest
             {
                 UserId = userId,
+                Name = "Observability Matching Rule",
                 IsEnabled = true,
                 Categories = [WorldEventCategory.BreakingNews],
                 MinimumSeverity = 70,

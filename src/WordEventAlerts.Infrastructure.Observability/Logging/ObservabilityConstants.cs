@@ -34,13 +34,17 @@ public static class ObservabilityConstants
         public const string DeliveryFailed = "DeliveryFailed";
         public const string DeliveryDeadLettered = "DeliveryDeadLettered";
         public const string AlertRuleUpserted = "AlertRuleUpserted";
+        public const string AlertRuleDeleted = "AlertRuleDeleted";
         public const string AlertRuleRead = "AlertRuleRead";
         public const string AlertRuleListByUser = "AlertRuleListByUser";
         public const string SubscriptionUpserted = "SubscriptionUpserted";
+        public const string SubscriptionDeleted = "SubscriptionDeleted";
         public const string SubscriptionListByRule = "SubscriptionListByRule";
+        public const string SubscriptionListByUser = "SubscriptionListByUser";
         public const string AdminDeadLettersListed = "AdminDeadLettersListed";
         public const string AdminDeliveriesByCorrelationListed = "AdminDeliveriesByCorrelationListed";
         public const string AdminDeliveryAttemptRead = "AdminDeliveryAttemptRead";
+        public const string AdminAlertsListed = "AdminAlertsListed";
         public const string AdminReplayRequested = "AdminReplayRequested";
         public const string AdminReplaySucceeded = "AdminReplaySucceeded";
         public const string AdminReplayFailed = "AdminReplayFailed";

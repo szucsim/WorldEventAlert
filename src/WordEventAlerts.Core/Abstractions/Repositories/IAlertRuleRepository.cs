@@ -36,4 +36,12 @@ public interface IAlertRuleRepository
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A read-only collection of enabled alert rules.</returns>
     Task<IReadOnlyCollection<AlertRule>> ListEnabledAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes an alert rule by its rule identifier.
+    /// </summary>
+    /// <param name="ruleId">The rule identifier.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>True when the rule was deleted; otherwise false.</returns>
+    Task<bool> DeleteAsync(Guid ruleId, CancellationToken cancellationToken = default);
 }

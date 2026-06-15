@@ -48,9 +48,25 @@ public sealed class NotificationDispatcher : INotificationDispatcher
         }
 
         var channel = _channelRegistry.Resolve(request.ChannelType);
-        channel.ValidateDestination(request.Destination);
+        NotificationSendResult result;
 
-        var result = await channel.SendAsync(request, cancellationToken);
+        try
+        {
+            channel.ValidateDestination(request.Destination);
+            result = await channel.SendAsync(request, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            // Treat channel-level exceptions as permanent delivery failures and persist them for admin triage.
+            result = NotificationSendResult.FailedPermanent(
+                errorCode: "CHANNEL_DISPATCH_EXCEPTION",
+                errorMessage: exception.Message);
+        }
+
         var outcome = MapOutcome(result);
 
         var deliveryAttempt = new DeliveryAttempt(

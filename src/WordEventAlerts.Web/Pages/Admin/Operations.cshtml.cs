@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WordEventAlerts.Core.Domain;
 using WordEventAlerts.Web.Services;
 
 namespace WordEventAlerts.Web.Pages.Admin;
@@ -9,6 +10,9 @@ namespace WordEventAlerts.Web.Pages.Admin;
 /// </summary>
 public sealed class OperationsModel : PageModel
 {
+    private static readonly string[] Regions = ["US", "EU", "APAC", "LATAM", "MEA"];
+    private static readonly string[] Keywords = ["storm", "volatility", "earthquake", "geopolitics", "energy", "security"];
+
     private readonly IAlertsApiClient _alertsApiClient;
     private readonly ILogger<OperationsModel> _logger;
 
@@ -17,6 +21,11 @@ public sealed class OperationsModel : PageModel
         _alertsApiClient = alertsApiClient;
         _logger = logger;
     }
+
+    /// <summary>
+    /// Gets ingested alerts loaded for admin review.
+    /// </summary>
+    public IReadOnlyCollection<AlertEventDto> Alerts { get; private set; } = Array.Empty<AlertEventDto>();
 
     /// <summary>
     /// Gets dead-letter attempts loaded from the API.
@@ -60,8 +69,82 @@ public sealed class OperationsModel : PageModel
     /// <summary>
     /// Handles the first page render.
     /// </summary>
-    public void OnGet()
+    public async Task OnGetAsync(CancellationToken cancellationToken)
     {
+        var correlationId = CreateCorrelationId();
+
+        try
+        {
+            await LoadAlertsAsync(correlationId, cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "AdminInitialLoadFailed CorrelationId={CorrelationId}", correlationId);
+            ErrorMessage = exception.Message;
+        }
+    }
+
+    /// <summary>
+    /// Loads ingested alerts for admin review.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>The current page result.</returns>
+    public async Task<IActionResult> OnPostLoadAlertsAsync(CancellationToken cancellationToken)
+    {
+        var correlationId = CreateCorrelationId();
+
+        try
+        {
+            _logger.LogInformation("AdminAlertsLoadRequested CorrelationId={CorrelationId}", correlationId);
+            await LoadAlertsAsync(correlationId, cancellationToken);
+            StatusMessage = $"Loaded {Alerts.Count} alert event(s).";
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "AdminAlertsLoadFailed CorrelationId={CorrelationId}", correlationId);
+            ErrorMessage = exception.Message;
+        }
+
+        return Page();
+    }
+
+    /// <summary>
+    /// Sends a random mock event to ingestion endpoint for manual workflow testing.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>The current page result.</returns>
+    public async Task<IActionResult> OnPostSendMockEventAsync(CancellationToken cancellationToken)
+    {
+        var correlationId = CreateCorrelationId();
+
+        try
+        {
+            _logger.LogInformation("AdminMockEventRequested CorrelationId={CorrelationId}", correlationId);
+            var mockEvent = CreateRandomMockEvent();
+            var response = await _alertsApiClient.IngestEventAsync(mockEvent, correlationId, cancellationToken);
+
+            if (response is null)
+            {
+                ErrorMessage = "Mock event ingestion returned no payload.";
+                return Page();
+            }
+
+            CorrelationFilterInput = response.CorrelationId;
+            await LoadAlertsAsync(correlationId, cancellationToken);
+            AttemptsByCorrelation = await _alertsApiClient.ListAttemptsByCorrelationIdAsync(
+                response.CorrelationId,
+                correlationId,
+                cancellationToken);
+
+            StatusMessage = $"Mock event {response.EventId} sent. Matches={response.MatchedRules}, Dispatched={response.DispatchedNotifications}, Failed={response.FailedNotifications}.";
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "AdminMockEventFailed CorrelationId={CorrelationId}", correlationId);
+            ErrorMessage = exception.Message;
+        }
+
+        return Page();
     }
 
     /// <summary>
@@ -201,5 +284,32 @@ public sealed class OperationsModel : PageModel
     private static string CreateCorrelationId()
     {
         return Guid.NewGuid().ToString("N");
+    }
+
+    private async Task LoadAlertsAsync(string correlationId, CancellationToken cancellationToken)
+    {
+        Alerts = await _alertsApiClient.ListAlertsAsync(correlationId, cancellationToken: cancellationToken);
+    }
+
+    private static IngestWorldEventRequestDto CreateRandomMockEvent()
+    {
+        var random = Random.Shared;
+        var category = Enum.GetValues<WorldEventCategory>()[random.Next(Enum.GetValues<WorldEventCategory>().Length)];
+        var keyword = Keywords[random.Next(Keywords.Length)];
+        var region = Regions[random.Next(Regions.Length)];
+        var severity = random.Next(20, 100);
+
+        return new IngestWorldEventRequestDto
+        {
+            SourceEventId = Guid.NewGuid().ToString("N"),
+            SourceSystem = "admin-mock-generator",
+            Category = category,
+            SeverityScore = severity,
+            Headline = $"Mock {category} alert - severity {severity}",
+            Summary = $"Mock event generated for admin testing with keyword '{keyword}' in region '{region}'.",
+            Regions = [region],
+            Keywords = [keyword, "mock"],
+            OccurredAtUtc = DateTimeOffset.UtcNow.AddMinutes(-random.Next(1, 45))
+        };
     }
 }

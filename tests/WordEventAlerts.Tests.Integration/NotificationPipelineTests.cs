@@ -40,7 +40,7 @@ public sealed class NotificationPipelineTests
     }
 
     [Fact]
-    public async Task DispatchAsync_ShouldThrow_ForInvalidSlackDestination()
+    public async Task DispatchAsync_ShouldPersistPermanentFailure_ForInvalidSlackDestination()
     {
         var correlationId = Guid.NewGuid().ToString("N");
         var deliveryRepository = new InMemoryDeliveryAttemptRepository();
@@ -61,10 +61,72 @@ public sealed class NotificationPipelineTests
             message: "Major event detected.",
             correlationId: correlationId);
 
-        await Assert.ThrowsAsync<ArgumentException>(() => dispatcher.DispatchAsync(request, attemptNumber: 1));
+        var attempt = await dispatcher.DispatchAsync(request, attemptNumber: 1);
 
         var persisted = await deliveryRepository.ListByCorrelationIdAsync(correlationId);
-        Assert.Empty(persisted);
+        Assert.Single(persisted);
+        Assert.Equal(DeliveryOutcome.FailedPermanent, attempt.Outcome);
+        Assert.Equal(DeliveryOutcome.FailedPermanent, persisted.Single().Outcome);
+    }
+
+    [Fact]
+    public async Task DispatchAsync_ShouldPersistTransientFailure_ForSimulatedEmailOutcome()
+    {
+        var correlationId = Guid.NewGuid().ToString("N");
+        var deliveryRepository = new InMemoryDeliveryAttemptRepository();
+        var registry = new NotificationChannelRegistry(new INotificationChannel[]
+        {
+            new EmailNotificationChannel(),
+            new SlackNotificationChannel()
+        });
+        var dispatcher = new NotificationDispatcher(registry, deliveryRepository);
+
+        var request = new NotificationRequest(
+            eventId: Guid.NewGuid(),
+            ruleId: Guid.NewGuid(),
+            userId: Guid.NewGuid(),
+            channelType: NotificationChannelType.Email,
+            destination: "simulate-transient@example.com",
+            subject: "Market alert",
+            message: "Simulated transient email failure",
+            correlationId: correlationId);
+
+        var attempt = await dispatcher.DispatchAsync(request, attemptNumber: 1);
+        var persisted = await deliveryRepository.ListByCorrelationIdAsync(correlationId);
+
+        Assert.Equal(DeliveryOutcome.FailedTransient, attempt.Outcome);
+        Assert.Single(persisted);
+        Assert.Equal(DeliveryOutcome.FailedTransient, persisted.Single().Outcome);
+    }
+
+    [Fact]
+    public async Task DispatchAsync_ShouldPersistPermanentFailure_ForSimulatedSlackOutcome()
+    {
+        var correlationId = Guid.NewGuid().ToString("N");
+        var deliveryRepository = new InMemoryDeliveryAttemptRepository();
+        var registry = new NotificationChannelRegistry(new INotificationChannel[]
+        {
+            new EmailNotificationChannel(),
+            new SlackNotificationChannel()
+        });
+        var dispatcher = new NotificationDispatcher(registry, deliveryRepository);
+
+        var request = new NotificationRequest(
+            eventId: Guid.NewGuid(),
+            ruleId: Guid.NewGuid(),
+            userId: Guid.NewGuid(),
+            channelType: NotificationChannelType.Slack,
+            destination: "https://hooks.slack.local/services/simulate-permanent",
+            subject: "Disaster alert",
+            message: "Simulated permanent slack failure",
+            correlationId: correlationId);
+
+        var attempt = await dispatcher.DispatchAsync(request, attemptNumber: 1);
+        var persisted = await deliveryRepository.ListByCorrelationIdAsync(correlationId);
+
+        Assert.Equal(DeliveryOutcome.FailedPermanent, attempt.Outcome);
+        Assert.Single(persisted);
+        Assert.Equal(DeliveryOutcome.FailedPermanent, persisted.Single().Outcome);
     }
 
     [Fact]

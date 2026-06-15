@@ -8,7 +8,11 @@
 <section class="hero-panel">
     <p class="eyebrow">User Workflow</p>
     <h1>Rule and Subscription Studio</h1>
-    <p>Configure matching rules, assign channels, and verify what is currently active for a user profile.</p>
+    <p>Configure matching rules, assign channels, and verify what is currently active for your profile.</p>
+</section>
+
+<section class="card-panel compact-panel">
+    <strong>Demo User:</strong> @Model.EffectiveUserId
 </section>
 
 @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
@@ -25,14 +29,19 @@
     <section class="card-panel">
         <h2>Alert Rule</h2>
         <form method="post" asp-page-handler="UpsertRule" class="form-stack">
-            <label asp-for="UserIdInput">User ID</label>
-            <input asp-for="UserIdInput" class="form-control" />
+            <input type="hidden" asp-for="EditingRuleIdInput" />
 
-            <label asp-for="RuleIdInput">Rule ID (optional)</label>
-            <input asp-for="RuleIdInput" class="form-control" />
+            <label asp-for="RuleNameInput">Rule Name</label>
+            <input asp-for="RuleNameInput" class="form-control" placeholder="US Storm Alerts" />
 
             <label asp-for="MinimumSeverityInput">Minimum Severity</label>
-            <input asp-for="MinimumSeverityInput" type="number" min="0" max="100" class="form-control" />
+            <select asp-for="MinimumSeverityInput" class="form-select">
+                <option value="">Any severity</option>
+                @foreach (var severity in Model.AvailableSeverityValues)
+                {
+                    <option value="@severity">@severity</option>
+                }
+            </select>
 
             <label asp-for="RegionsCsv">Regions (comma-separated)</label>
             <input asp-for="RegionsCsv" class="form-control" placeholder="US, EU" />
@@ -59,26 +68,43 @@
                 <span>Rule enabled</span>
             </label>
 
-            <button type="submit" class="btn btn-primary">Save Rule</button>
+            <button type="submit" class="btn btn-primary">@(Model.IsEditingRule ? "Update Rule" : "Create Rule")</button>
         </form>
 
-        <form method="post" asp-page-handler="LoadRules" class="inline-form">
-            <input type="hidden" asp-for="UserIdInput" />
-            <button type="submit" class="btn btn-outline-primary">Load Rules</button>
-        </form>
+        <div class="inline-form actions-row">
+            <form method="post" asp-page-handler="LoadRules">
+                <button type="submit" class="btn btn-outline-primary">Refresh Rules</button>
+            </form>
+            @if (Model.IsEditingRule)
+            {
+                <form method="post" asp-page-handler="ClearRuleEdit">
+                    <button type="submit" class="btn btn-outline-secondary">Cancel Rule Edit</button>
+                </form>
+            }
+        </div>
     </section>
 
     <section class="card-panel">
         <h2>Channel Subscription</h2>
         <form method="post" asp-page-handler="UpsertSubscription" class="form-stack">
-            <label asp-for="SubscriptionRuleIdInput">Rule ID</label>
-            <input asp-for="SubscriptionRuleIdInput" class="form-control" />
+            <input type="hidden" asp-for="EditingSubscriptionIdInput" />
 
-            <label asp-for="SubscriptionUserIdInput">User ID</label>
-            <input asp-for="SubscriptionUserIdInput" class="form-control" />
-
-            <label asp-for="SubscriptionIdInput">Subscription ID (optional)</label>
-            <input asp-for="SubscriptionIdInput" class="form-control" />
+            <label asp-for="SelectedRuleIdInput">Rule</label>
+            <select asp-for="SelectedRuleIdInput" class="form-select">
+                <option value="">Select rule</option>
+                @foreach (var rule in Model.Rules)
+                {
+                    var isSelected = string.Equals(Model.SelectedRuleIdInput, rule.RuleId.ToString(), StringComparison.OrdinalIgnoreCase);
+                    if (isSelected)
+                    {
+                        <option value="@rule.RuleId" selected>@rule.Name (@rule.RuleId)</option>
+                    }
+                    else
+                    {
+                        <option value="@rule.RuleId">@rule.Name (@rule.RuleId)</option>
+                    }
+                }
+            </select>
 
             <label asp-for="ChannelTypeInput">Channel Type</label>
             <select asp-for="ChannelTypeInput" class="form-select">
@@ -102,13 +128,20 @@
                 <span>Subscription enabled</span>
             </label>
 
-            <button type="submit" class="btn btn-primary">Save Subscription</button>
+            <button type="submit" class="btn btn-primary">@(Model.IsEditingSubscription ? "Update Subscription" : "Create Subscription")</button>
         </form>
 
-        <form method="post" asp-page-handler="LoadSubscriptions" class="inline-form">
-            <input type="hidden" asp-for="SubscriptionRuleIdInput" />
-            <button type="submit" class="btn btn-outline-primary">Load Subscriptions</button>
-        </form>
+        <div class="inline-form actions-row">
+            <form method="post" asp-page-handler="LoadSubscriptions">
+                <button type="submit" class="btn btn-outline-primary">Load Subscriptions</button>
+            </form>
+            @if (Model.IsEditingSubscription)
+            {
+                <form method="post" asp-page-handler="ClearSubscriptionEdit">
+                    <button type="submit" class="btn btn-outline-secondary">Cancel Subscription Edit</button>
+                </form>
+            }
+        </div>
     </section>
 </div>
 
@@ -125,20 +158,33 @@
                 <table class="table table-sm">
                     <thead>
                         <tr>
+                            <th>Name</th>
                             <th>Rule ID</th>
                             <th>Enabled</th>
                             <th>Min Severity</th>
                             <th>Categories</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var rule in Model.Rules)
                         {
                             <tr>
+                                <td>@rule.Name</td>
                                 <td>@rule.RuleId</td>
                                 <td>@rule.IsEnabled</td>
                                 <td>@(rule.MinimumSeverity?.ToString() ?? "-")</td>
                                 <td>@string.Join(", ", rule.Categories)</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <form method="post" asp-page-handler="EditRule" asp-route-ruleId="@rule.RuleId">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+                                        </form>
+                                        <form method="post" asp-page-handler="DeleteRule" asp-route-ruleId="@rule.RuleId">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -148,38 +194,55 @@
     </section>
 
     <section class="card-panel">
-        <h3>Subscriptions</h3>
+        <h3>Subscriptions by Channel</h3>
         @if (Model.Subscriptions.Count == 0)
         {
             <p>No subscriptions loaded yet.</p>
         }
         else
         {
-            <div class="table-wrap">
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>Subscription ID</th>
-                            <th>Channel</th>
-                            <th>Destination</th>
-                            <th>Enabled</th>
-                            <th>Priority</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var subscription in Model.Subscriptions)
-                        {
+            @foreach (var group in Model.GroupedSubscriptions)
+            {
+                <h4>@group.ChannelType (@group.Items.Count)</h4>
+
+                <div class="table-wrap">
+                    <table class="table table-sm">
+                        <thead>
                             <tr>
-                                <td>@subscription.SubscriptionId</td>
-                                <td>@subscription.ChannelType</td>
-                                <td>@subscription.Destination</td>
-                                <td>@subscription.IsEnabled</td>
-                                <td>@subscription.Priority</td>
+                                <th>Subscription ID</th>
+                                <th>Rule</th>
+                                <th>Destination</th>
+                                <th>Enabled</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach (var subscription in group.Items)
+                            {
+                                var ruleName = Model.Rules.FirstOrDefault(rule => rule.RuleId == subscription.RuleId)?.Name ?? subscription.RuleId.ToString();
+                                <tr>
+                                    <td>@subscription.SubscriptionId</td>
+                                    <td>@ruleName</td>
+                                    <td>@subscription.Destination</td>
+                                    <td>@subscription.IsEnabled</td>
+                                    <td>@subscription.Priority</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <form method="post" asp-page-handler="EditSubscription" asp-route-subscriptionId="@subscription.SubscriptionId" asp-route-ruleId="@subscription.RuleId">
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+                                            </form>
+                                            <form method="post" asp-page-handler="DeleteSubscription" asp-route-subscriptionId="@subscription.SubscriptionId" asp-route-ruleId="@subscription.RuleId">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
     </section>
 </div>

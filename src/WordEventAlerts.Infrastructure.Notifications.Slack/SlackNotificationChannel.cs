@@ -8,6 +8,8 @@ namespace WordEventAlerts.Infrastructure.Notifications.Slack;
 /// </summary>
 public sealed class SlackNotificationChannel : INotificationChannel
 {
+    private static readonly TimeSpan SimulatedLatency = TimeSpan.FromMilliseconds(35);
+
     /// <inheritdoc />
     public NotificationChannelType ChannelType => NotificationChannelType.Slack;
 
@@ -31,7 +33,7 @@ public sealed class SlackNotificationChannel : INotificationChannel
     }
 
     /// <inheritdoc />
-    public Task<NotificationSendResult> SendAsync(
+    public async Task<NotificationSendResult> SendAsync(
         NotificationRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -40,6 +42,27 @@ public sealed class SlackNotificationChannel : INotificationChannel
         cancellationToken.ThrowIfCancellationRequested();
         ValidateDestination(request.Destination);
 
-        return Task.FromResult(NotificationSendResult.Succeeded());
+        await Task.Delay(SimulatedLatency, cancellationToken);
+
+        var destination = request.Destination.Trim().ToLowerInvariant();
+        var message = request.Message.Trim().ToLowerInvariant();
+
+        if (destination.Contains("simulate-transient", StringComparison.Ordinal)
+            || message.Contains("simulate-transient", StringComparison.Ordinal))
+        {
+            return NotificationSendResult.FailedTransient(
+                errorCode: "SLACK_SIMULATED_TRANSIENT",
+                errorMessage: "Simulated transient Slack webhook throttling.");
+        }
+
+        if (destination.Contains("simulate-permanent", StringComparison.Ordinal)
+            || message.Contains("simulate-permanent", StringComparison.Ordinal))
+        {
+            return NotificationSendResult.FailedPermanent(
+                errorCode: "SLACK_SIMULATED_PERMANENT",
+                errorMessage: "Simulated permanent Slack webhook authorization failure.");
+        }
+
+        return NotificationSendResult.Succeeded();
     }
 }

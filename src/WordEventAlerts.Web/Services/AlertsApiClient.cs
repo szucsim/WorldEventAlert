@@ -28,6 +28,11 @@ public sealed class AlertsApiClient : IAlertsApiClient
     {
         _httpClient = httpClient;
         _logger = logger;
+
+        if (_httpClient.BaseAddress is null)
+        {
+            throw new InvalidOperationException("AlertsApiClient requires HttpClient.BaseAddress to be configured.");
+        }
     }
 
     /// <inheritdoc />
@@ -59,12 +64,36 @@ public sealed class AlertsApiClient : IAlertsApiClient
     }
 
     /// <inheritdoc />
+    public async Task<bool> DeleteRuleAsync(
+        Guid ruleId,
+        string correlationId,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/v1/alert-rules/{ruleId}");
+        AddCorrelationHeader(request, correlationId);
+        var response = await SendAsync<HttpResponseMessage>(request, correlationId, cancellationToken, rawResponse: true, allowNotFound: true);
+        return response?.StatusCode == HttpStatusCode.NoContent;
+    }
+
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<ChannelSubscriptionDto>> ListSubscriptionsByRuleAsync(
         Guid ruleId,
         string correlationId,
         CancellationToken cancellationToken = default)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"/api/v1/alert-rules/{ruleId}/subscriptions");
+        AddCorrelationHeader(request, correlationId);
+        var result = await SendAsync<List<ChannelSubscriptionDto>>(request, correlationId, cancellationToken);
+        return result is null ? Array.Empty<ChannelSubscriptionDto>() : result;
+    }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlyCollection<ChannelSubscriptionDto>> ListSubscriptionsByUserAsync(
+        Guid userId,
+        string correlationId,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/v1/alert-rules/subscriptions?userId={userId}");
         AddCorrelationHeader(request, correlationId);
         var result = await SendAsync<List<ChannelSubscriptionDto>>(request, correlationId, cancellationToken);
         return result is null ? Array.Empty<ChannelSubscriptionDto>() : result;
@@ -87,6 +116,19 @@ public sealed class AlertsApiClient : IAlertsApiClient
 
         AddCorrelationHeader(message, correlationId);
         return SendAsync<ChannelSubscriptionDto>(message, correlationId, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<bool> DeleteSubscriptionAsync(
+        Guid ruleId,
+        Guid subscriptionId,
+        string correlationId,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Delete, $"/api/v1/alert-rules/{ruleId}/subscriptions/{subscriptionId}");
+        AddCorrelationHeader(request, correlationId);
+        var response = await SendAsync<HttpResponseMessage>(request, correlationId, cancellationToken, rawResponse: true, allowNotFound: true);
+        return response?.StatusCode == HttpStatusCode.NoContent;
     }
 
     /// <inheritdoc />
@@ -138,6 +180,34 @@ public sealed class AlertsApiClient : IAlertsApiClient
         return SendAsync<ReplayDeliveryAttemptResponseDto>(request, correlationId, cancellationToken, allowNotFound: true);
     }
 
+    /// <inheritdoc />
+    public async Task<IReadOnlyCollection<AlertEventDto>> ListAlertsAsync(
+        string correlationId,
+        int skip = 0,
+        int take = 200,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, $"/api/v1/admin/alerts?skip={skip}&take={take}");
+        AddCorrelationHeader(request, correlationId);
+        var result = await SendAsync<List<AlertEventDto>>(request, correlationId, cancellationToken);
+        return result is null ? Array.Empty<AlertEventDto>() : result;
+    }
+
+    /// <inheritdoc />
+    public Task<IngestWorldEventResponseDto?> IngestEventAsync(
+        IngestWorldEventRequestDto request,
+        string correlationId,
+        CancellationToken cancellationToken = default)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Post, "/api/v1/events")
+        {
+            Content = JsonContent.Create(request)
+        };
+
+        AddCorrelationHeader(message, correlationId);
+        return SendAsync<IngestWorldEventResponseDto>(message, correlationId, cancellationToken);
+    }
+
     private static void AddCorrelationHeader(HttpRequestMessage request, string correlationId)
     {
         request.Headers.Remove(CorrelationHeaderName);
@@ -148,40 +218,75 @@ public sealed class AlertsApiClient : IAlertsApiClient
         HttpRequestMessage request,
         string correlationId,
         CancellationToken cancellationToken,
-        bool allowNotFound = false)
+        bool allowNotFound = false,
+        bool rawResponse = false)
     {
+        var requestPath = GetRequestPath(request.RequestUri);
+
         _logger.LogInformation(
             "WebApiRequestStarted CorrelationId={CorrelationId} Method={Method} Path={Path}",
             correlationId,
             request.Method,
-            request.RequestUri?.PathAndQuery);
+            requestPath);
 
-        using var response = await _httpClient.SendAsync(request, cancellationToken);
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+        HttpResponseMessage response;
 
-        _logger.LogInformation(
-            "WebApiRequestCompleted CorrelationId={CorrelationId} Method={Method} Path={Path} StatusCode={StatusCode}",
-            correlationId,
-            request.Method,
-            request.RequestUri?.PathAndQuery,
-            (int)response.StatusCode);
-
-        if (allowNotFound && response.StatusCode == HttpStatusCode.NotFound)
+        try
         {
-            return default;
+            response = await _httpClient.SendAsync(request, cancellationToken);
         }
-
-        if (!response.IsSuccessStatusCode)
+        catch (HttpRequestException exception)
         {
             throw new InvalidOperationException(
-                $"API call failed for {request.Method} {request.RequestUri?.PathAndQuery}: {(int)response.StatusCode} {responseBody}");
+                $"Unable to reach Alerts API at '{_httpClient.BaseAddress}'. Ensure the API is running and AlertsApi:BaseUrl is correct.",
+                exception);
         }
 
-        if (string.IsNullOrWhiteSpace(responseBody))
+        using (response)
         {
-            return default;
+            var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            _logger.LogInformation(
+                "WebApiRequestCompleted CorrelationId={CorrelationId} Method={Method} Path={Path} StatusCode={StatusCode}",
+                correlationId,
+                request.Method,
+                requestPath,
+                (int)response.StatusCode);
+
+            if (allowNotFound && response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return default;
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException(
+                    $"API call failed for {request.Method} {requestPath}: {(int)response.StatusCode} {responseBody}");
+            }
+
+            if (rawResponse)
+            {
+                return (TResponse)(object)new HttpResponseMessage(response.StatusCode);
+            }
+
+            if (string.IsNullOrWhiteSpace(responseBody))
+            {
+                return default;
+            }
+
+            return JsonSerializer.Deserialize<TResponse>(responseBody, SerializerOptions);
+        }
+    }
+
+    private static string GetRequestPath(Uri? uri)
+    {
+        if (uri is null)
+        {
+            return "<null>";
         }
 
-        return JsonSerializer.Deserialize<TResponse>(responseBody, SerializerOptions);
+        return uri.IsAbsoluteUri
+            ? uri.PathAndQuery
+            : uri.OriginalString;
     }
 }

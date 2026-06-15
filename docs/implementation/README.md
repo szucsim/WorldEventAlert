@@ -16,6 +16,12 @@ This folder tracks each implementation step as a separate markdown file.
 10. [Step 10 - Admin API Delivery Operations](step-10-admin-api-delivery-ops.md)
 11. [Step 11 - Minimal Razor User and Admin UI](step-11-minimal-razor-user-admin-ui.md)
 12. [Step 12 - Observability Hardening and E2E Trace Coverage](step-12-observability-hardening-e2e-trace-coverage.md)
+13. [Step 13 - Manual Testing Hardening and Rule Naming](step-13-manual-testing-hardening-rule-naming.md)
+14. [Step 14 - User/Admin Edit/Delete and Mock Simulation Workflow](step-14-user-admin-edit-delete-mock-simulation.md)
+15. [Step 15 - Admin Outcome UX and User Subscription Grouping](step-15-admin-outcome-ux-and-user-subscription-grouping.md)
+16. [Step 16 - Header Copyright and Create Mode Reset](step-16-header-copyright-and-create-mode-reset.md)
+17. [Step 17 - Form Reset and Mock Ingestion Visibility Fix](step-17-form-reset-and-mock-ingestion-visibility-fix.md)
+18. [Step 18 - User Subscription Destination Prevalidation](step-18-user-subscription-destination-prevalidation.md)
 
 ## How We Use This
 

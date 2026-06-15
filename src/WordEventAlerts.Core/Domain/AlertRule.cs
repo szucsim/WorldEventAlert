@@ -5,6 +5,7 @@ public sealed class AlertRule
     public AlertRule(
         Guid ruleId,
         Guid userId,
+        string name,
         bool isEnabled,
         IEnumerable<WorldEventCategory>? categories,
         int? minimumSeverity,
@@ -21,6 +22,11 @@ public sealed class AlertRule
             throw new ArgumentException("User ID must be a non-empty GUID.", nameof(userId));
         }
 
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Rule name is required.", nameof(name));
+        }
+
         if (minimumSeverity is < 0 or > 100)
         {
             throw new ArgumentOutOfRangeException(nameof(minimumSeverity), "Minimum severity must be between 0 and 100.");
@@ -28,6 +34,7 @@ public sealed class AlertRule
 
         RuleId = ruleId;
         UserId = userId;
+        Name = name.Trim();
         IsEnabled = isEnabled;
         Categories = (categories ?? []).ToHashSet();
         MinimumSeverity = minimumSeverity;
@@ -38,6 +45,8 @@ public sealed class AlertRule
     public Guid RuleId { get; }
 
     public Guid UserId { get; }
+
+    public string Name { get; }
 
     public bool IsEnabled { get; private set; }
 
