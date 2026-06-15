@@ -1,4 +1,6 @@
 using Scalar.AspNetCore;
+using WordEventAlerts.Api.Endpoints;
+using WordEventAlerts.Core.Abstractions.Matching;
 using WordEventAlerts.Core.Abstractions.Notifications;
 using WordEventAlerts.Core.Services;
 using WordEventAlerts.Infrastructure.InMemory.DependencyInjection;
@@ -18,6 +20,7 @@ builder.Services.AddInMemoryRepositories();
 builder.Services.AddSingleton<INotificationChannel, EmailNotificationChannel>();
 builder.Services.AddSingleton<INotificationChannel, SlackNotificationChannel>();
 builder.Services.AddSingleton<IChannelRegistry, NotificationChannelRegistry>();
+builder.Services.AddScoped<IAlertMatchingEngine, AlertMatchingEngine>();
 builder.Services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
 
 var app = builder.Build();
@@ -48,6 +51,9 @@ app.MapGet("/api/health", (HttpContext httpContext, ILoggerFactory loggerFactory
     .WithName("GetHealth")
     .WithSummary("Gets API health status.")
     .WithDescription("Returns a lightweight health payload for local validation and CI smoke checks.");
+
+app.MapEventIngestionEndpoints();
+app.MapAlertRuleEndpoints();
 
 app.Run();
 
