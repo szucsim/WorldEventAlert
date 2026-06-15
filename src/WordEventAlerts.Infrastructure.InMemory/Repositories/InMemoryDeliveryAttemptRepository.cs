@@ -22,6 +22,16 @@ public sealed class InMemoryDeliveryAttemptRepository : IDeliveryAttemptReposito
     }
 
     /// <inheritdoc />
+    public Task<DeliveryAttempt?> GetByDeliveryAttemptIdAsync(
+        Guid deliveryAttemptId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        _attempts.TryGetValue(deliveryAttemptId, out var attempt);
+        return Task.FromResult(attempt);
+    }
+
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<DeliveryAttempt>> ListByCorrelationIdAsync(
         string correlationId,
         CancellationToken cancellationToken = default)

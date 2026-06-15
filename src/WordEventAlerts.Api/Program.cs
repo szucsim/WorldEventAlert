@@ -54,6 +54,7 @@ app.MapGet("/api/v1/health", (HttpContext httpContext, ILoggerFactory loggerFact
 
 app.MapEventIngestionEndpoints();
 app.MapAlertRuleEndpoints();
+app.MapAdminEndpoints();
 
 app.Run();
 

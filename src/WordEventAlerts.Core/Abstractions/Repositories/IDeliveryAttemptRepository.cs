@@ -15,6 +15,16 @@ public interface IDeliveryAttemptRepository
     Task SaveAsync(DeliveryAttempt deliveryAttempt, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves a delivery attempt by its identifier.
+    /// </summary>
+    /// <param name="deliveryAttemptId">The delivery attempt identifier.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>The matching delivery attempt, or null when not found.</returns>
+    Task<DeliveryAttempt?> GetByDeliveryAttemptIdAsync(
+        Guid deliveryAttemptId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Lists delivery attempts for a correlation identifier.
     /// </summary>
     /// <param name="correlationId">The correlation identifier shared across related operations.</param>

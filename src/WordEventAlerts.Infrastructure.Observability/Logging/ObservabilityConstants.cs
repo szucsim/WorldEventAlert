@@ -35,5 +35,11 @@ public static class ObservabilityConstants
         public const string AlertRuleListByUser = "AlertRuleListByUser";
         public const string SubscriptionUpserted = "SubscriptionUpserted";
         public const string SubscriptionListByRule = "SubscriptionListByRule";
+        public const string AdminDeadLettersListed = "AdminDeadLettersListed";
+        public const string AdminDeliveriesByCorrelationListed = "AdminDeliveriesByCorrelationListed";
+        public const string AdminDeliveryAttemptRead = "AdminDeliveryAttemptRead";
+        public const string AdminReplayRequested = "AdminReplayRequested";
+        public const string AdminReplaySucceeded = "AdminReplaySucceeded";
+        public const string AdminReplayFailed = "AdminReplayFailed";
     }
 }
