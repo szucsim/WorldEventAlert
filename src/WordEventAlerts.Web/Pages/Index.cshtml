@@ -1,10 +1,28 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Operations Hub";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="hero-panel wide">
+    <p class="eyebrow">Phase 1 Milestone 6</p>
+    <h1>Minimal User and Admin UI</h1>
+    <p>
+        This Razor front end is a thin control surface over the API.
+        Use it to configure alerting behavior and to operate delivery triage workflows.
+    </p>
+</section>
+
+<div class="dashboard-grid">
+    <section class="card-panel">
+        <h2>User Workflow</h2>
+        <p>Create or update alert rules, then configure subscriptions for Email and Slack channels.</p>
+        <a class="btn btn-primary" asp-page="/User/Rules">Open User Rules</a>
+    </section>
+
+    <section class="card-panel">
+        <h2>Admin Workflow</h2>
+        <p>Review dead-letter attempts, inspect correlation chains, and replay delivery attempts.</p>
+        <a class="btn btn-outline-primary" asp-page="/Admin/Operations">Open Admin Operations</a>
+    </section>
 </div>

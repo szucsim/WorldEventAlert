@@ -1,0 +1,185 @@
+@page
+@using WordEventAlerts.Core.Domain
+@model WordEventAlerts.Web.Pages.User.RulesModel
+@{
+    ViewData["Title"] = "User Rules";
+}
+
+<section class="hero-panel">
+    <p class="eyebrow">User Workflow</p>
+    <h1>Rule and Subscription Studio</h1>
+    <p>Configure matching rules, assign channels, and verify what is currently active for a user profile.</p>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="dashboard-grid">
+    <section class="card-panel">
+        <h2>Alert Rule</h2>
+        <form method="post" asp-page-handler="UpsertRule" class="form-stack">
+            <label asp-for="UserIdInput">User ID</label>
+            <input asp-for="UserIdInput" class="form-control" />
+
+            <label asp-for="RuleIdInput">Rule ID (optional)</label>
+            <input asp-for="RuleIdInput" class="form-control" />
+
+            <label asp-for="MinimumSeverityInput">Minimum Severity</label>
+            <input asp-for="MinimumSeverityInput" type="number" min="0" max="100" class="form-control" />
+
+            <label asp-for="RegionsCsv">Regions (comma-separated)</label>
+            <input asp-for="RegionsCsv" class="form-control" placeholder="US, EU" />
+
+            <label asp-for="KeywordsCsv">Keywords (comma-separated)</label>
+            <input asp-for="KeywordsCsv" class="form-control" placeholder="earthquake, volatility" />
+
+            <fieldset>
+                <legend>Categories</legend>
+                <div class="checkbox-grid">
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        var checkedState = Model.SelectedCategoryNames.Contains(category.ToString());
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="SelectedCategoryNames" value="@category" checked="@checkedState" />
+                            <span>@category</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+
+            <label class="checkbox-item inline-toggle">
+                <input asp-for="RuleIsEnabled" type="checkbox" />
+                <span>Rule enabled</span>
+            </label>
+
+            <button type="submit" class="btn btn-primary">Save Rule</button>
+        </form>
+
+        <form method="post" asp-page-handler="LoadRules" class="inline-form">
+            <input type="hidden" asp-for="UserIdInput" />
+            <button type="submit" class="btn btn-outline-primary">Load Rules</button>
+        </form>
+    </section>
+
+    <section class="card-panel">
+        <h2>Channel Subscription</h2>
+        <form method="post" asp-page-handler="UpsertSubscription" class="form-stack">
+            <label asp-for="SubscriptionRuleIdInput">Rule ID</label>
+            <input asp-for="SubscriptionRuleIdInput" class="form-control" />
+
+            <label asp-for="SubscriptionUserIdInput">User ID</label>
+            <input asp-for="SubscriptionUserIdInput" class="form-control" />
+
+            <label asp-for="SubscriptionIdInput">Subscription ID (optional)</label>
+            <input asp-for="SubscriptionIdInput" class="form-control" />
+
+            <label asp-for="ChannelTypeInput">Channel Type</label>
+            <select asp-for="ChannelTypeInput" class="form-select">
+                @foreach (var channel in Model.AvailableChannels)
+                {
+                    <option value="@channel">@channel</option>
+                }
+            </select>
+
+            <label asp-for="DestinationInput">Destination</label>
+            <input asp-for="DestinationInput" class="form-control" placeholder="alerts@example.com or #ops-alerts" />
+
+            <label asp-for="PriorityInput">Priority</label>
+            <input asp-for="PriorityInput" type="number" class="form-control" />
+
+            <label asp-for="MaxRetryAttemptsInput">Max Retry Attempts</label>
+            <input asp-for="MaxRetryAttemptsInput" type="number" min="0" class="form-control" />
+
+            <label class="checkbox-item inline-toggle">
+                <input asp-for="SubscriptionEnabled" type="checkbox" />
+                <span>Subscription enabled</span>
+            </label>
+
+            <button type="submit" class="btn btn-primary">Save Subscription</button>
+        </form>
+
+        <form method="post" asp-page-handler="LoadSubscriptions" class="inline-form">
+            <input type="hidden" asp-for="SubscriptionRuleIdInput" />
+            <button type="submit" class="btn btn-outline-primary">Load Subscriptions</button>
+        </form>
+    </section>
+</div>
+
+<div class="dashboard-grid tables">
+    <section class="card-panel">
+        <h3>Rules</h3>
+        @if (Model.Rules.Count == 0)
+        {
+            <p>No rules loaded yet.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Rule ID</th>
+                            <th>Enabled</th>
+                            <th>Min Severity</th>
+                            <th>Categories</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rule in Model.Rules)
+                        {
+                            <tr>
+                                <td>@rule.RuleId</td>
+                                <td>@rule.IsEnabled</td>
+                                <td>@(rule.MinimumSeverity?.ToString() ?? "-")</td>
+                                <td>@string.Join(", ", rule.Categories)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
+    <section class="card-panel">
+        <h3>Subscriptions</h3>
+        @if (Model.Subscriptions.Count == 0)
+        {
+            <p>No subscriptions loaded yet.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Subscription ID</th>
+                            <th>Channel</th>
+                            <th>Destination</th>
+                            <th>Enabled</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subscription in Model.Subscriptions)
+                        {
+                            <tr>
+                                <td>@subscription.SubscriptionId</td>
+                                <td>@subscription.ChannelType</td>
+                                <td>@subscription.Destination</td>
+                                <td>@subscription.IsEnabled</td>
+                                <td>@subscription.Priority</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+</div>

@@ -1,31 +1,222 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+:root {
+  --ink: #1b2430;
+  --surface: #f6f8fc;
+  --panel: #ffffff;
+  --brand: #0b63ce;
+  --brand-soft: #d8e9ff;
+  --warn: #b85f0d;
+  --danger: #b83939;
+  --border: #d8deea;
+  --shadow: 0 18px 36px rgba(15, 42, 89, 0.1);
 }
 
 html {
-  position: relative;
   min-height: 100%;
+  font-size: 15px;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, #d5f1ff 0%, transparent 36%),
+    radial-gradient(circle at 84% 4%, #ffe8cb 0%, transparent 30%),
+    linear-gradient(180deg, #eef5ff 0%, #f8fafc 32%, #f7f8fb 100%);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1,
+h2,
+h3,
+.navbar-brand {
+  font-family: "Archivo", "Segoe UI", sans-serif;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.app-nav {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(200, 215, 237, 0.9);
+}
+
+.navbar-brand {
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #0a356a;
+}
+
+.nav-link {
+  color: #24405f;
+  font-weight: 700;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #0a65ce;
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: clamp(1.3rem, 2vw + 1rem, 2.6rem);
+  margin-bottom: 1.25rem;
+  background: linear-gradient(120deg, #0f4f9f 0%, #1788d9 62%, #2f9db4 100%);
+  color: #fdfefe;
+  box-shadow: var(--shadow);
+}
+
+.hero-panel::after {
+  content: "";
+  position: absolute;
+  inset: auto -5% -65% auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.hero-panel.wide {
+  margin-bottom: 1.6rem;
+}
+
+.hero-panel.admin-hero {
+  background: linear-gradient(120deg, #6a2c2c 0%, #a33e3e 55%, #ce703b 100%);
+}
+
+.hero-panel h1 {
+  margin: 0.2rem 0 0.6rem;
+  line-height: 1.1;
+}
+
+.hero-panel p {
+  margin: 0;
+  font-size: 1.06rem;
+  max-width: 72ch;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.74rem;
+  opacity: 0.85;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  margin-bottom: 1rem;
+}
+
+.dashboard-grid.tables {
+  grid-template-columns: 1fr;
+}
+
+.card-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(1rem, 2vw, 1.4rem);
+}
+
+.card-panel h2,
+.card-panel h3 {
+  margin-top: 0;
+  margin-bottom: 0.72rem;
+}
+
+.accent-panel {
+  border-left: 5px solid var(--brand);
+}
+
+.form-stack {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.form-stack.compact {
+  gap: 0.7rem;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 0.35rem 0.8rem;
+}
+
+.checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.inline-toggle {
+  margin-top: 0.4rem;
+}
+
+.inline-form {
+  margin-top: 0.75rem;
+}
+
+.btn {
+  border-radius: 0.65rem;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+.btn-warning {
+  background-color: var(--warn);
+  border-color: var(--warn);
+  color: #ffffff;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 0.4rem 0.95rem;
+  grid-template-columns: minmax(130px, 210px) 1fr;
+  margin: 0;
+}
+
+.detail-grid dt {
+  font-weight: 700;
+}
+
+.detail-grid dd {
+  margin: 0;
+}
+
+.footer {
+  margin-top: 1.4rem;
+  padding: 1.2rem 0;
+}
+
+@media (max-width: 767.98px) {
+  html {
+    font-size: 14px;
+  }
+
+  main {
+    padding-bottom: 1rem;
+  }
+
+  .hero-panel p {
+    font-size: 1rem;
+  }
 }
