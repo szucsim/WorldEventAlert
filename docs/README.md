@@ -2,6 +2,11 @@
 
 This file is the base index for project documentation and reviewer navigation.
 
+## Highlighted Reviewer Artifact
+
+- Chat transcript markdown for reviewers: [copilot-chat/chat.md](copilot-chat/chat.md)
+- For perfect rendering fidelity, use VS Code native chat import with the attached `chat.json` file.
+
 ## Code Validation & Quality Assurance Methodology
 
 To ensure strict engineering control over the AI agent and prevent code regression, I established a rigorous gatekeeping process for every single agent step (documented across the implementation steps in `docs/implementation`):
@@ -59,9 +64,10 @@ If any bug, edge-case vulnerability, or UI inconsistency is discovered during ru
 
 ## Reviewer Quick Path
 
-1. Start with architecture: `docs/architecture/phase1-scoping.md`.
-2. Review decision rationale: `docs/decisions/architecture-and-decision-log.md`.
-3. Walk execution history in order: `docs/implementation/README.md` and linked step files.
+1. Start with chat transcript: `docs/copilot-chat/chat.md`.
+2. Continue with architecture: `docs/architecture/phase1-scoping.md`.
+3. Review decision rationale: `docs/decisions/architecture-and-decision-log.md`.
+4. Walk execution history in order: `docs/implementation/README.md` and linked step files.
 
 ## Setup and Run
 

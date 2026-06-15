@@ -2,6 +2,13 @@
 
 This folder tracks each implementation step as a separate markdown file.
 
+## Highlighted Reviewer Artifact
+
+- Reviewer-facing chat transcript markdown: [../copilot-chat/chat.md](../copilot-chat/chat.md)
+- Chat export implementation history:
+  - [Step 20 - Chat JSON to Markdown Export](step-20-chat-json-to-markdown-export.md)
+  - [Step 25 - Chat Export Script Fine-Tuning](step-25-chat-export-script-fine-tuning.md)
+
 ## Steps Completed
 
 1. [Step 01 - Repository Bootstrap](step-01-repository-bootstrap.md)

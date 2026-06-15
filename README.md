@@ -44,6 +44,7 @@ Default local ports:
 ## Documentation
 
 - Project docs hub: [docs/README.md](docs/README.md)
+- Reviewer chat transcript: [docs/copilot-chat/chat.md](docs/copilot-chat/chat.md)
 - Architecture and scoping: [docs/architecture/phase1-scoping.md](docs/architecture/phase1-scoping.md)
 - Future production roadmap: [docs/architecture/future-production-roadmap.md](docs/architecture/future-production-roadmap.md)
 - Architecture decisions: [docs/decisions/architecture-and-decision-log.md](docs/decisions/architecture-and-decision-log.md)
