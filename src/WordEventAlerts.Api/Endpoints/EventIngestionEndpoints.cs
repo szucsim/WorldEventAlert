@@ -130,31 +130,35 @@ public static class EventIngestionEndpoints
                         cancellationToken: cancellationToken);
 
                     dispatchedNotifications++;
+                    var logEventName = GetDeliveryOutcomeLogEvent(attempt.Outcome);
+                    var failureClassification = GetFailureClassification(attempt.Outcome);
 
                     logger.LogInformation(
-                        "{LogEvent} CorrelationId={CorrelationId} EventId={EventId} RuleId={RuleId} UserId={UserId} ChannelType={ChannelType} Outcome={Outcome}",
-                        attempt.Outcome == DeliveryOutcome.Succeeded
-                            ? ObservabilityConstants.LogEvents.DeliverySucceeded
-                            : ObservabilityConstants.LogEvents.DeliveryFailed,
+                        "{LogEvent} CorrelationId={CorrelationId} EventId={EventId} RuleId={RuleId} UserId={UserId} ChannelType={ChannelType} DeliveryAttemptId={DeliveryAttemptId} Outcome={Outcome} FailureClassification={FailureClassification}",
+                        logEventName,
                         correlationId,
                         worldEvent.EventId,
                         match.Rule.RuleId,
                         match.Rule.UserId,
                         subscription.ChannelType,
-                        attempt.Outcome);
+                        attempt.DeliveryAttemptId,
+                        attempt.Outcome,
+                        failureClassification);
                 }
                 catch (Exception exception)
                 {
                     failedNotifications++;
                     logger.LogError(
                         exception,
-                        "{LogEvent} CorrelationId={CorrelationId} EventId={EventId} RuleId={RuleId} UserId={UserId} ChannelType={ChannelType}",
+                        "{LogEvent} CorrelationId={CorrelationId} EventId={EventId} RuleId={RuleId} UserId={UserId} ChannelType={ChannelType} Outcome={Outcome} FailureClassification={FailureClassification}",
                         ObservabilityConstants.LogEvents.DeliveryFailed,
                         correlationId,
                         worldEvent.EventId,
                         match.Rule.RuleId,
                         match.Rule.UserId,
-                        subscription.ChannelType);
+                        subscription.ChannelType,
+                        DeliveryOutcome.FailedPermanent,
+                        "Exception");
                 }
             }
         }
@@ -210,5 +214,27 @@ public static class EventIngestionEndpoints
             worldEvent.SchemaVersion,
             worldEvent.CorrelationId
         });
+    }
+
+    private static string GetDeliveryOutcomeLogEvent(DeliveryOutcome outcome)
+    {
+        return outcome switch
+        {
+            DeliveryOutcome.Succeeded => ObservabilityConstants.LogEvents.DeliverySucceeded,
+            DeliveryOutcome.DeadLettered => ObservabilityConstants.LogEvents.DeliveryDeadLettered,
+            _ => ObservabilityConstants.LogEvents.DeliveryFailed
+        };
+    }
+
+    private static string GetFailureClassification(DeliveryOutcome outcome)
+    {
+        return outcome switch
+        {
+            DeliveryOutcome.Succeeded => "None",
+            DeliveryOutcome.FailedTransient => "Transient",
+            DeliveryOutcome.FailedPermanent => "Permanent",
+            DeliveryOutcome.DeadLettered => "Permanent",
+            _ => "Unknown"
+        };
     }
 }

@@ -15,6 +15,7 @@ This folder tracks each implementation step as a separate markdown file.
 9. [Step 09 - Route Versioning Contract Hardening](step-09-route-versioning-contract-hardening.md)
 10. [Step 10 - Admin API Delivery Operations](step-10-admin-api-delivery-ops.md)
 11. [Step 11 - Minimal Razor User and Admin UI](step-11-minimal-razor-user-admin-ui.md)
+12. [Step 12 - Observability Hardening and E2E Trace Coverage](step-12-observability-hardening-e2e-trace-coverage.md)
 
 ## How We Use This
 

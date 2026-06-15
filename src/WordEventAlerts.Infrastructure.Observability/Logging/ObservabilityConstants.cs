@@ -14,8 +14,10 @@ public static class ObservabilityConstants
         public const string RuleId = "RuleId";
         public const string UserId = "UserId";
         public const string ChannelType = "ChannelType";
+        public const string DeliveryAttemptId = "DeliveryAttemptId";
         public const string AttemptNumber = "AttemptNumber";
         public const string Outcome = "Outcome";
+        public const string FailureClassification = "FailureClassification";
     }
 
     public static class LogEvents
@@ -30,6 +32,7 @@ public static class ObservabilityConstants
         public const string DeliveryAttempted = "DeliveryAttempted";
         public const string DeliverySucceeded = "DeliverySucceeded";
         public const string DeliveryFailed = "DeliveryFailed";
+        public const string DeliveryDeadLettered = "DeliveryDeadLettered";
         public const string AlertRuleUpserted = "AlertRuleUpserted";
         public const string AlertRuleRead = "AlertRuleRead";
         public const string AlertRuleListByUser = "AlertRuleListByUser";
