@@ -1,4 +1,4 @@
-# Step 08 - Alert Matching and API Endpoints
+﻿# Step 08 - Alert Matching and API Endpoints
 
 ## Commit
 
@@ -28,10 +28,10 @@
 ## Function Documentation Added
 
 - Public API XML documentation added in:
-  - `src/WordEventAlerts.Core/Abstractions/Matching/IAlertMatchingEngine.cs`
-  - `src/WordEventAlerts.Core/Services/AlertMatchingEngine.cs`
-  - `src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs`
-  - `src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs`
+  - `src/WorldEventAlerts.Core/Abstractions/Matching/IAlertMatchingEngine.cs`
+  - `src/WorldEventAlerts.Core/Services/AlertMatchingEngine.cs`
+  - `src/WorldEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs`
+  - `src/WorldEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs`
 
 ## Logging Added
 
@@ -58,3 +58,4 @@
 ## Notes
 
 - This step continues the original feature path while applying observability and documentation conventions consistently.
+

@@ -1,0 +1,249 @@
+﻿@page
+@using WorldEventAlerts.Core.Domain
+@model WorldEventAlerts.Web.Pages.User.RulesModel
+@{
+    ViewData["Title"] = "User Rules";
+}
+
+<section class="hero-panel">
+    <p class="eyebrow">User Workflow</p>
+    <h1>Rule and Subscription Studio</h1>
+    <p>Configure matching rules, assign channels, and verify what is currently active for your profile.</p>
+</section>
+
+<section class="card-panel compact-panel">
+    <strong>Demo User:</strong> @Model.EffectiveUserId
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-success">@Model.StatusMessage</div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="dashboard-grid">
+    <section class="card-panel">
+        <h2>Alert Rule</h2>
+        <form method="post" asp-page-handler="UpsertRule" class="form-stack">
+            <input type="hidden" asp-for="EditingRuleIdInput" />
+
+            <label asp-for="RuleNameInput">Rule Name</label>
+            <input asp-for="RuleNameInput" class="form-control" placeholder="US Storm Alerts" />
+
+            <label asp-for="MinimumSeverityInput">Minimum Severity</label>
+            <select asp-for="MinimumSeverityInput" class="form-select">
+                <option value="">Any severity</option>
+                @foreach (var severity in Model.AvailableSeverityValues)
+                {
+                    <option value="@severity">@severity</option>
+                }
+            </select>
+
+            <label asp-for="RegionsCsv">Regions (comma-separated)</label>
+            <input asp-for="RegionsCsv" class="form-control" placeholder="US, EU" />
+
+            <label asp-for="KeywordsCsv">Keywords (comma-separated)</label>
+            <input asp-for="KeywordsCsv" class="form-control" placeholder="earthquake, volatility" />
+
+            <fieldset>
+                <legend>Categories</legend>
+                <div class="checkbox-grid">
+                    @foreach (var category in Model.AvailableCategories)
+                    {
+                        var checkedState = Model.SelectedCategoryNames.Contains(category.ToString());
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="SelectedCategoryNames" value="@category" checked="@checkedState" />
+                            <span>@category</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+
+            <label class="checkbox-item inline-toggle">
+                <input asp-for="RuleIsEnabled" type="checkbox" />
+                <span>Rule enabled</span>
+            </label>
+
+            <button type="submit" class="btn btn-primary">@(Model.IsEditingRule ? "Update Rule" : "Create Rule")</button>
+        </form>
+
+        <div class="inline-form actions-row">
+            <form method="post" asp-page-handler="LoadRules">
+                <button type="submit" class="btn btn-outline-primary">Refresh Rules</button>
+            </form>
+            @if (Model.IsEditingRule)
+            {
+                <form method="post" asp-page-handler="ClearRuleEdit">
+                    <button type="submit" class="btn btn-outline-secondary">Cancel Rule Edit</button>
+                </form>
+            }
+        </div>
+    </section>
+
+    <section class="card-panel">
+        <h2>Channel Subscription</h2>
+        <form method="post" asp-page-handler="UpsertSubscription" class="form-stack">
+            <input type="hidden" asp-for="EditingSubscriptionIdInput" />
+
+            <label asp-for="SelectedRuleIdInput">Rule</label>
+            <select asp-for="SelectedRuleIdInput" class="form-select">
+                <option value="">Select rule</option>
+                @foreach (var rule in Model.Rules)
+                {
+                    var isSelected = string.Equals(Model.SelectedRuleIdInput, rule.RuleId.ToString(), StringComparison.OrdinalIgnoreCase);
+                    if (isSelected)
+                    {
+                        <option value="@rule.RuleId" selected>@rule.Name (@rule.RuleId)</option>
+                    }
+                    else
+                    {
+                        <option value="@rule.RuleId">@rule.Name (@rule.RuleId)</option>
+                    }
+                }
+            </select>
+
+            <label asp-for="ChannelTypeInput">Channel Type</label>
+            <select asp-for="ChannelTypeInput" class="form-select">
+                @foreach (var channel in Model.AvailableChannels)
+                {
+                    <option value="@channel">@channel</option>
+                }
+            </select>
+
+            <label asp-for="DestinationInput">Destination</label>
+            <input asp-for="DestinationInput" class="form-control" placeholder="Email or Slack webhook URL" />
+
+            <label asp-for="PriorityInput">Priority</label>
+            <input asp-for="PriorityInput" type="number" class="form-control" />
+
+            <label asp-for="MaxRetryAttemptsInput">Max Retry Attempts</label>
+            <input asp-for="MaxRetryAttemptsInput" type="number" min="0" class="form-control" />
+
+            <label class="checkbox-item inline-toggle">
+                <input asp-for="SubscriptionEnabled" type="checkbox" />
+                <span>Subscription enabled</span>
+            </label>
+
+            <button type="submit" class="btn btn-primary">@(Model.IsEditingSubscription ? "Update Subscription" : "Create Subscription")</button>
+        </form>
+
+        <div class="inline-form actions-row">
+            <form method="post" asp-page-handler="LoadSubscriptions">
+                <button type="submit" class="btn btn-outline-primary">Load Subscriptions</button>
+            </form>
+            @if (Model.IsEditingSubscription)
+            {
+                <form method="post" asp-page-handler="ClearSubscriptionEdit">
+                    <button type="submit" class="btn btn-outline-secondary">Cancel Subscription Edit</button>
+                </form>
+            }
+        </div>
+    </section>
+</div>
+
+<div class="dashboard-grid tables">
+    <section class="card-panel">
+        <h3>Rules</h3>
+        @if (Model.Rules.Count == 0)
+        {
+            <p>No rules loaded yet.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Rule ID</th>
+                            <th>Enabled</th>
+                            <th>Min Severity</th>
+                            <th>Categories</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rule in Model.Rules)
+                        {
+                            <tr>
+                                <td>@rule.Name</td>
+                                <td>@rule.RuleId</td>
+                                <td>@rule.IsEnabled</td>
+                                <td>@(rule.MinimumSeverity?.ToString() ?? "-")</td>
+                                <td>@string.Join(", ", rule.Categories)</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <form method="post" asp-page-handler="EditRule" asp-route-ruleId="@rule.RuleId">
+                                            <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+                                        </form>
+                                        <form method="post" asp-page-handler="DeleteRule" asp-route-ruleId="@rule.RuleId">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
+    <section class="card-panel">
+        <h3>Subscriptions by Channel</h3>
+        @if (Model.Subscriptions.Count == 0)
+        {
+            <p>No subscriptions loaded yet.</p>
+        }
+        else
+        {
+            @foreach (var group in Model.GroupedSubscriptions)
+            {
+                <h4>@group.ChannelType (@group.Items.Count)</h4>
+
+                <div class="table-wrap">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Subscription ID</th>
+                                <th>Rule</th>
+                                <th>Destination</th>
+                                <th>Enabled</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var subscription in group.Items)
+                            {
+                                var ruleName = Model.Rules.FirstOrDefault(rule => rule.RuleId == subscription.RuleId)?.Name ?? subscription.RuleId.ToString();
+                                <tr>
+                                    <td>@subscription.SubscriptionId</td>
+                                    <td>@ruleName</td>
+                                    <td>@subscription.Destination</td>
+                                    <td>@subscription.IsEnabled</td>
+                                    <td>@subscription.Priority</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <form method="post" asp-page-handler="EditSubscription" asp-route-subscriptionId="@subscription.SubscriptionId" asp-route-ruleId="@subscription.RuleId">
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+                                            </form>
+                                            <form method="post" asp-page-handler="DeleteSubscription" asp-route-subscriptionId="@subscription.SubscriptionId" asp-route-ruleId="@subscription.RuleId">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    </section>
+</div>
+

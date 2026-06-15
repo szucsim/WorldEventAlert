@@ -1,4 +1,4 @@
-# Step 17 - Form Reset and Mock Ingestion Visibility Fix
+﻿# Step 17 - Form Reset and Mock Ingestion Visibility Fix
 
 ## Commit
 
@@ -24,8 +24,8 @@
 ## Function Documentation Added
 
 - Existing XML docs were kept current in modified files:
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
-  - `src/WordEventAlerts.Core/Services/NotificationDispatcher.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Core/Services/NotificationDispatcher.cs`
 
 ## Logging Added
 
@@ -34,7 +34,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx --nologo -v minimal` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx --nologo -v minimal` succeeded.
 - Totals: 31 tests passed, 0 failed.
 
 ## Notes

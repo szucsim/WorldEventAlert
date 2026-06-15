@@ -1,4 +1,4 @@
-# Step 19 - Documentation Standard Alignment
+﻿# Step 19 - Documentation Standard Alignment
 
 ## Commit
 
@@ -24,8 +24,8 @@
 
 ## Function Documentation Added
 
-- `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
-- `src/WordEventAlerts.Core/Services/NotificationDispatcher.cs`
+- `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+- `src/WorldEventAlerts.Core/Services/NotificationDispatcher.cs`
 
 ## Logging Added
 
@@ -33,7 +33,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx --nologo -v minimal` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx --nologo -v minimal` succeeded.
 - Totals: 31 tests passed, 0 failed.
 
 ## Notes

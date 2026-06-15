@@ -1,6 +1,0 @@
-@WordEventAlerts.Api_HostAddress = http://localhost:5239
-
-GET {{WordEventAlerts.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

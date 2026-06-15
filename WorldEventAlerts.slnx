@@ -1,0 +1,16 @@
+﻿<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WorldEventAlerts.Api/WorldEventAlerts.Api.csproj" />
+    <Project Path="src/WorldEventAlerts.Core/WorldEventAlerts.Core.csproj" />
+    <Project Path="src/WorldEventAlerts.Infrastructure.InMemory/WorldEventAlerts.Infrastructure.InMemory.csproj" />
+    <Project Path="src/WorldEventAlerts.Infrastructure.Notifications.Slack/WorldEventAlerts.Infrastructure.Notifications.Slack.csproj" />
+    <Project Path="src/WorldEventAlerts.Infrastructure.Observability/WorldEventAlerts.Infrastructure.Observability.csproj" />
+    <Project Path="src/WorldEventAlerts.Web/WorldEventAlerts.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WorldEventAlerts.Tests.Api/WorldEventAlerts.Tests.Api.csproj" />
+    <Project Path="tests/WorldEventAlerts.Tests.Integration/WorldEventAlerts.Tests.Integration.csproj" />
+    <Project Path="tests/WorldEventAlerts.Tests.Unit/WorldEventAlerts.Tests.Unit.csproj" />
+  </Folder>
+</Solution>
+

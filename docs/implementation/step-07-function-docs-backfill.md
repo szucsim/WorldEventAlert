@@ -1,4 +1,4 @@
-# Step 07 - XML Function Documentation Backfill
+﻿# Step 07 - XML Function Documentation Backfill
 
 ## Commit
 
@@ -22,16 +22,16 @@
 ## Function Documentation Added
 
 - Updated files include:
-  - `src/WordEventAlerts.Core/Abstractions/Notifications/*.cs`
-  - `src/WordEventAlerts.Core/Abstractions/Repositories/*.cs`
-  - `src/WordEventAlerts.Core/Services/*.cs`
-  - `src/WordEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs`
-  - `src/WordEventAlerts.Infrastructure.InMemory/Repositories/*.cs`
-  - `src/WordEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs`
-  - `src/WordEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs`
-  - `src/WordEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs`
-  - `src/WordEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs`
-  - `src/WordEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs`
+  - `src/WorldEventAlerts.Core/Abstractions/Notifications/*.cs`
+  - `src/WorldEventAlerts.Core/Abstractions/Repositories/*.cs`
+  - `src/WorldEventAlerts.Core/Services/*.cs`
+  - `src/WorldEventAlerts.Infrastructure.InMemory/DependencyInjection/ServiceCollectionExtensions.cs`
+  - `src/WorldEventAlerts.Infrastructure.InMemory/Repositories/*.cs`
+  - `src/WorldEventAlerts.Infrastructure.Notifications.Email/EmailNotificationChannel.cs`
+  - `src/WorldEventAlerts.Infrastructure.Notifications.Slack/SlackNotificationChannel.cs`
+  - `src/WorldEventAlerts.Infrastructure.Observability/DependencyInjection/ObservabilityExtensions.cs`
+  - `src/WorldEventAlerts.Infrastructure.Observability/Logging/HttpContextCorrelationExtensions.cs`
+  - `src/WorldEventAlerts.Infrastructure.Observability/Middleware/RequestCorrelationMiddleware.cs`
 
 ## Logging Added
 
@@ -47,3 +47,4 @@
 ## Notes
 
 - This is a one-time cleanup step requested by the user before continuing new feature implementation.
+

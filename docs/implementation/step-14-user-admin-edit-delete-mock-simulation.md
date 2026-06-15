@@ -1,4 +1,4 @@
-# Step 14 - User/Admin Edit/Delete and Mock Simulation Workflow
+﻿# Step 14 - User/Admin Edit/Delete and Mock Simulation Workflow
 
 ## Commit
 
@@ -34,8 +34,8 @@
 ## Function Documentation Added
 
 - XML docs were added/kept current for newly introduced page-model handlers and helper methods:
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
-  - `src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Pages/Admin/Operations.cshtml.cs`
 
 ## Logging Added
 
@@ -51,7 +51,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx` succeeded.
 - Totals: 29 tests passed, 0 failed.
 
 ## Notes

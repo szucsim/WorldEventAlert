@@ -1,4 +1,4 @@
-# Step 16 - Header Copyright and Create Mode Reset
+﻿# Step 16 - Header Copyright and Create Mode Reset
 
 ## Commit
 
@@ -12,7 +12,7 @@
 
 ## Delivered
 
-- Moved `© 2026 - Word Event Alerts` from footer to navbar header.
+- Moved `Â© 2026 - Word Event Alerts` from footer to navbar header.
 - Removed footer rendering from layout to eliminate viewport overlap issues.
 - Added dedicated header copyright styling and mobile hide behavior to avoid navbar crowding.
 - Neutralized legacy layout-scoped CSS that forced footer absolute positioning.
@@ -23,7 +23,7 @@
 ## Function Documentation Added
 
 - Existing XML docs remain current for modified methods:
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
 
 ## Logging Added
 
@@ -31,7 +31,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx --nologo -v minimal` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx --nologo -v minimal` succeeded.
 - Totals: 31 tests passed, 0 failed.
 
 ## Notes

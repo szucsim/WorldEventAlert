@@ -1,4 +1,4 @@
-# Step 15 - Admin Outcome UX and User Subscription Grouping
+﻿# Step 15 - Admin Outcome UX and User Subscription Grouping
 
 ## Commit
 
@@ -39,9 +39,9 @@
 ## Function Documentation Added
 
 - XML docs were added/kept current for new/updated API and page-model methods:
-  - `src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs`
-  - `src/WordEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs`
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs`
+  - `src/WorldEventAlerts.Api/Endpoints/AlertRuleEndpoints.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
 
 ## Logging Added
 
@@ -52,7 +52,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx` succeeded.
 - Totals: 31 tests passed, 0 failed.
 
 ## Notes

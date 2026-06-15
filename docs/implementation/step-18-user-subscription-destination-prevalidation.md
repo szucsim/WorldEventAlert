@@ -1,4 +1,4 @@
-# Step 18 - User Subscription Destination Prevalidation
+﻿# Step 18 - User Subscription Destination Prevalidation
 
 ## Commit
 
@@ -22,7 +22,7 @@
 ## Function Documentation Added
 
 - Existing XML docs were kept current in modified file:
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
 
 ## Logging Added
 
@@ -30,7 +30,7 @@
 
 ## Validation
 
-- Build + tests: `dotnet test .\WordEventAlerts.slnx --nologo -v minimal` succeeded.
+- Build + tests: `dotnet test .\WorldEventAlerts.slnx --nologo -v minimal` succeeded.
 - Totals: 31 tests passed, 0 failed.
 
 ## Notes

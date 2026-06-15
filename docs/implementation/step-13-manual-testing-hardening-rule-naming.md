@@ -1,4 +1,4 @@
-# Step 13 - Manual Testing Hardening and Rule Naming
+﻿# Step 13 - Manual Testing Hardening and Rule Naming
 
 ## Commit
 
@@ -33,10 +33,10 @@
 ## Function Documentation Added
 
 - Existing XML docs were kept current in modified public-facing files:
-  - `src/WordEventAlerts.Web/Services/AlertsApiClient.cs`
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
-  - `src/WordEventAlerts.Core/Domain/AlertRule.cs`
-  - `src/WordEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs`
+  - `src/WorldEventAlerts.Web/Services/AlertsApiClient.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Core/Domain/AlertRule.cs`
+  - `src/WorldEventAlerts.Api/Contracts/Alerts/UpsertAlertRuleRequest.cs`
 
 ## Logging Added
 
@@ -47,10 +47,11 @@
 
 ## Validation
 
-- Build: `dotnet build WordEventAlerts.slnx /p:UseAppHost=false` succeeded.
-- Unit tests: `dotnet test tests/WordEventAlerts.Tests.Unit/WordEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
-- Integration tests: `dotnet test tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (18/18).
+- Build: `dotnet build WorldEventAlerts.slnx /p:UseAppHost=false` succeeded.
+- Unit tests: `dotnet test tests/WorldEventAlerts.Tests.Unit/WorldEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
+- Integration tests: `dotnet test tests/WorldEventAlerts.Tests.Integration/WorldEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (18/18).
 
 ## Notes
 
 - The user workflow currently operates against a fixed demo user ID until authentication and real user context are introduced.
+

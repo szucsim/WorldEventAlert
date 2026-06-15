@@ -1,4 +1,4 @@
-# Step 10 - Admin API Delivery Operations
+﻿# Step 10 - Admin API Delivery Operations
 
 ## Commit
 
@@ -25,9 +25,9 @@
 ## Function Documentation Added
 
 - Public API XML documentation added in:
-  - `src/WordEventAlerts.Api/Endpoints/AdminEndpoints.cs`
+  - `src/WorldEventAlerts.Api/Endpoints/AdminEndpoints.cs`
 - Existing XML documentation updated to remain accurate in:
-  - `src/WordEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs`
+  - `src/WorldEventAlerts.Core/Abstractions/Repositories/IDeliveryAttemptRepository.cs`
 
 ## Logging Added
 
@@ -41,10 +41,11 @@
 
 ## Validation
 
-- Build: `dotnet build WordEventAlerts.slnx /p:UseAppHost=false` succeeded.
-- Unit tests: `dotnet test tests/WordEventAlerts.Tests.Unit/WordEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
-- Integration tests: `dotnet test tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (16/16).
+- Build: `dotnet build WorldEventAlerts.slnx /p:UseAppHost=false` succeeded.
+- Unit tests: `dotnet test tests/WorldEventAlerts.Tests.Unit/WorldEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
+- Integration tests: `dotnet test tests/WorldEventAlerts.Tests.Integration/WorldEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (16/16).
 
 ## Notes
 
 - Replay currently performs a direct dispatch retry using the original destination/channel.
+

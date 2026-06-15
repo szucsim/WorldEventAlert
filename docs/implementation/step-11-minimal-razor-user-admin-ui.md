@@ -1,4 +1,4 @@
-# Step 11 - Minimal Razor User and Admin UI
+﻿# Step 11 - Minimal Razor User and Admin UI
 
 ## Commit
 
@@ -30,11 +30,11 @@
 ## Function Documentation Added
 
 - XML documentation added for new public Web-layer contracts and page models:
-  - `src/WordEventAlerts.Web/Configuration/AlertsApiOptions.cs`
-  - `src/WordEventAlerts.Web/Services/IAlertsApiClient.cs`
-  - `src/WordEventAlerts.Web/Services/AlertsApiClient.cs`
-  - `src/WordEventAlerts.Web/Pages/User/Rules.cshtml.cs`
-  - `src/WordEventAlerts.Web/Pages/Admin/Operations.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Configuration/AlertsApiOptions.cs`
+  - `src/WorldEventAlerts.Web/Services/IAlertsApiClient.cs`
+  - `src/WorldEventAlerts.Web/Services/AlertsApiClient.cs`
+  - `src/WorldEventAlerts.Web/Pages/User/Rules.cshtml.cs`
+  - `src/WorldEventAlerts.Web/Pages/Admin/Operations.cshtml.cs`
 
 ## Logging Added
 
@@ -45,11 +45,12 @@
 
 ## Validation
 
-- Build: `dotnet build WordEventAlerts.slnx /p:UseAppHost=false` succeeded.
-- Unit tests: `dotnet test tests/WordEventAlerts.Tests.Unit/WordEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
-- Integration tests: `dotnet test tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (16/16).
+- Build: `dotnet build WorldEventAlerts.slnx /p:UseAppHost=false` succeeded.
+- Unit tests: `dotnet test tests/WorldEventAlerts.Tests.Unit/WorldEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
+- Integration tests: `dotnet test tests/WorldEventAlerts.Tests.Integration/WorldEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (16/16).
 
 ## Notes
 
 - Web API base URL is configurable via `AlertsApi:BaseUrl` in Web appsettings.
 - The UI intentionally remains thin; business logic and state orchestration stay in API/Core layers.
+

@@ -1,4 +1,4 @@
-# Word Event Alerts
+﻿# Word Event Alerts
 
 Prototype notification platform for world-event alerting with a .NET 10 API and Razor Pages Web UI.
 
@@ -27,13 +27,13 @@ docker compose down
 Start API:
 
 ```powershell
-dotnet run --project .\src\WordEventAlerts.Api\WordEventAlerts.Api.csproj
+dotnet run --project .\src\WorldEventAlerts.Api\WorldEventAlerts.Api.csproj
 ```
 
 Start Web in a separate terminal:
 
 ```powershell
-dotnet run --project .\src\WordEventAlerts.Web\WordEventAlerts.Web.csproj
+dotnet run --project .\src\WorldEventAlerts.Web\WorldEventAlerts.Web.csproj
 ```
 
 Default local ports:

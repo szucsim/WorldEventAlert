@@ -1,4 +1,4 @@
-# Word Event Alerts - Phase 1 Scoping and Architecture Design
+﻿# Word Event Alerts - Phase 1 Scoping and Architecture Design
 
 Date: 2026-06-15  
 Status: Draft Approved for Implementation Baseline
@@ -156,25 +156,25 @@ Future adapters:
 
 Proposed structure:
 
-- `src/WordEventAlerts.Api`
+- `src/WorldEventAlerts.Api`
   - HTTP endpoints, OpenAPI/Scalar wiring, middleware, composition root.
-- `src/WordEventAlerts.Web`
+- `src/WorldEventAlerts.Web`
   - Razor Pages for user/admin workflows; thin presentation layer.
-- `src/WordEventAlerts.Core`
+- `src/WorldEventAlerts.Core`
   - Domain models, contracts, domain services, policies.
-- `src/WordEventAlerts.Infrastructure.InMemory`
+- `src/WorldEventAlerts.Infrastructure.InMemory`
   - In-memory repositories and ephemeral state stores.
-- `src/WordEventAlerts.Infrastructure.Notifications.Email`
+- `src/WorldEventAlerts.Infrastructure.Notifications.Email`
   - Email channel adapter implementation.
-- `src/WordEventAlerts.Infrastructure.Notifications.Slack`
+- `src/WorldEventAlerts.Infrastructure.Notifications.Slack`
   - Slack channel adapter implementation.
-- `src/WordEventAlerts.Infrastructure.Observability`
+- `src/WorldEventAlerts.Infrastructure.Observability`
   - Correlation middleware and logging helpers.
-- `tests/WordEventAlerts.Tests.Unit`
+- `tests/WorldEventAlerts.Tests.Unit`
   - Domain and policy unit tests.
-- `tests/WordEventAlerts.Tests.Integration`
+- `tests/WorldEventAlerts.Tests.Integration`
   - Pipeline integration tests.
-- `tests/WordEventAlerts.Tests.Api`
+- `tests/WorldEventAlerts.Tests.Api`
   - API contract/integration tests.
 
 ## 6. Logging and Correlation Strategy
@@ -275,3 +275,4 @@ Focus:
 - Logging/correlation protocol defined and testable.
 - Testing boundaries agreed.
 - Milestone plan approved for implementation.
+

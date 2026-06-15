@@ -28,7 +28,21 @@ During the implementation of Milestone 2, the AI-generated contract included an 
 
 I identified a critical architecture flaw in the generated IngestWorldEventRequest contract. The AI automatically included a SchemaVersion string field within the client request payload. I rejected this design because schema versioning belongs at the API routing/header layer, not as an editable payload field which introduces unnecessary validation vectors and breaks strict contract safety. I removed the field entirely and locked versioning to the standard API route prefix (/api/v1/...).
 
-## Decision 2: Architectural Decision - Mock Notification Gateways via Structured Logging
+## Decision 2: Testing Coverage Course-Correction (Alongside Logging)
+
+### Context
+
+At one point in the implementation flow, I realized automated test coverage had not been enforced strongly enough while observability/logging was being expanded.
+
+### Decision
+
+At the same checkpoint where I asked for logging improvements, I also explicitly instructed the agent to add and update automated tests for the affected workflows.
+
+### Justification
+
+Logging alone improves visibility, but it does not prevent regressions. Pairing observability work with automated tests ensured behavior was continuously verifiable and prevented silent breakage while iterating quickly with AI-generated changes.
+
+## Decision 3: Architectural Decision - Mock Notification Gateways via Structured Logging
 
 ### Context
 
@@ -42,7 +56,7 @@ I chose to implement EmailNotificationChannel and SlackNotificationChannel using
 
 This approach fully exercises the dependency injection layer, the Open-Closed Principle (via the Strategy Pattern), and the NotificationDispatcher pipeline without introducing external operational complexity or the risk of leaking sensitive infrastructure secrets in a public repository submission. The entire end-to-end notification delivery can be cleanly verified in the application console logs via cross-cutting Correlation IDs.
 
-## Decision 3: Reviewer Runtime Standardization via Docker Compose
+## Decision 4: Reviewer Runtime Standardization via Docker Compose
 
 ### Context
 
@@ -62,7 +76,7 @@ This keeps evaluation focused on architecture and behavior rather than environme
 - Host port 5111 -> Web container port 8080
 - Web container API base URL -> http://api:8080
 
-## Decision 4: Future Production Roadmap Definition (Planning Only)
+## Decision 5: Future Production Roadmap Definition (Planning Only)
 
 ### Context
 

@@ -1,4 +1,4 @@
-# Step 12 - Observability Hardening and E2E Trace Coverage
+﻿# Step 12 - Observability Hardening and E2E Trace Coverage
 
 ## Commit
 
@@ -29,7 +29,7 @@
 
 - Existing function documentation remains current.
 - New helper methods added in:
-  - `src/WordEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs`
+  - `src/WorldEventAlerts.Api/Endpoints/EventIngestionEndpoints.cs`
 
 ## Logging Added
 
@@ -43,10 +43,11 @@
 
 ## Validation
 
-- Build: `dotnet build WordEventAlerts.slnx /p:UseAppHost=false` succeeded.
-- Unit tests: `dotnet test tests/WordEventAlerts.Tests.Unit/WordEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
-- Integration tests: `dotnet test tests/WordEventAlerts.Tests.Integration/WordEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (18/18).
+- Build: `dotnet build WorldEventAlerts.slnx /p:UseAppHost=false` succeeded.
+- Unit tests: `dotnet test tests/WorldEventAlerts.Tests.Unit/WorldEventAlerts.Tests.Unit.csproj /p:UseAppHost=false` succeeded (5/5).
+- Integration tests: `dotnet test tests/WorldEventAlerts.Tests.Integration/WorldEventAlerts.Tests.Integration.csproj /p:UseAppHost=false` succeeded (18/18).
 
 ## Notes
 
 - Current in-memory/channel behavior does not naturally emit `DeliveryDeadLettered`; event routing support is now ready when dead-letter transitions are introduced in dispatch policy.
+

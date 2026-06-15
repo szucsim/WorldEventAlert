@@ -1,0 +1,7 @@
+﻿@WorldEventAlerts.Api_HostAddress = http://localhost:5239
+
+GET {{WorldEventAlerts.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+

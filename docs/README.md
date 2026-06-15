@@ -1,4 +1,4 @@
-# Documentation Hub
+﻿# Documentation Hub
 
 This file is the base index for project documentation and reviewer navigation.
 
@@ -53,6 +53,8 @@ If any bug, edge-case vulnerability, or UI inconsistency is discovered during ru
 - [step-20-chat-json-to-markdown-export.md](implementation/step-20-chat-json-to-markdown-export.md)
 - [step-21-documentation-hub-and-validation-methodology.md](implementation/step-21-documentation-hub-and-validation-methodology.md)
 - [step-22-docker-compose-reviewer-runtime.md](implementation/step-22-docker-compose-reviewer-runtime.md)
+- [step-23-future-production-roadmap-planning.md](implementation/step-23-future-production-roadmap-planning.md)
+- [step-24-project-rename-world-event-alerts.md](implementation/step-24-project-rename-world-event-alerts.md)
 
 ## Reviewer Quick Path
 
@@ -88,11 +90,11 @@ docker compose down
 Run API:
 
 ```powershell
-dotnet run --project .\src\WordEventAlerts.Api\WordEventAlerts.Api.csproj
+dotnet run --project .\src\WorldEventAlerts.Api\WorldEventAlerts.Api.csproj
 ```
 
 Run Web in another terminal:
 
 ```powershell
-dotnet run --project .\src\WordEventAlerts.Web\WordEventAlerts.Web.csproj
+dotnet run --project .\src\WorldEventAlerts.Web\WorldEventAlerts.Web.csproj
 ```
