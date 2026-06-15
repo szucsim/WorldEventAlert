@@ -15,10 +15,16 @@ public sealed class RulesModel : PageModel
     private readonly IAlertsApiClient _alertsApiClient;
     private readonly ILogger<RulesModel> _logger;
 
+    /// <summary>
+    /// Initializes the user rules page model with API access and logging dependencies.
+    /// </summary>
+    /// <param name="alertsApiClient">Typed client used for rules and subscription API operations.</param>
+    /// <param name="logger">Logger used for workflow telemetry and error diagnostics.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any dependency is null.</exception>
     public RulesModel(IAlertsApiClient alertsApiClient, ILogger<RulesModel> logger)
     {
-        _alertsApiClient = alertsApiClient;
-        _logger = logger;
+        _alertsApiClient = alertsApiClient ?? throw new ArgumentNullException(nameof(alertsApiClient));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>
@@ -121,6 +127,8 @@ public sealed class RulesModel : PageModel
     /// <summary>
     /// Initializes default values for first page render.
     /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task that completes when initial data loading has finished.</returns>
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
         var correlationId = CreateCorrelationId();

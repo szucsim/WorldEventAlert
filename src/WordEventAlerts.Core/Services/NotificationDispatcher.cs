@@ -35,6 +35,7 @@ public sealed class NotificationDispatcher : INotificationDispatcher
     /// <returns>The persisted delivery attempt record.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="request"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="attemptNumber"/> is less than 1.</exception>
+    /// <exception cref="OperationCanceledException">Thrown when cancellation is requested before or during dispatch.</exception>
     public async Task<DeliveryAttempt> DispatchAsync(
         NotificationRequest request,
         int attemptNumber,
