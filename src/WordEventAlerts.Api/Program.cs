@@ -1,4 +1,5 @@
 using Scalar.AspNetCore;
+using WordEventAlerts.Infrastructure.InMemory.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Test locally: http://localhost:5239
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddInMemoryRepositories();
 
 var app = builder.Build();
 

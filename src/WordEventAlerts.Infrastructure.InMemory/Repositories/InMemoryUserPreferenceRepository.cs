@@ -1,0 +1,49 @@
+using System.Collections.Concurrent;
+using WordEventAlerts.Core.Abstractions.Repositories;
+using WordEventAlerts.Core.Domain;
+
+namespace WordEventAlerts.Infrastructure.InMemory.Repositories;
+
+public sealed class InMemoryUserPreferenceRepository : IUserPreferenceRepository
+{
+    private readonly ConcurrentDictionary<Guid, ChannelSubscription> _subscriptions = new();
+
+    public Task UpsertSubscriptionAsync(ChannelSubscription subscription, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(subscription);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        _subscriptions[subscription.SubscriptionId] = subscription;
+        return Task.CompletedTask;
+    }
+
+    public Task<IReadOnlyCollection<ChannelSubscription>> ListByRuleAsync(
+        Guid ruleId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = _subscriptions.Values
+            .Where(subscription => subscription.RuleId == ruleId)
+            .OrderBy(subscription => subscription.Priority)
+            .ThenBy(subscription => subscription.SubscriptionId)
+            .ToArray();
+
+        return Task.FromResult<IReadOnlyCollection<ChannelSubscription>>(result);
+    }
+
+    public Task<IReadOnlyCollection<ChannelSubscription>> ListByUserAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var result = _subscriptions.Values
+            .Where(subscription => subscription.UserId == userId)
+            .OrderBy(subscription => subscription.Priority)
+            .ThenBy(subscription => subscription.SubscriptionId)
+            .ToArray();
+
+        return Task.FromResult<IReadOnlyCollection<ChannelSubscription>>(result);
+    }
+}
