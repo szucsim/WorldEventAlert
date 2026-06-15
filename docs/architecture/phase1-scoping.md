@@ -46,7 +46,7 @@ Assumption: All incoming events are normalized to a canonical telemetry payload.
 - `Keywords` (normalized terms)
 - `OccurredAtUtc`
 - `IngestedAtUtc`
-- `SchemaVersion`
+- `SchemaVersion` (server-managed, derived from API route version such as `/api/v1/...`)
 - `CorrelationId`
 
 ### 3.2 Rule Triggering Semantics

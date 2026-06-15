@@ -17,7 +17,7 @@ public sealed class ObservabilityFoundationTests : IClassFixture<WebApplicationF
     [Fact]
     public async Task HealthEndpoint_ShouldGenerateCorrelationId_WhenHeaderMissing()
     {
-        var response = await _client.GetAsync("/api/health");
+        var response = await _client.GetAsync("/api/v1/health");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.True(response.Headers.TryGetValues(ObservabilityConstants.CorrelationHeaderName, out var headerValues));
@@ -34,7 +34,7 @@ public sealed class ObservabilityFoundationTests : IClassFixture<WebApplicationF
     {
         const string inboundCorrelationId = "corr-test-123";
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/health");
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/v1/health");
         request.Headers.Add(ObservabilityConstants.CorrelationHeaderName, inboundCorrelationId);
 
         var response = await _client.SendAsync(request);

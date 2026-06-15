@@ -4,6 +4,7 @@ namespace WordEventAlerts.Api.Contracts.Events;
 
 /// <summary>
 /// Request payload for ingesting a normalized world event.
+/// API/schema versioning is controlled by the route prefix and not by request payload fields.
 /// </summary>
 public sealed class IngestWorldEventRequest
 {
@@ -26,6 +27,4 @@ public sealed class IngestWorldEventRequest
     public IReadOnlyCollection<string> Keywords { get; init; } = [];
 
     public DateTimeOffset? OccurredAtUtc { get; init; }
-
-    public string SchemaVersion { get; init; } = "v1";
 }

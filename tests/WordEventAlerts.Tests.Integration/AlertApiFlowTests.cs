@@ -21,7 +21,7 @@ public sealed class AlertApiFlowTests
         var subscriptionId = Guid.NewGuid();
 
         var upsertRuleResponse = await client.PutAsJsonAsync(
-            $"/api/alert-rules/{ruleId}",
+            $"/api/v1/alert-rules/{ruleId}",
             new UpsertAlertRuleRequest
             {
                 UserId = userId,
@@ -35,7 +35,7 @@ public sealed class AlertApiFlowTests
         Assert.Equal(HttpStatusCode.OK, upsertRuleResponse.StatusCode);
 
         var upsertSubscriptionResponse = await client.PutAsJsonAsync(
-            $"/api/alert-rules/{ruleId}/subscriptions/{subscriptionId}",
+            $"/api/v1/alert-rules/{ruleId}/subscriptions/{subscriptionId}",
             new UpsertChannelSubscriptionRequest
             {
                 UserId = userId,
@@ -49,7 +49,7 @@ public sealed class AlertApiFlowTests
         Assert.Equal(HttpStatusCode.OK, upsertSubscriptionResponse.StatusCode);
 
         var ingestResponse = await client.PostAsJsonAsync(
-            "/api/events",
+            "/api/v1/events",
             new IngestWorldEventRequest
             {
                 SourceEventId = Guid.NewGuid().ToString("N"),
@@ -59,8 +59,7 @@ public sealed class AlertApiFlowTests
                 Headline = "Major storm warning issued",
                 Summary = "Storm risk increased in the region.",
                 Regions = ["US"],
-                Keywords = ["storm"],
-                SchemaVersion = "v1"
+                Keywords = ["storm"]
             });
 
         Assert.Equal(HttpStatusCode.Accepted, ingestResponse.StatusCode);
@@ -71,7 +70,7 @@ public sealed class AlertApiFlowTests
         Assert.Equal(1, payload.DispatchedNotifications);
         Assert.Equal(0, payload.FailedNotifications);
 
-        var getEventResponse = await client.GetAsync($"/api/events/{payload.EventId}");
+        var getEventResponse = await client.GetAsync($"/api/v1/events/{payload.EventId}");
         Assert.Equal(HttpStatusCode.OK, getEventResponse.StatusCode);
     }
 
@@ -85,7 +84,7 @@ public sealed class AlertApiFlowTests
         var ruleId = Guid.NewGuid();
 
         var upsertRuleResponse = await client.PutAsJsonAsync(
-            $"/api/alert-rules/{ruleId}",
+            $"/api/v1/alert-rules/{ruleId}",
             new UpsertAlertRuleRequest
             {
                 UserId = userId,
@@ -98,7 +97,7 @@ public sealed class AlertApiFlowTests
 
         Assert.Equal(HttpStatusCode.OK, upsertRuleResponse.StatusCode);
 
-        var listResponse = await client.GetAsync($"/api/alert-rules?userId={userId}");
+        var listResponse = await client.GetAsync($"/api/v1/alert-rules?userId={userId}");
         Assert.Equal(HttpStatusCode.OK, listResponse.StatusCode);
 
         var json = JsonDocument.Parse(await listResponse.Content.ReadAsStringAsync());
@@ -113,7 +112,7 @@ public sealed class AlertApiFlowTests
         using var client = factory.CreateClient();
 
         var ingestResponse = await client.PostAsJsonAsync(
-            "/api/events",
+            "/api/v1/events",
             new IngestWorldEventRequest
             {
                 SourceEventId = Guid.NewGuid().ToString("N"),
@@ -123,8 +122,7 @@ public sealed class AlertApiFlowTests
                 Headline = "Informational update",
                 Summary = "No action required.",
                 Regions = ["AQ"],
-                Keywords = ["informational"],
-                SchemaVersion = "v1"
+                Keywords = ["informational"]
             });
 
         Assert.Equal(HttpStatusCode.Accepted, ingestResponse.StatusCode);

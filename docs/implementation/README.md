@@ -12,6 +12,7 @@ This folder tracks each implementation step as a separate markdown file.
 6. [Step 06 - Observability Foundation](step-06-observability-foundation.md)
 7. [Step 07 - XML Function Documentation Backfill](step-07-function-docs-backfill.md)
 8. [Step 08 - Alert Matching and API Endpoints](step-08-alert-matching-api.md)
+9. [Step 09 - Route Versioning Contract Hardening](step-09-route-versioning-contract-hardening.md)
 
 ## How We Use This
 

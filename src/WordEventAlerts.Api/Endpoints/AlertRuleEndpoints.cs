@@ -10,6 +10,8 @@ namespace WordEventAlerts.Api.Endpoints;
 /// </summary>
 public static class AlertRuleEndpoints
 {
+    private const string AlertRulesRoutePrefix = "/api/v1/alert-rules";
+
     /// <summary>
     /// Registers alert rule and subscription management routes.
     /// </summary>
@@ -20,7 +22,7 @@ public static class AlertRuleEndpoints
     {
         ArgumentNullException.ThrowIfNull(endpoints);
 
-        var group = endpoints.MapGroup("/api/alert-rules").WithTags("AlertRules");
+        var group = endpoints.MapGroup(AlertRulesRoutePrefix).WithTags("AlertRules");
 
         group.MapPut("/{ruleId:guid}", UpsertAlertRuleAsync)
             .WithName("UpsertAlertRule")

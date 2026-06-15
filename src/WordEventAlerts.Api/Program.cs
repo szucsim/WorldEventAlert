@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.MapGet("/api/health", (HttpContext httpContext, ILoggerFactory loggerFactory) =>
+app.MapGet("/api/v1/health", (HttpContext httpContext, ILoggerFactory loggerFactory) =>
 {
     var correlationId = httpContext.GetCorrelationId();
     loggerFactory

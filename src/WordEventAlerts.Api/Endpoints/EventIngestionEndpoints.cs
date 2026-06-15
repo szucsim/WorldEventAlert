@@ -12,6 +12,10 @@ namespace WordEventAlerts.Api.Endpoints;
 /// </summary>
 public static class EventIngestionEndpoints
 {
+    private const string ApiVersion = "v1";
+
+    private const string EventsRoutePrefix = "/api/v1/events";
+
     /// <summary>
     /// Registers event ingestion and event query routes.
     /// </summary>
@@ -22,7 +26,7 @@ public static class EventIngestionEndpoints
     {
         ArgumentNullException.ThrowIfNull(endpoints);
 
-        var group = endpoints.MapGroup("/api/events").WithTags("Events");
+        var group = endpoints.MapGroup(EventsRoutePrefix).WithTags("Events");
 
         group.MapPost("", IngestEventAsync)
             .WithName("IngestWorldEvent")
@@ -62,7 +66,7 @@ public static class EventIngestionEndpoints
             keywords: request.Keywords,
             occurredAtUtc: request.OccurredAtUtc ?? now,
             ingestedAtUtc: now,
-            schemaVersion: request.SchemaVersion,
+            schemaVersion: ApiVersion,
             correlationId: correlationId);
 
         await worldEventRepository.SaveAsync(worldEvent, cancellationToken);
@@ -165,7 +169,7 @@ public static class EventIngestionEndpoints
             IngestedAtUtc = worldEvent.IngestedAtUtc
         };
 
-        return Results.Accepted($"/api/events/{worldEvent.EventId}", response);
+        return Results.Accepted($"{EventsRoutePrefix}/{worldEvent.EventId}", response);
     }
 
     private static async Task<IResult> GetEventByIdAsync(
