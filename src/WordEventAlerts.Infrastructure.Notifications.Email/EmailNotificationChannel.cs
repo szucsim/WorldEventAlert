@@ -3,10 +3,15 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.Notifications.Email;
 
+/// <summary>
+/// Email channel strategy that validates email-like destinations and simulates successful sends.
+/// </summary>
 public sealed class EmailNotificationChannel : INotificationChannel
 {
+    /// <inheritdoc />
     public NotificationChannelType ChannelType => NotificationChannelType.Email;
 
+    /// <inheritdoc />
     public void ValidateDestination(string destination)
     {
         if (string.IsNullOrWhiteSpace(destination))
@@ -22,6 +27,7 @@ public sealed class EmailNotificationChannel : INotificationChannel
         }
     }
 
+    /// <inheritdoc />
     public Task<NotificationSendResult> SendAsync(
         NotificationRequest request,
         CancellationToken cancellationToken = default)

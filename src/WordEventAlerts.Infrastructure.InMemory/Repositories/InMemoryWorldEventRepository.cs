@@ -4,10 +4,14 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.InMemory.Repositories;
 
+/// <summary>
+/// In-memory implementation of world event persistence operations.
+/// </summary>
 public sealed class InMemoryWorldEventRepository : IWorldEventRepository
 {
     private readonly ConcurrentDictionary<Guid, WorldEvent> _events = new();
 
+    /// <inheritdoc />
     public Task SaveAsync(WorldEvent worldEvent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(worldEvent);
@@ -17,6 +21,7 @@ public sealed class InMemoryWorldEventRepository : IWorldEventRepository
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public Task<WorldEvent?> GetByEventIdAsync(Guid eventId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -24,6 +29,7 @@ public sealed class InMemoryWorldEventRepository : IWorldEventRepository
         return Task.FromResult(worldEvent);
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<WorldEvent>> ListAsync(int skip, int take, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

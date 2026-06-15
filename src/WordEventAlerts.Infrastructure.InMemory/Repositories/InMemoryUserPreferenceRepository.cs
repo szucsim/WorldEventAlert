@@ -4,10 +4,14 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.InMemory.Repositories;
 
+/// <summary>
+/// In-memory implementation of user channel subscription persistence operations.
+/// </summary>
 public sealed class InMemoryUserPreferenceRepository : IUserPreferenceRepository
 {
     private readonly ConcurrentDictionary<Guid, ChannelSubscription> _subscriptions = new();
 
+    /// <inheritdoc />
     public Task UpsertSubscriptionAsync(ChannelSubscription subscription, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(subscription);
@@ -17,6 +21,7 @@ public sealed class InMemoryUserPreferenceRepository : IUserPreferenceRepository
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<ChannelSubscription>> ListByRuleAsync(
         Guid ruleId,
         CancellationToken cancellationToken = default)
@@ -32,6 +37,7 @@ public sealed class InMemoryUserPreferenceRepository : IUserPreferenceRepository
         return Task.FromResult<IReadOnlyCollection<ChannelSubscription>>(result);
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<ChannelSubscription>> ListByUserAsync(
         Guid userId,
         CancellationToken cancellationToken = default)

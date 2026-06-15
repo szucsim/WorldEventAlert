@@ -3,10 +3,15 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.Notifications.Slack;
 
+/// <summary>
+/// Slack channel strategy that validates HTTPS webhook destinations and simulates successful sends.
+/// </summary>
 public sealed class SlackNotificationChannel : INotificationChannel
 {
+    /// <inheritdoc />
     public NotificationChannelType ChannelType => NotificationChannelType.Slack;
 
+    /// <inheritdoc />
     public void ValidateDestination(string destination)
     {
         if (string.IsNullOrWhiteSpace(destination))
@@ -25,6 +30,7 @@ public sealed class SlackNotificationChannel : INotificationChannel
         }
     }
 
+    /// <inheritdoc />
     public Task<NotificationSendResult> SendAsync(
         NotificationRequest request,
         CancellationToken cancellationToken = default)

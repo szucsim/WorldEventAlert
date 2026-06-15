@@ -4,10 +4,14 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.InMemory.Repositories;
 
+/// <summary>
+/// In-memory implementation of delivery attempt persistence and query operations.
+/// </summary>
 public sealed class InMemoryDeliveryAttemptRepository : IDeliveryAttemptRepository
 {
     private readonly ConcurrentDictionary<Guid, DeliveryAttempt> _attempts = new();
 
+    /// <inheritdoc />
     public Task SaveAsync(DeliveryAttempt deliveryAttempt, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(deliveryAttempt);
@@ -17,6 +21,7 @@ public sealed class InMemoryDeliveryAttemptRepository : IDeliveryAttemptReposito
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<DeliveryAttempt>> ListByCorrelationIdAsync(
         string correlationId,
         CancellationToken cancellationToken = default)
@@ -37,6 +42,7 @@ public sealed class InMemoryDeliveryAttemptRepository : IDeliveryAttemptReposito
         return Task.FromResult<IReadOnlyCollection<DeliveryAttempt>>(result);
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<DeliveryAttempt>> ListDeadLettersAsync(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

@@ -4,10 +4,14 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Infrastructure.InMemory.Repositories;
 
+/// <summary>
+/// In-memory implementation of alert rule persistence operations.
+/// </summary>
 public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
 {
     private readonly ConcurrentDictionary<Guid, AlertRule> _rules = new();
 
+    /// <inheritdoc />
     public Task UpsertAsync(AlertRule rule, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(rule);
@@ -17,6 +21,7 @@ public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc />
     public Task<AlertRule?> GetByRuleIdAsync(Guid ruleId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -24,6 +29,7 @@ public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
         return Task.FromResult(rule);
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<AlertRule>> ListByUserAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -36,6 +42,7 @@ public sealed class InMemoryAlertRuleRepository : IAlertRuleRepository
         return Task.FromResult<IReadOnlyCollection<AlertRule>>(result);
     }
 
+    /// <inheritdoc />
     public Task<IReadOnlyCollection<AlertRule>> ListEnabledAsync(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

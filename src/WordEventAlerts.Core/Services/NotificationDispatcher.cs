@@ -4,11 +4,20 @@ using WordEventAlerts.Core.Domain;
 
 namespace WordEventAlerts.Core.Services;
 
+/// <summary>
+/// Dispatches notification requests through channel strategies and records delivery attempts.
+/// </summary>
 public sealed class NotificationDispatcher : INotificationDispatcher
 {
     private readonly IChannelRegistry _channelRegistry;
     private readonly IDeliveryAttemptRepository _deliveryAttemptRepository;
 
+    /// <summary>
+    /// Initializes a dispatcher with channel resolution and delivery persistence dependencies.
+    /// </summary>
+    /// <param name="channelRegistry">Registry used to resolve channel strategies.</param>
+    /// <param name="deliveryAttemptRepository">Repository used to persist dispatch outcomes.</param>
+    /// <exception cref="ArgumentNullException">Thrown when any dependency is null.</exception>
     public NotificationDispatcher(
         IChannelRegistry channelRegistry,
         IDeliveryAttemptRepository deliveryAttemptRepository)
@@ -17,6 +26,15 @@ public sealed class NotificationDispatcher : INotificationDispatcher
         _deliveryAttemptRepository = deliveryAttemptRepository ?? throw new ArgumentNullException(nameof(deliveryAttemptRepository));
     }
 
+    /// <summary>
+    /// Dispatches a notification request and stores the resulting delivery attempt.
+    /// </summary>
+    /// <param name="request">Notification payload and routing metadata.</param>
+    /// <param name="attemptNumber">The 1-based attempt number used for retry tracking.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>The persisted delivery attempt record.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="request"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="attemptNumber"/> is less than 1.</exception>
     public async Task<DeliveryAttempt> DispatchAsync(
         NotificationRequest request,
         int attemptNumber,
